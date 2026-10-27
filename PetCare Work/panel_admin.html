@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PetCare - PetWork | Panel de Administración & Finanzas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="app_styles.css">
+  <style>
+    .trans-badge-in {
+      color: #059669;
+      background-color: #ECFDF5;
+      border: 1px solid #A7F3D0;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 11px;
+    }
+    .trans-badge-out {
+      color: #DC2626;
+      background-color: #FEF2F2;
+      border: 1px solid #FECACA;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="main-navbar">
+    <div class="navbar-inner">
+      <div class="navbar-left">
+        <!-- Return Button -->
+        <button class="btn-return-panel" data-action="return-panel" title="Regresar al Panel">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          <span>⬅ Volver</span>
+        </button>
+
+        <a href="panel_admin.html" class="brand-badge" style="margin-left: 6px;">
+          <div class="brand-icon-box">💼</div>
+          <div>
+            <div class="brand-title">Panel de Administración</div>
+            <div class="brand-sub">Finanzas, Registro & Bioseguridad</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="navbar-right">
+        <div class="user-identity-pill" id="navbarUserBadge">
+          <span>EMPLEADO ADMINISTRATIVO</span>
+        </div>
+        <!-- Logout Button -->
+        <button class="btn-logout-nav" data-action="logout">
+          <span>Cerrar Sesión</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="app-container">
+    
+    <!-- Hero Banner -->
+    <section class="page-hero" style="margin-bottom: 24px;">
+      <div class="page-hero-info">
+        <h1>
+          <span>Gestión Administrativa, Finanzas & Depósito</span>
+        </h1>
+        <p>Dashboard ejecutivo con desglose de flujo de caja, transacciones recientes, censo de perros y gatos, e inventario integral.</p>
+        <span class="page-hero-badge">Período Operativo: Octubre 2026 • San Salvador de Jujuy</span>
+      </div>
+      <div style="text-align: right; font-size: 13px; color: #E4E4E7;">
+        <strong>Sede Central PetCare</strong><br>
+        <span>Superávit Operativo en Curso</span>
+      </div>
+    </section>
+
+    <!-- SECTION 1: Módulo de Finanzas Detallado (Dashboard de Tarjetas) -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+      <h2 style="font-size: 18px; font-weight: 800; color: var(--text-dark); display: flex; align-items: center; gap: 8px;">
+        <span>📊</span> Métricas Financieras & Desglose de Gastos
+      </h2>
+      <span style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Moneda: ARS ($)</span>
+    </div>
+
+    <div class="financial-metrics-row">
+      
+      <!-- 1. Ingresos B2B -->
+      <div class="finance-card income">
+        <div class="finance-header">
+          <span class="finance-label">Ingresos B2B (Corporativos)</span>
+          <span style="font-size: 18px;">🏢</span>
+        </div>
+        <div class="finance-amount" style="color: #059669;">
+          $ 3.250.000
+        </div>
+        <div class="finance-subtext">
+          Abonos corporativos por convenio de Telecom Jujuy ($1.280k), Banco Macro ($890k), EJE SA ($680k) y Cannava ($400k).
+        </div>
+      </div>
+
+      <!-- 2. Gastos Operativos Desglosados -->
+      <div class="finance-card expense">
+        <div class="finance-header">
+          <span class="finance-label">Gastos Operativos (Desglose)</span>
+          <span style="font-size: 18px;">📉</span>
+        </div>
+        <div class="finance-amount" style="color: #DC2626;">
+          $ 2.180.000
+        </div>
+        <div class="finance-subtext" style="line-height: 1.5; margin-top: 6px;">
+          • <strong>Salarios de Personal:</strong> $ 1.350.000 (cuidadores, choferes, recepción)<br>
+          • <strong>Combustible & Taller Flota:</strong> $ 410.000 (Combi 02)<br>
+          • <strong>Insumos, Alimentos & Bioseguridad:</strong> $ 420.000
+        </div>
+      </div>
+
+      <!-- 3. Flujo de Caja Neto -->
+      <div class="finance-card net">
+        <div class="finance-header">
+          <span class="finance-label">Flujo de Caja Neto (Balance)</span>
+          <span style="font-size: 18px;">💰</span>
+        </div>
+        <div class="finance-amount" style="color: var(--primary-orange-dark);">
+          $ 2.670.000
+        </div>
+        <div class="finance-subtext">
+          Ingresos Totales ($4.850.000) menos Gastos Totales ($2.180.000). Margen neto operativo: <strong>+55.05%</strong>.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECTION 2: Tabla de Últimos Movimientos -->
+    <div class="card-white">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <h3 style="font-size: 16px; font-weight: 800; color: var(--text-dark); display: flex; align-items: center; gap: 8px;">
+            <span>💳</span> Registro de Últimos Movimientos & Transacciones
+          </h3>
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
+            Historial de cobros de convenios, pagos a proveedores y costos operativos del mes.
+          </p>
+        </div>
+        <span style="font-size: 11px; font-weight: 700; color: #059669; background-color: #ECFDF5; padding: 4px 10px; border-radius: 6px; border: 1px solid #A7F3D0;">
+          🟢 Libro Diario Sincronizado
+        </span>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Descripción del Movimiento</th>
+              <th>Categoría</th>
+              <th>Comprobante</th>
+              <th>Tipo</th>
+              <th style="text-align: right;">Monto (ARS)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>23/10 09:15</td>
+              <td><strong>Ingreso Abono Corporativo Telecom Jujuy</strong></td>
+              <td>Abono B2B</td>
+              <td><code>FAC-B2B-0941</code></td>
+              <td><span class="trans-badge-in">Ingreso</span></td>
+              <td style="text-align: right; font-weight: 800; color: #059669;">+ $ 1.280.000</td>
+            </tr>
+            <tr>
+              <td>23/10 08:30</td>
+              <td><strong>Pago Proveedor Distribuidora Norte (Alimentos & Arena)</strong></td>
+              <td>Insumos SCM</td>
+              <td><code>OP-2026-894</code></td>
+              <td><span class="trans-badge-out">Gasto</span></td>
+              <td style="text-align: right; font-weight: 800; color: #DC2626;">- $ 340.000</td>
+            </tr>
+            <tr>
+              <td>22/10 17:45</td>
+              <td><strong>Ingreso Abono Corporativo Banco Macro Jujuy</strong></td>
+              <td>Abono B2B</td>
+              <td><code>FAC-B2B-0940</code></td>
+              <td><span class="trans-badge-in">Ingreso</span></td>
+              <td style="text-align: right; font-weight: 800; color: #059669;">+ $ 890.000</td>
+            </tr>
+            <tr>
+              <td>22/10 14:10</td>
+              <td><strong>Mantenimiento Preventivo Combi 02 (Taller Jujuy Motor)</strong></td>
+              <td>Mantenimiento Flota</td>
+              <td><code>REC-TM-4412</code></td>
+              <td><span class="trans-badge-out">Gasto</span></td>
+              <td style="text-align: right; font-weight: 800; color: #DC2626;">- $ 115.000</td>
+            </tr>
+            <tr>
+              <td>21/10 11:20</td>
+              <td><strong>Insumos de Bioseguridad y Amonios Cuaternarios (Química Jujuy)</strong></td>
+              <td>Bioseguridad & Limpieza</td>
+              <td><code>FAC-QJ-1082</code></td>
+              <td><span class="trans-badge-out">Gasto</span></td>
+              <td style="text-align: right; font-weight: 800; color: #DC2626;">- $ 80.000</td>
+            </tr>
+            <tr>
+              <td>20/10 10:00</td>
+              <td><strong>Ingreso Abono Corporativo EJE SA</strong></td>
+              <td>Abono B2B</td>
+              <td><code>FAC-B2B-0939</code></td>
+              <td><span class="trans-badge-in">Ingreso</span></td>
+              <td style="text-align: right; font-weight: 800; color: #059669;">+ $ 680.000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SECTION 3: Registro de Mascotas Ingresadas (Perros y Gatos) -->
+    <div class="card-white">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <h3 style="font-size: 16px; font-weight: 800; color: var(--text-dark); display: flex; align-items: center; gap: 8px;">
+            <span>🐾</span> Censo Diario de Mascotas Ingresadas (Caninos & Felinos)
+          </h3>
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
+            Base de datos activa con perros y gatos presentes en guardería y salas especializadas.
+          </p>
+        </div>
+        <span style="font-size: 12px; font-weight: 700; background-color: var(--status-green-bg); color: var(--status-green-text); padding: 4px 12px; border-radius: var(--radius-full); border: 1px solid #A7F3D0;">
+          4 Mascotas Verificadas
+        </span>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>Mascota & Especie</th>
+              <th>Tutor / Dueño</th>
+              <th>Empresa / Convenio</th>
+              <th>Hora Ingreso</th>
+              <th>Casillero</th>
+              <th>Modalidad Salida</th>
+              <th>Sector / Ubicación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Toby (Perro Golden Retriever) -->
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <div style="width: 36px; height: 36px; border-radius: 8px; background-color: #FED7AA; display: flex; align-items: center; justify-content: center; font-size: 18px;">
+                    🐕
+                  </div>
+                  <div>
+                    <strong style="font-size: 13px; color: var(--text-dark);">Toby</strong>
+                    <div style="font-size: 11px; color: var(--text-muted);">Perro Golden Retriever (3 años)</div>
+                  </div>
+                </div>
+              </td>
+              <td>Martín R.</td>
+              <td><span style="font-weight: 700; color: #4338CA;">🏢 Telecom Jujuy (20% OFF)</span></td>
+              <td><strong>08:15 hs</strong></td>
+              <td><code style="background-color: var(--bg-main); padding: 2px 6px; border-radius: 4px; font-weight: 800;">#14</code></td>
+              <td>Combi Huellitas (18:20 hs)</td>
+              <td><span style="background-color: var(--status-green-bg); color: var(--status-green-text); font-weight: 700; font-size: 11px; padding: 3px 8px; border-radius: var(--radius-full);">En Patio Central</span></td>
+            </tr>
+
+            <!-- Luna (Gato Siamés) -->
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <div style="width: 36px; height: 36px; border-radius: 8px; background-color: #E0E7FF; display: flex; align-items: center; justify-content: center; font-size: 18px;">
+                    🐱
+                  </div>
+                  <div>
+                    <strong style="font-size: 13px; color: var(--text-dark);">Luna</strong>
+                    <div style="font-size: 11px; color: var(--text-muted);">Gato Siamés (2 años)</div>
+                  </div>
+                </div>
+              </td>
+              <td>Valeria C.</td>
+              <td><span style="font-weight: 700; color: #4338CA;">🏢 Banco Macro (15% OFF)</span></td>
+              <td><strong>08:40 hs</strong></td>
+              <td><code style="background-color: var(--bg-main); padding: 2px 6px; border-radius: 4px; font-weight: 800;">#07</code></td>
+              <td>Retiro Presencial (17:00 hs)</td>
+              <td><span style="background-color: #EFF6FF; color: #1D4ED8; font-weight: 700; font-size: 11px; padding: 3px 8px; border-radius: var(--radius-full);">Sala Felina Acústica</span></td>
+            </tr>
+
+            <!-- Max (Perro Beagle) -->
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <div style="width: 36px; height: 36px; border-radius: 8px; background-color: #FCE7F3; display: flex; align-items: center; justify-content: center; font-size: 18px;">
+                    🐶
+                  </div>
+                  <div>
+                    <strong style="font-size: 13px; color: var(--text-dark);">Max</strong>
+                    <div style="font-size: 11px; color: var(--text-muted);">Perro Beagle (4 años)</div>
+                  </div>
+                </div>
+              </td>
+              <td>Esteban F.</td>
+              <td><span style="font-weight: 700; color: #4338CA;">🏢 EJE SA (15% OFF)</span></td>
+              <td><strong>09:05 hs</strong></td>
+              <td><code style="background-color: var(--bg-main); padding: 2px 6px; border-radius: 4px; font-weight: 800;">#22</code></td>
+              <td>Combi Huellitas (19:15 hs)</td>
+              <td><span style="background-color: var(--status-green-bg); color: var(--status-green-text); font-weight: 700; font-size: 11px; padding: 3px 8px; border-radius: var(--radius-full);">En Patio Central</span></td>
+            </tr>
+
+            <!-- Mia (Gato Persa) -->
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <div style="width: 36px; height: 36px; border-radius: 8px; background-color: #D1FAE5; display: flex; align-items: center; justify-content: center; font-size: 18px;">
+                    🐈
+                  </div>
+                  <div>
+                    <strong style="font-size: 13px; color: var(--text-dark);">Mia</strong>
+                    <div style="font-size: 11px; color: var(--text-muted);">Gato Persa (1 año)</div>
+                  </div>
+                </div>
+              </td>
+              <td>Gonzalo S.</td>
+              <td><span style="font-weight: 700; color: #4338CA;">🏢 Telecom Jujuy (20% OFF)</span></td>
+              <td><strong>08:20 hs</strong></td>
+              <td><code style="background-color: var(--bg-main); padding: 2px 6px; border-radius: 4px; font-weight: 800;">#03</code></td>
+              <td>Combi Huellitas (19:40 hs)</td>
+              <td><span style="background-color: #EFF6FF; color: #1D4ED8; font-weight: 700; font-size: 11px; padding: 3px 8px; border-radius: var(--radius-full);">Sala Felina Acústica</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SECTION 4: Expansión del Inventario de Insumos & Bioseguridad -->
+    <div class="card-white" style="margin-bottom: 24px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <h3 style="font-size: 16px; font-weight: 800; color: var(--text-dark); display: flex; align-items: center; gap: 8px;">
+            <span>📦</span> Inventario Completo de Insumos & Bioseguridad
+          </h3>
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
+            Alimentos caninos/felinos, arena sanitaria, golosinas, bioseguridad y repuestos de vehículos.
+          </p>
+        </div>
+        <button type="button" class="btn-primary-orange" style="width: auto; padding: 8px 16px; font-size: 12px;" onclick="alert('Orden de compra automática generada hacia Distribuidora Norte.')">
+          <span>+ Generar Orden de Compra</span>
+        </button>
+      </div>
+
+      <div class="inventory-grid">
+        
+        <!-- 1. Alimentos Felinos (Royal Canin) -->
+        <div class="inventory-item-card">
+          <div class="inventory-item-top">
+            <span class="inventory-category-title">🐱 Alimento Premium para Gatos</span>
+            <span class="inventory-stock-badge stock-good">Stock Óptimo ✅</span>
+          </div>
+          <div style="font-size: 12px; color: var(--text-dark); line-height: 1.5; margin-top: 4px;">
+            • <strong>Royal Canin Feline Adult:</strong> 35 kg restantes<br>
+            • <strong>Royal Canin Kitten Growth:</strong> 20 kg (Cachorros)<br>
+            • <strong>Sobres Húmedos Gastro/Urinary:</strong> 48 unidades
+          </div>
+          <div style="margin-top: 8px; font-size: 11px; color: var(--text-muted);">
+            Para Luna (Siamés), Mia (Persa) y gatos en guardería.
+          </div>
+        </div>
+
+        <!-- 2. Arena Sanitaria / Piedritas -->
+        <div class="inventory-item-card">
+          <div class="inventory-item-top">
+            <span class="inventory-category-title">🏖️ Arena Sanitaria / Piedritas</span>
+            <span class="inventory-stock-badge stock-good">Stock Óptimo ✅</span>
+          </div>
+          <div style="font-size: 12px; color: var(--text-dark); line-height: 1.5; margin-top: 4px;">
+            • <strong>Piedritas Aglomerantes de Bentonita:</strong> 25 bolsas x 10 kg<br>
+            • <strong>Sílica Gel Antibacterial:</strong> 12 bolsas x 3.8 kg<br>
+            • <strong>Palas y bandejas sanitarias:</strong> 8 sets esterilizados
+          </div>
+          <div style="margin-top: 8px; font-size: 11px; color: var(--text-muted);">
+            Recambio diario en bandejas de Sala Felina.
+          </div>
+        </div>
+
+        <!-- 3. Alimento para Perros -->
+        <div class="inventory-item-card">
+          <div class="inventory-item-top">
+            <span class="inventory-category-title">🐕 Alimento para Perros</span>
+            <span class="inventory-stock-badge stock-critical">⚠️ Reponer Stock</span>
+          </div>
+          <div style="font-size: 12px; color: var(--text-dark); line-height: 1.5; margin-top: 4px;">
+            • <strong>Balanceado Adulto Premium:</strong> 42 kg <span style="color:#DC2626;">(Mínimo 50 kg)</span><br>
+            • <strong>Balanceado Cachorros Active:</strong> 60 kg<br>
+            • <strong>Alimento Gastro/Hipoalergénico:</strong> 24 latas
+          </div>
+          <div style="margin-top: 8px; font-size: 11px; color: var(--text-muted);">
+            Proveedor: Distribuidora Norte S.R.L. (S.S. Jujuy).
+          </div>
+        </div>
+
+        <!-- 4. Snacks & Golosinas -->
+        <div class="inventory-item-card">
+          <div class="inventory-item-top">
+            <span class="inventory-category-title">🦴 Snacks & Golosinas</span>
+            <span class="inventory-stock-badge stock-good">Stock Óptimo ✅</span>
+          </div>
+          <div style="font-size: 12px; color: var(--text-dark); line-height: 1.5; margin-top: 4px;">
+            • <strong>Treats Dentales Caninos:</strong> 85 paquetes<br>
+            • <strong>Bocaditos de Salmón para Gatos:</strong> 60 paquetes<br>
+            • <strong>Huesos Masticables Prensados:</strong> 120 unidades
+          </div>
+          <div style="margin-top: 8px; font-size: 11px; color: var(--text-muted);">
+            Uso: Refuerzo positivo y recreación asistida.
+          </div>
+        </div>
+
+        <!-- 5. Limpieza Profunda & Bioseguridad -->
+        <div class="inventory-item-card">
+          <div class="inventory-item-top">
+            <span class="inventory-category-title">🧴 Bioseguridad & Limpieza</span>
+            <span class="inventory-stock-badge stock-good">Stock Óptimo ✅</span>
+          </div>
+          <div style="font-size: 12px; color: var(--text-dark); line-height: 1.5; margin-top: 4px;">
+            • <strong>Amonios Cuaternarios (5ta Generación):</strong> 35 Litros<br>
+            • <strong>Lavandina Concentrada (55g/L):</strong> 60 Litros<br>
+            • <strong>Jabón Germicida & Pulguicida:</strong> 25 Litros
+          </div>
+          <div style="margin-top: 8px; font-size: 11px; color: var(--text-muted);">
+            Sanitización hospitalaria de caniles, patios y areneros.
+          </div>
+        </div>
+
+        <!-- 6. Repuestos de Vehículos -->
+        <div class="inventory-item-card">
+          <div class="inventory-item-top">
+            <span class="inventory-category-title">🚐 Mantenimiento Flota Combi 02</span>
+            <span class="inventory-stock-badge stock-warning">Alerta Service</span>
+          </div>
+          <div style="font-size: 12px; color: var(--text-dark); line-height: 1.5; margin-top: 4px;">
+            • <strong>Aceite Sintético 15W40:</strong> 12 Litros<br>
+            • <strong>Filtros de Aire y Combustible:</strong> 4 kits<br>
+            • <strong>Neumáticos de Repuesto Verificados:</strong> 2 unidades
+          </div>
+          <div style="margin-top: 8px; font-size: 11px; color: var(--text-muted);">
+            Próximo service: 50.000 km (en 1.200 km por Taller Jujuy Motor).
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <script src="auth_db.js"></script>
+</body>
+</html>

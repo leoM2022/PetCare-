@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PetCare - PetWork | Panel de Cuidador</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="app_styles.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="main-navbar">
+    <div class="navbar-inner">
+      <div class="navbar-left">
+        <a href="panel_cuidador.html" class="brand-badge">
+          <div class="brand-icon-box">🩺</div>
+          <div>
+            <div class="brand-title">PetCare Jujuy</div>
+            <div class="brand-sub">Panel de Cuidado & Guardia</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="navbar-right">
+        <div class="user-identity-pill" id="navbarRoleBadge">
+          <span>CUIDADOR • Sala & Patios</span>
+        </div>
+        <button class="btn-logout-nav" data-action="logout">
+          <span>Cerrar Turno</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="app-container">
+    
+    <!-- Hero Banner -->
+    <section class="page-hero">
+      <div class="page-hero-info">
+        <h1>
+          <span>Estación Operativa de Cuidado</span>
+        </h1>
+        <p>Control de bienestar, nutrición diaria, paseos programados y verificación de Carnet Amigo para el retiro de las mascotas.</p>
+        <span class="page-hero-badge">Turno Mañana en Curso • 24 Mascotas en Predio</span>
+      </div>
+      <div style="text-align: right; font-size: 13px; color: #E4E4E7;">
+        <strong>Área de Guardería & Patio</strong><br>
+        <span>Supervisión Asistida</span>
+      </div>
+    </section>
+
+    <!-- Operational Alert Box -->
+    <div style="background-color: var(--primary-orange-tint); border: 1.5px solid var(--primary-orange-light); border-radius: var(--radius-xl); padding: 18px 22px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+      <div>
+        <div style="font-size: 14px; font-weight: 800; color: var(--primary-orange-dark); display: flex; align-items: center; gap: 8px;">
+          <span>⏰</span> Tarea Crítica: Almuerzo de Toby (Golden Retriever)
+        </div>
+        <div style="font-size: 12px; color: #78350F; margin-top: 3px;">
+          Servir 150g de alimento propio guardado en Casillero #14 antes de las 12:30 hs.
+        </div>
+      </div>
+      <a href="salud_mascota.html#almuerzos" class="btn-primary-orange" style="width: auto; padding: 10px 18px; text-decoration: none;">
+        <span>Gestionar en Salud & Rutinas</span>
+        <span>➜</span>
+      </a>
+    </div>
+
+    <!-- Exclusive Cuidador Module Buttons (Targeting salud_mascota.html) -->
+    <div style="margin-bottom: 16px;">
+      <h2 style="font-size: 18px; font-weight: 800; color: var(--text-dark);">Módulo Operativo Asignado</h2>
+      <p style="font-size: 12px; color: var(--text-muted);">Acceso directo a las rutinas de salud, alimentación y carnet de tutor:</p>
+    </div>
+
+    <section class="modules-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
+      
+      <!-- Botón 1: Salud de la Mascota & Fichas Clínicas -->
+      <a href="salud_mascota.html" class="module-link-card">
+        <div class="module-icon-wrap">🩺</div>
+        <div class="module-title">Salud de la Mascota & Fichas Clínicas</div>
+        <div class="module-description">
+          Accede al expediente de Toby, Luna, Rocco y Mia: vacunas, notas de comportamiento, contactos veterinarios de Jujuy y alertas de sanidad.
+        </div>
+        <div class="module-footer-action">
+          <span>Abrir Expedientes Médicos</span>
+          <span>➜</span>
+        </div>
+        <span class="module-badge">3 Alertas Médicas</span>
+      </a>
+
+      <!-- Botón 2: Rutinas & Alimentación Asignada -->
+      <a href="salud_mascota.html#rutinas" class="module-link-card">
+        <div class="module-icon-wrap" style="background-color: #FEF3C7; color: #B45309;">🥣</div>
+        <div class="module-title">Rutinas & Alimentación del Día</div>
+        <div class="module-description">
+          Registro y marcado de raciones servidas, control de hidratación, horarios de paseos en el patio y recreación supervisada.
+        </div>
+        <div class="module-footer-action">
+          <span>Registrar Almuerzos & Paseos</span>
+          <span>➜</span>
+        </div>
+      </a>
+
+      <!-- Botón 3: Carnet Amigo & Retiro Autorizado -->
+      <a href="salud_mascota.html#carnet" class="module-link-card">
+        <div class="module-icon-wrap" style="background-color: #E0E7FF; color: #3730A3;">🪪</div>
+        <div class="module-title">Carnet Amigo & Retiro Autorizado</div>
+        <div class="module-description">
+          Validación de identidad de tutores, escáner de carnet digital con código QR, número de microchip y personas autorizadas para el retiro.
+        </div>
+        <div class="module-footer-action">
+          <span>Validar Carnet Digital</span>
+          <span>➜</span>
+        </div>
+      </a>
+
+    </section>
+
+  </main>
+
+  <script src="auth_nav.js"></script>
+  <script>
+    enforceAuth('cuidador');
+  </script>
+</body>
+</html>

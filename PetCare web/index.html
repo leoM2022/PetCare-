@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PetCare Jujuy — Guardería, Hotel y Centro de Recreación para Mascotas</title>
+  <meta name="description" content="El segundo hogar de tu mejor amigo mientras estás en el trabajo. Guardería diurna, recreación al aire libre y monitoreo en vivo en San Salvador de Jujuy." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ========================================
+       RESET & BASE
+    ======================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #FAFAFA;
+      color: #18181B;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      width: 100%;
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    a { text-decoration: none; color: inherit; }
+    button, input, select, textarea { font-family: inherit; font-size: inherit; border: none; outline: none; background: none; }
+    input::placeholder, textarea::placeholder { color: #A1A1AA; }
+    ul, ol { list-style: none; }
+
+    /* ========================================
+       DESIGN SYSTEM VARIABLES
+    ======================================== */
+    :root {
+      --orange-500: #EA580C;
+      --orange-400: #F97316;
+      --orange-300: #FED7AA;
+      --orange-200: #FFEDD5;
+      --orange-50:  #FFF7ED;
+      --white: #FFFFFF;
+      --bg: #F8FAFC;
+      --bg-alt: #F1F5F9;
+      --black: #0F172A;
+      --black-deep: #09090B;
+      --gray-50:  #F8FAFC;
+      --gray-100: #F1F5F9;
+      --gray-200: #E2E8F0;
+      --gray-300: #CBD5E1;
+      --gray-400: #94A3B8;
+      --gray-500: #64748B;
+      --gray-600: #475569;
+      --gray-700: #334155;
+      --gray-800: #1E293B;
+      --gray-900: #0F172A;
+      --radius-xl: 20px;
+      --radius-lg: 16px;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-xs: 6px;
+      --radius-pill: 9999px;
+      --shadow-sm: 0 1px 3px rgba(15,23,42,.05);
+      --shadow-md: 0 4px 12px rgba(15,23,42,.06);
+      --shadow-lg: 0 10px 24px rgba(15,23,42,.08);
+      --shadow-xl: 0 20px 35px -5px rgba(15,23,42,.10);
+      --transition: .2s cubic-bezier(.16,1,.3,1);
+      --container-padding: clamp(20px, 4vw, 72px);
+    }
+
+    /* ========================================
+       FULL-WIDTH LAYOUT SYSTEM
+    ======================================== */
+    .container {
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+      padding-left: var(--container-padding);
+      padding-right: var(--container-padding);
+    }
+    .section {
+      width: 100%;
+      padding: clamp(70px, 7vw, 110px) 0;
+    }
+    .section--white { background: var(--white); }
+    .section--gray { background: var(--bg); }
+    .section__eyebrow {
+      font-size: .84rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--orange-500);
+      margin-bottom: 12px;
+    }
+    .section__title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(2rem, 3.4vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -.03em;
+      color: var(--black-deep);
+      margin-bottom: 18px;
+    }
+    .section__desc {
+      font-size: clamp(1rem, 1.25vw, 1.18rem);
+      color: var(--gray-500);
+      max-width: 700px;
+      line-height: 1.7;
+    }
+
+    /* ========================================
+       STICKY FULL-WIDTH NAV
+    ======================================== */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(0,0,0,.06);
+    }
+    .nav__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 76px;
+    }
+    .nav__logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      letter-spacing: -.02em;
+      cursor: pointer;
+    }
+    .nav__logo img {
+      height: 48px;
+      width: auto;
+      border-radius: 8px;
+    }
+    .nav__logo-text span { color: var(--orange-500); }
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: clamp(20px, 2.5vw, 42px);
+    }
+    .nav__link {
+      font-size: .92rem;
+      font-weight: 600;
+      color: var(--gray-600);
+      transition: color var(--transition);
+      position: relative;
+      padding: 6px 0;
+    }
+    .nav__link:hover { color: var(--black); }
+    .nav__link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--orange-500);
+      border-radius: 2px;
+      transition: width var(--transition);
+    }
+    .nav__link:hover::after, .nav__link.active::after { width: 100%; }
+    .nav__link.active { color: var(--black); }
+
+    .nav__actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .btn-nav-direct {
+      font-size: .86rem;
+      font-weight: 700;
+      color: var(--gray-600);
+      padding: 8px 14px;
+      border-radius: var(--radius-pill);
+      transition: all var(--transition);
+    }
+    .btn-nav-direct:hover {
+      color: var(--black);
+      background: var(--gray-100);
+    }
+    .btn-nav {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: var(--orange-500);
+      color: var(--white);
+      border-radius: var(--radius-pill);
+      font-size: .88rem;
+      font-weight: 800;
+      transition: all var(--transition);
+      cursor: pointer;
+      white-space: nowrap;
+      border: 1.5px solid var(--orange-500);
+    }
+    .btn-nav:hover {
+      background: #C2410C;
+      border-color: #C2410C;
+      transform: translateY(-1px);
+    }
+
+    /* Mobile hamburger */
+    .nav__hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+    }
+    .nav__hamburger span {
+      width: 24px;
+      height: 2.5px;
+      background: var(--black);
+      border-radius: 2px;
+      transition: all var(--transition);
+    }
+
+    /* ========================================
+       BUTTONS
+    ======================================== */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px 36px;
+      background: var(--orange-500);
+      color: var(--white);
+      border-radius: var(--radius-pill);
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all var(--transition);
+      border: 2px solid var(--orange-500);
+      white-space: nowrap;
+    }
+    .btn-primary:hover {
+      background: #C2410C;
+      border-color: #C2410C;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(234,88,12,.2);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px 34px;
+      background: var(--white);
+      color: var(--black);
+      border-radius: var(--radius-pill);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all var(--transition);
+      border: 1.5px solid var(--gray-200);
+      white-space: nowrap;
+    }
+    .btn-secondary:hover {
+      border-color: var(--black);
+      background: var(--gray-50);
+      transform: translateY(-2px);
+    }
+
+    /* ========================================
+       HERO (100vh FULL-SCREEN IMMERSIVE)
+    ======================================== */
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: calc(100vh - 76px);
+      display: flex;
+      align-items: center;
+      background: var(--white);
+      padding: clamp(40px, 4vh, 70px) 0;
+      overflow: hidden;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .hero__grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: clamp(40px, 6vw, 96px);
+      align-items: center;
+      width: 100%;
+    }
+    .hero__content {
+      max-width: 760px;
+    }
+    .hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 22px;
+      background: var(--orange-50);
+      border: 1px solid var(--orange-300);
+      border-radius: var(--radius-pill);
+      font-size: .86rem;
+      font-weight: 700;
+      color: #9A3412;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 10px rgba(251,146,60,0.12);
+    }
+    .hero h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(2.6rem, 4.2vw, 4.4rem);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -.04em;
+      color: var(--black-deep);
+      margin-bottom: 22px;
+    }
+    .hero__desc {
+      font-size: clamp(1.05rem, 1.3vw, 1.25rem);
+      color: var(--gray-600);
+      line-height: 1.65;
+      margin-bottom: 36px;
+      max-width: 640px;
+    }
+    .hero__ctas {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 34px;
+    }
+    .hero__trust-badges {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding-top: 18px;
+      border-top: 1px solid var(--gray-200);
+      flex-wrap: wrap;
+    }
+    .hero__trust-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .86rem;
+      font-weight: 600;
+      color: var(--gray-600);
+    }
+    .hero__trust-item svg {
+      width: 18px;
+      height: 18px;
+      color: var(--orange-500);
+    }
+
+    /* Hero Right Card */
+    .hero__image-wrap {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      max-height: 640px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .hero__main-card {
+      position: relative;
+      width: 100%;
+      height: clamp(400px, 58vh, 580px);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-xl);
+      border: 1px solid rgba(0,0,0,.08);
+    }
+    .hero__main-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero__floating-live {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: rgba(9,9,11,0.85);
+      backdrop-filter: blur(10px);
+      color: white;
+      border-radius: var(--radius-pill);
+      padding: 8px 16px;
+      font-size: .8rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: .02em;
+    }
+    .hero__live-dot {
+      width: 8px;
+      height: 8px;
+      background: #EF4444;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #EF4444;
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: .4; transform: scale(1.2); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .hero__floating-card {
+      position: absolute;
+      bottom: 28px;
+      left: 28px;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(14px);
+      border-radius: var(--radius-lg);
+      padding: 16px 22px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(0,0,0,.06);
+      max-width: 320px;
+    }
+    .hero__floating-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--orange-50);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .hero__floating-text {
+      font-size: .84rem;
+      font-weight: 700;
+      color: var(--black);
+      line-height: 1.35;
+    }
+    .hero__floating-sub {
+      font-size: .75rem;
+      font-weight: 500;
+      color: var(--gray-500);
+    }
+
+    /* ========================================
+       SPONSOR / PARTNER BANNERS
+    ======================================== */
+    .sponsors-strip {
+      width: 100%;
+      background: var(--white);
+      border-top: 1px solid var(--gray-200);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 24px 0;
+    }
+    .sponsors-strip__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .sponsors-strip__label {
+      font-size: .8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--gray-400);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sponsors-strip__logos {
+      display: flex;
+      align-items: center;
+      gap: clamp(24px, 4vw, 54px);
+      flex-wrap: wrap;
+    }
+    .sponsor-logo-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      color: var(--gray-700);
+      font-size: 1.05rem;
+      letter-spacing: -.02em;
+      padding: 6px 14px;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      transition: all var(--transition);
+    }
+    .sponsor-logo-item:hover {
+      border-color: var(--orange-400);
+      background: var(--white);
+      box-shadow: var(--shadow-sm);
+    }
+    .sponsor-logo-item .brand-tag {
+      font-size: .68rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #E0E7FF;
+      color: #3730A3;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .sponsor-logo-item .brand-tag--purina { background: #FEE2E2; color: #991B1B; }
+    .sponsor-logo-item .brand-tag--royal { background: #FEF3C7; color: #92400E; }
+    .sponsor-logo-item .brand-tag--eukanuba { background: #ECFDF5; color: #065F46; }
+
+    /* Commercial Ad Banner Card */
+    .ad-banner-section {
+      width: 100%;
+      padding: 40px 0;
+      background: var(--bg);
+    }
+    .ad-banner-card {
+      background: #0F172A;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 4vw, 48px);
+      color: white;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 36px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-xl);
+      border: 1.5px solid #1E293B;
+    }
+    .ad-banner-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(251,146,60,0.2);
+      border: 1px solid var(--orange-500);
+      color: var(--orange-400);
+      padding: 5px 14px;
+      border-radius: var(--radius-pill);
+      font-size: .75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .ad-banner-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    .ad-banner-desc {
+      font-size: .95rem;
+      color: var(--gray-300);
+      line-height: 1.6;
+      margin-bottom: 22px;
+      max-width: 580px;
+    }
+    .ad-banner-logos {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .ad-pill {
+      background: rgba(255,255,255,0.1);
+      padding: 8px 18px;
+      border-radius: var(--radius-pill);
+      font-size: .84rem;
+      font-weight: 700;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .ad-banner-cta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+      text-align: right;
+    }
+    .ad-banner-promo-tag {
+      background: var(--orange-500);
+      color: var(--black-deep);
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-weight: 800;
+      font-size: .9rem;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+
+    /* ========================================
+       ABOUT SECTION
+    ======================================== */
+    .about__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(40px, 6vw, 96px);
+      align-items: center;
+    }
+    .about__img-wrapper {
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      height: clamp(380px, 50vh, 540px);
+      position: relative;
+    }
+    .about__img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .about__highlights {
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .about__highlight {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: .98rem;
+      color: var(--gray-700);
+      line-height: 1.5;
+    }
+    .about__highlight-icon {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: var(--orange-50);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      margin-top: 1px;
+    }
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(16px, 3vw, 32px);
+      margin-top: 56px;
+    }
+    .stat-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 36px 30px;
+      text-align: center;
+      transition: all var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+    .stat-card:hover {
+      border-color: var(--orange-400);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-4px);
+    }
+    .stat-card__number {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(2.2rem, 3.5vw, 3rem);
+      font-weight: 800;
+      color: var(--black-deep);
+      margin-bottom: 6px;
+    }
+    .stat-card__label {
+      font-size: .92rem;
+      color: var(--gray-500);
+      font-weight: 600;
+    }
+
+    /* ========================================
+       GALLERY / INSTALACIONES
+    ======================================== */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(18px, 2.2vw, 30px);
+      margin-top: 52px;
+    }
+    .gallery-card {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      transition: all var(--transition);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sm);
+    }
+    .gallery-card:hover {
+      box-shadow: var(--shadow-xl);
+      transform: translateY(-6px);
+      border-color: var(--orange-300);
+    }
+    .gallery-card__img {
+      height: 240px;
+      width: 100%;
+      overflow: hidden;
+      background: var(--gray-100);
+    }
+    .gallery-card__img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .6s cubic-bezier(.4,0,.2,1);
+    }
+    .gallery-card:hover .gallery-card__img img {
+      transform: scale(1.08);
+    }
+    .gallery-card__body {
+      padding: 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .gallery-card__title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+      color: var(--black);
+    }
+    .gallery-card__desc {
+      font-size: .88rem;
+      color: var(--gray-500);
+      line-height: 1.55;
+    }
+
+    /* ========================================
+       PRICING / SERVICIOS
+    ======================================== */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(20px, 2.5vw, 36px);
+      margin-top: 54px;
+    }
+    .price-card {
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 3.5vw, 44px) clamp(24px, 2.5vw, 36px);
+      transition: all var(--transition);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sm);
+    }
+    .price-card:hover {
+      box-shadow: var(--shadow-xl);
+      transform: translateY(-5px);
+    }
+    .price-card--featured {
+      border-color: var(--orange-400);
+      box-shadow: 0 0 0 2px var(--orange-300), var(--shadow-lg);
+    }
+    .price-card--featured:hover {
+      box-shadow: 0 0 0 2px var(--orange-400), var(--shadow-xl);
+    }
+    .price-card__tag {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 6px 20px;
+      background: var(--orange-50);
+      border: 1.5px solid var(--orange-400);
+      border-radius: var(--radius-pill);
+      font-size: .76rem;
+      font-weight: 800;
+      color: #9A3412;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      white-space: nowrap;
+    }
+    .price-card__icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: var(--gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 24px;
+    }
+    .price-card--featured .price-card__icon { background: var(--orange-50); }
+    .price-card__name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .price-card__desc {
+      font-size: .9rem;
+      color: var(--gray-500);
+      line-height: 1.6;
+      margin-bottom: 28px;
+      flex: 1;
+    }
+    .price-card__features {
+      margin-bottom: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .price-card__feature {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: .9rem;
+      color: var(--gray-700);
+      font-weight: 500;
+    }
+    .price-card__feature svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      color: #16A34A;
+    }
+    .price-card__cta { margin-top: auto; }
+    .price-card__cta .btn-primary, .price-card__cta .btn-secondary { width: 100%; }
+
+    /* Corporate Banner Full-width */
+    .corp-banner {
+      margin-top: 48px;
+      background: var(--black-deep);
+      border-radius: var(--radius-xl);
+      padding: clamp(36px, 4vw, 52px) clamp(32px, 4vw, 64px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 36px;
+      color: var(--white);
+      box-shadow: var(--shadow-xl);
+    }
+    .corp-banner__text h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(1.2rem, 1.8vw, 1.5rem);
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .corp-banner__text p {
+      font-size: .96rem;
+      color: var(--gray-400);
+      max-width: 680px;
+      line-height: 1.6;
+    }
+    .corp-banner .btn-primary {
+      background: var(--white);
+      color: var(--black);
+      border-color: var(--white);
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+    .corp-banner .btn-primary:hover {
+      background: var(--gray-100);
+      transform: translateY(-2px);
+    }
+
+    /* ========================================
+       CONTACT & LOCATION
+    ======================================== */
+    .contact__grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: clamp(40px, 6vw, 80px);
+      margin-top: 54px;
+    }
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .auth-field {
+      margin-bottom: 18px;
+    }
+    .auth-field label {
+      display: block;
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--gray-700);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .auth-field input, .contact-form textarea {
+      width: 100%;
+      padding: 14px 18px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-size: .95rem;
+      color: var(--black);
+      background: var(--white);
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .auth-field input:focus, .contact-form textarea:focus {
+      border-color: var(--orange-500);
+      box-shadow: 0 0 0 3px rgba(251,146,60,.12);
+    }
+    .contact-form textarea {
+      resize: vertical;
+      min-height: 130px;
+      font-family: inherit;
+    }
+    .info-box {
+      background: var(--gray-100);
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 4vw, 44px);
+      box-shadow: var(--shadow-sm);
+    }
+    .info-box__title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 1.25rem;
+      margin-bottom: 28px;
+    }
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .info-item:last-child { margin-bottom: 0; }
+    .info-item__icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+    }
+    .info-item__text { font-size: .95rem; color: var(--gray-600); line-height: 1.5; }
+    .info-item__text strong { color: var(--black); display: block; margin-bottom: 3px; font-size: .9rem; }
+    .btn-wa {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 30px;
+      background: #25D366;
+      color: white;
+      border-radius: var(--radius-pill);
+      font-size: .95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all var(--transition);
+      margin-top: 12px;
+      border: none;
+    }
+    .btn-wa:hover { background: #20BD5A; box-shadow: 0 4px 18px rgba(37,211,102,.35); transform: translateY(-2px); }
+
+    /* ========================================
+       MODAL DE REGISTRO INTERACTIVO
+    ======================================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(9, 9, 11, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    .modal-overlay.active {
+      display: flex;
+      animation: modalFadeIn .25s cubic-bezier(.4,0,.2,1);
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .modal-card {
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 25px 60px -15px rgba(0,0,0,.35);
+      border: 1px solid rgba(255,255,255,0.2);
+      overflow: hidden;
+      position: relative;
+      animation: modalSlideUp .3s cubic-bezier(.4,0,.2,1);
+      margin: auto;
+    }
+    @keyframes modalSlideUp {
+      from { transform: translateY(20px) scale(.97); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+    .modal-header {
+      padding: 28px 32px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--gray-200);
+      background: #FAFAFA;
+    }
+    .modal-title-group h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--black-deep);
+    }
+    .modal-title-group p {
+      font-size: .85rem;
+      color: var(--gray-500);
+      margin-top: 2px;
+    }
+    .modal-close-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--gray-600);
+      transition: all var(--transition);
+    }
+    .modal-close-btn:hover {
+      background: var(--black);
+      color: var(--white);
+    }
+    .modal-body {
+      padding: 28px 32px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .modal-species-toggle {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .modal-species-btn {
+      flex: 1;
+      padding: 12px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      text-align: center;
+      font-weight: 700;
+      font-size: .9rem;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .modal-species-btn.selected {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+    }
+
+    /* ========================================
+       FOOTER (MINIMALIST & DARK)
+    ======================================== */
+    .footer {
+      background: var(--black-deep);
+      color: var(--gray-400);
+      padding: clamp(60px, 6vw, 90px) 0 36px;
+      width: 100%;
+    }
+    .footer__grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: clamp(32px, 4vw, 64px);
+      margin-bottom: 54px;
+    }
+    .footer__brand-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      color: var(--white);
+      margin-bottom: 14px;
+    }
+    .footer__brand-name span { color: var(--orange-500); }
+    .footer__brand-desc {
+      font-size: .92rem;
+      line-height: 1.7;
+      max-width: 340px;
+    }
+    .footer__socials {
+      display: flex;
+      gap: 14px;
+      margin-top: 24px;
+    }
+    .footer__social {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--gray-800);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+      cursor: pointer;
+    }
+    .footer__social:hover { background: var(--gray-700); transform: translateY(-2px); color: var(--white); }
+    .footer__social svg { width: 18px; height: 18px; }
+    .footer__col-title {
+      font-size: .82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--gray-400);
+      margin-bottom: 20px;
+    }
+    .footer__link {
+      display: block;
+      font-size: .92rem;
+      color: var(--gray-400);
+      margin-bottom: 14px;
+      transition: color var(--transition);
+    }
+    .footer__link:hover { color: var(--white); }
+    .footer__bottom {
+      border-top: 1px solid var(--gray-800);
+      padding-top: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: .84rem;
+    }
+
+    /* ========================================
+       RESPONSIVE BREAKPOINTS
+    ======================================== */
+    @media (max-width: 1200px) {
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer__grid { grid-template-columns: 1fr 1fr; }
+      .ad-banner-card { grid-template-columns: 1fr; }
+      .ad-banner-cta { align-items: flex-start; text-align: left; }
+    }
+    @media (max-width: 992px) {
+      .hero { min-height: auto; padding: 60px 0; }
+      .hero__grid { grid-template-columns: 1fr; text-align: center; }
+      .hero__content { margin: 0 auto; }
+      .hero__ctas { justify-content: center; }
+      .hero__trust-badges { justify-content: center; }
+      .about__grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 500px; margin-left: auto; margin-right: auto; }
+      .corp-banner { flex-direction: column; text-align: center; }
+      .contact__grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .nav__links { display: none; }
+      .nav__hamburger { display: flex; }
+      .nav__links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 76px;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        border-bottom: 1px solid var(--gray-200);
+        padding: 20px 24px;
+        gap: 16px;
+        box-shadow: var(--shadow-lg);
+      }
+      .stats-row { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .footer__grid { grid-template-columns: 1fr; }
+      .footer__bottom { flex-direction: column; gap: 10px; text-align: center; }
+    }
+
+    /* ========================================
+       SCROLL ANIMATIONS
+    ======================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .7s cubic-bezier(.4,0,.2,1), transform .7s cubic-bezier(.4,0,.2,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVIGATION (Sticky Full-Width & Cleaned) ===== -->
+  <nav class="nav">
+    <div class="container nav__inner">
+      <a href="#hero" class="nav__logo">
+        <img src="logo-petcare.jpg" alt="PetCare Jujuy" />
+        <span class="nav__logo-text">PetCare <span>Jujuy</span></span>
+      </a>
+      <div class="nav__links" id="navLinks">
+        <a href="#hero" class="nav__link active">Inicio</a>
+        <a href="#nosotros" class="nav__link">Nosotros</a>
+        <a href="#planes" class="nav__link">Servicios & Planes</a>
+        <a href="#instalaciones" class="nav__link">Instalaciones</a>
+        <a href="#nutricion" class="nav__link">Nutrición</a>
+        <a href="#contacto" class="nav__link">Contacto</a>
+      </div>
+      <div class="nav__actions">
+        <!-- Acceso directo al Dashboard si ya tiene mascota -->
+        <a href="dashboard.html" class="btn-nav-direct" title="Ir directamente a mi Dashboard">
+          Mi Dashboard 🐾
+        </a>
+        <!-- Botón que activa el modal para registrar nueva mascota y guardar en localStorage -->
+        <button class="btn-nav" onclick="openRegisterModal()">
+          <span>Registrar mi Mascota 🐾</span>
+        </button>
+      </div>
+      <div class="nav__hamburger" id="hamburger" onclick="toggleMobileMenu()">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO SECTION (100vh IMMERSIVE & FULL-WIDTH) ===== -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero__grid">
+        <div class="hero__content">
+          <div class="hero__badge">📍 El primer centro integral para mascotas en San Salvador de Jujuy</div>
+          <h1>El segundo hogar de tu mejor amigo mientras estás en el trabajo</h1>
+          <p class="hero__desc">Guardería diurna, recreación al aire libre en 1.200 m² seguros, alimentación controlada y monitoreo en vivo con PetCam Live. Convenios corporativos exclusivos.</p>
+          
+          <div class="hero__ctas">
+            <!-- Botón de Registro Interceptado (Abre Modal, guarda en localStorage y redirige a dashboard.html) -->
+            <button class="btn-primary" onclick="openRegisterModal()">Registrar mi Mascota 🐾</button>
+            <a href="#planes" class="btn-secondary">Conocer Instalaciones & Planes</a>
+          </div>
+
+          <div class="hero__trust-badges">
+            <div class="hero__trust-item">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <span>+500 Mascotas Activas</span>
+            </div>
+            <div class="hero__trust-item">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+              <span>Veterinarios de Guardia</span>
+            </div>
+            <div class="hero__trust-item">
+              <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              <span>Horario Corrido 07:30 - 19:30</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero__image-wrap">
+          <div class="hero__main-card">
+            <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=1200&q=85" alt="Perros jugando en parque verde supervisado PetCare Jujuy" />
+            
+            <div class="hero__floating-live">
+              <span class="hero__live-dot"></span>
+              <span>PETCAM LIVE HD</span>
+            </div>
+
+            <div class="hero__floating-card">
+              <div class="hero__floating-icon">⭐</div>
+              <div>
+                <div class="hero__floating-text">100% Cuidado Profesional</div>
+                <div class="hero__floating-sub">Cámaras en vivo & Patios seguros</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STRIP DE MARCAS Y SPONSORS NUTRICIONALES ===== -->
+  <div class="sponsors-strip" id="nutricion">
+    <div class="container sponsors-strip__inner">
+      <div class="sponsors-strip__label">
+        <span>🐾 Alianzas Nutricionales Oficiales:</span>
+      </div>
+      <div class="sponsors-strip__logos">
+        <div class="sponsor-logo-item">
+          <span>PURINA® PRO PLAN®</span>
+          <span class="brand-tag brand-tag--purina">Alimento Oficial</span>
+        </div>
+        <div class="sponsor-logo-item">
+          <span>ROYAL CANIN®</span>
+          <span class="brand-tag brand-tag--royal">Veterinary Diet</span>
+        </div>
+        <div class="sponsor-logo-item">
+          <span>EUKANUBA™</span>
+          <span class="brand-tag brand-tag--eukanuba">High Performance</span>
+        </div>
+        <div class="sponsor-logo-item">
+          <span>HILLS SCIENCE DIET</span>
+          <span class="brand-tag">Nutrición Clínica</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ABOUT / SOBRE NOSOTROS ===== -->
+  <section class="section section--gray" id="nosotros">
+    <div class="container">
+      <div class="about__grid reveal">
+        <div class="about__img-wrapper">
+          <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=1000&q=85" alt="Cuidadora profesional acariciando a un perro en PetCare" />
+        </div>
+        <div>
+          <div class="section__eyebrow">Sobre Nosotros</div>
+          <h2 class="section__title">Bienestar animal y tranquilidad total para vos</h2>
+          <p class="section__desc">PetCare nació con una misión clara: que cada dueño en Jujuy pueda ir a trabajar con serenidad total sabiendo que su mascota comparte el día en un ambiente estimulante, seguro y supervisado por profesionales apasionados.</p>
+          
+          <div class="about__highlights">
+            <div class="about__highlight">
+              <div class="about__highlight-icon">🐾</div>
+              <span><strong>Bienestar animal libre de estrés</strong> con rutinas de socialización y descanso alternadas.</span>
+            </div>
+            <div class="about__highlight">
+              <div class="about__highlight-icon">👩‍⚕️</div>
+              <span><strong>Personal altamente capacitado</strong> en primeros auxilios veterinarios y etología canina.</span>
+            </div>
+            <div class="about__highlight">
+              <div class="about__highlight-icon">📹</div>
+              <span><strong>PetCam Live streaming</strong> para ver a tu mejor amigo en tiempo real desde tu celular o computadora.</span>
+            </div>
+            <div class="about__highlight">
+              <div class="about__highlight-icon">💼</div>
+              <span><strong>Convenios empresariales exclusivos</strong> con descuentos de hasta el 20% para empleados.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="stats-row reveal">
+        <div class="stat-card">
+          <div class="stat-card__number">+500</div>
+          <div class="stat-card__label">Mascotas felices registradas</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__number">+10</div>
+          <div class="stat-card__label">Empresas con convenios activos</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__number">1.200 m²</div>
+          <div class="stat-card__label">De parque parquizado y cercado</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NUESTRAS INSTALACIONES (IMAGEN REPARADA) ===== -->
+  <section class="section section--white" id="instalaciones">
+    <div class="container">
+      <div class="reveal" style="text-align:center; max-width:680px; margin:0 auto;">
+        <div class="section__eyebrow">Nuestras Instalaciones</div>
+        <h2 class="section__title">Conocé nuestro espacio pensado para ellos</h2>
+        <p class="section__desc" style="margin:0 auto;">Instalaciones de primer nivel diseñadas específicamente para la recreación, la seguridad biométrica y el confort térmico.</p>
+      </div>
+
+      <div class="gallery-grid reveal">
+        <!-- Card 1 -->
+        <div class="gallery-card">
+          <div class="gallery-card__img">
+            <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=800&q=80" alt="Patios de juego y recreación al aire libre" />
+          </div>
+          <div class="gallery-card__body">
+            <div class="gallery-card__title">🌿 Patios de Juego y Recreación</div>
+            <div class="gallery-card__desc">Patios de césped natural con cercos olímpicos reforzados, sombra arbolada y doble esclusa de seguridad anti-escape.</div>
+          </div>
+        </div>
+
+        <!-- Card 2: IMAGEN REPARADA CON FOTO VÁLIDA Y TESTEADA -->
+        <div class="gallery-card">
+          <div class="gallery-card__img">
+            <img src="https://images.unsplash.com/photo-1541599540903-216a46ca1dc0?w=800&q=80" 
+                 onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?w=800&q=80';" 
+                 alt="Áreas de descanso climatizadas para perros en PetCare" />
+          </div>
+          <div class="gallery-card__body">
+            <div class="gallery-card__title">🛏️ Áreas de Descanso Climatizadas</div>
+            <div class="gallery-card__desc">Habitaciones individuales amplias con colchonetas ortopédicas térmicas, música relajante y temperatura controlada.</div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="gallery-card">
+          <div class="gallery-card__img">
+            <img src="https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=800&q=80" alt="Recepción y casilleros de equipamiento" />
+          </div>
+          <div class="gallery-card__body">
+            <div class="gallery-card__title">🏢 Recepción & Casilleros</div>
+            <div class="gallery-card__desc">Lobby climatizado con casilleros individuales numerados para pertenencias, arneses y botiquín de medicación específica.</div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="gallery-card">
+          <div class="gallery-card__img">
+            <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=800&q=80" alt="Combi de traslados Huellitas Express" />
+          </div>
+          <div class="gallery-card__body">
+            <div class="gallery-card__title">🚐 Combi Huellitas Express</div>
+            <div class="gallery-card__desc">Furgón climatizado con jaulas homologadas, cinturones de fijación y rastreo satelital GPS puerta a puerta en Jujuy.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BANNER PUBLICITARIO REALISTA PURINA / ROYAL CANIN ===== -->
+  <section class="ad-banner-section">
+    <div class="container">
+      <div class="ad-banner-card reveal">
+        <div>
+          <div class="ad-banner-badge">✨ Alianza de Nutrición Premium Oficial</div>
+          <h3 class="ad-banner-title">Cuidamos su energía con Purina® Pro Plan® y Royal Canin®</h3>
+          <p class="ad-banner-desc">En PetCare Jujuy alimentamos a cada huésped según su edad, tamaño y requerimiento veterinario. Todos los miembros con Abono Mensual acceden a un <strong>15% de descuento exclusivo</strong> en bolsas de alimento cerrado.</p>
+          
+          <div class="ad-banner-logos">
+            <div class="ad-pill">🥩 Purina OptiHealth™</div>
+            <div class="ad-pill">🌿 Royal Canin Digestivo</div>
+            <div class="ad-pill">🥣 Dieta Supervisada</div>
+          </div>
+        </div>
+
+        <div class="ad-banner-cta">
+          <div class="ad-banner-promo-tag">Cupón: PETCARE-NUTRITION</div>
+          <button class="btn-primary" onclick="openRegisterModal('Abono Mensual Full')" style="background:var(--white); color:var(--black); border-color:var(--white);">
+            Activar Beneficio en Dashboard 🐾
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SERVICIOS Y PLANES ===== -->
+  <section class="section section--gray" id="planes">
+    <div class="container">
+      <div class="reveal" style="text-align:center; max-width:680px; margin:0 auto;">
+        <div class="section__eyebrow">Servicios y Planes</div>
+        <h2 class="section__title">Elegí el plan perfecto para tu rutina</h2>
+        <p class="section__desc" style="margin:0 auto;">Modalidades diseñadas para compatibilizar tus jornadas laborales con el bienestar absoluto de tu compañero.</p>
+      </div>
+
+      <div class="pricing-grid reveal">
+        <!-- Plan 1 -->
+        <div class="price-card">
+          <div class="price-card__icon">☀️</div>
+          <div class="price-card__name">Pase Diario</div>
+          <div class="price-card__desc">Ideal para jornadas de oficina esporádicas o trámites especiales. Jornada completa con cuidado profesional.</div>
+          
+          <div class="price-card__features">
+            <div class="price-card__feature">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Jornada completa de 07:30 a 19:30 hs</span>
+            </div>
+            <div class="price-card__feature">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Recreación guiada y socialización</span>
+            </div>
+            <div class="price-card__feature">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Fotos y resumen del día vía WhatsApp</span>
+            </div>
+          </div>
+
+          <div class="price-card__cta">
+            <button class="btn-secondary" onclick="openRegisterModal('Pase Diario')">Elegir Pase Diario</button>
+          </div>
+        </div>
+
+        <!-- Plan 2 - Featured -->
+        <div class="price-card price-card--featured">
+          <div class="price-card__tag">⭐ Más Elegido</div>
+          <div class="price-card__icon">🏆</div>
+          <div class="price-card__name">Abono Mensual Full</div>
+          <div class="price-card__desc">De lunes a viernes. La solución integral para trabajadores: dieta programada, casillero fijo y cámaras en vivo.</div>
+          
+          <div class="price-card__features">
+            <div class="price-card__feature">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Acceso ilimitado lunes a viernes</span>
+            </div>
+            <div class="price-card__feature">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>PetCam Live HD en tiempo real</span>
+            </div>
+            <div class="price-card__feature">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Dieta personalizada y casillero exclusivo</span>
+            </div>
+            <div class="price-card__feature">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Carnet Digital Amigo con QR de check-in</span>
+            </div>
+          </div>
+
+          <div class="price-card__cta">
+            <button class="btn-primary" onclick="openRegisterModal('Abono Mensual Full')">Elegir Abono Mensual</button>
+          </div>
+        </div>
+
+        <!-- Plan 3 -->
+        <div class="price-card">
+          <div class="price-card__icon">🚐</div>
+          <div class="price-card__name">Huellitas Express</div>
+          <div class="price-card__desc">Servicio opcional de traslado puerta a puerta con paradas programadas por GPS para que no desvíes tu trayecto.</div>
+          
+          <div class="price-card__features">
+            <div class="price-card__feature">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Recogida matutina y entrega vespertina</span>
+            </div>
+            <div class="price-card__feature">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Vehículo adaptado con arneses seguros</span>
+            </div>
+            <div class="price-card__feature">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Rastreo en vivo por GPS para el dueño</span>
+            </div>
+          </div>
+
+          <div class="price-card__cta">
+            <button class="btn-secondary" onclick="openRegisterModal('Huellitas Express')">Agregar Traslado</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Corporate Banner -->
+      <div class="corp-banner reveal">
+        <div class="corp-banner__text">
+          <h3>💼 ¿Tu empresa tiene convenio con PetCare Jujuy?</h3>
+          <p>Aplicá tu cupón corporativo al registrarte (Telecom Jujuy, Ledesma, Banco Macro, Minera Exar y más) y disfrutá de un 20% OFF directo en tu abono mensual.</p>
+        </div>
+        <button class="btn-primary" onclick="openRegisterModal('Convenio Corporativo')">Acceder con Cupón Corporativo</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACTO & UBICACIÓN ===== -->
+  <section class="section section--white" id="contacto">
+    <div class="container">
+      <div class="reveal" style="text-align:center; max-width:680px; margin:0 auto;">
+        <div class="section__eyebrow">Contacto & Ubicación</div>
+        <h2 class="section__title">¿Tenés dudas? Estamos para asesorarte</h2>
+        <p class="section__desc" style="margin:0 auto;">Escribinos directamente o coordiná una visita guiada para conocer las instalaciones antes de registrarte.</p>
+      </div>
+
+      <div class="contact__grid reveal">
+        <form class="contact-form" onsubmit="handleContactSubmit(event)">
+          <div class="auth-field">
+            <label for="contactName">Nombre y Apellido</label>
+            <input type="text" id="contactName" required placeholder="Ej: Carolina Morales" />
+          </div>
+          <div class="auth-field">
+            <label for="contactEmail">Email</label>
+            <input type="email" id="contactEmail" required placeholder="carolina@empresa.com" />
+          </div>
+          <div class="auth-field">
+            <label for="contactMsg">Mensaje o Consulta</label>
+            <textarea id="contactMsg" required placeholder="Hola! Me gustaría consultar por disponibilidad para mi mascota a partir del próximo mes..."></textarea>
+          </div>
+          <button class="btn-primary" type="submit">Enviar Consulta Directa</button>
+        </form>
+
+        <div class="info-box">
+          <div class="info-box__title">Sede Central San Salvador de Jujuy</div>
+          
+          <div class="info-item">
+            <div class="info-item__icon">📍</div>
+            <div class="info-item__text">
+              <strong>Ubicación</strong>
+              Av. Illia y Los Perales, San Salvador de Jujuy, Argentina
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-item__icon">🕐</div>
+            <div class="info-item__text">
+              <strong>Horarios de Guardería</strong>
+              Lunes a Viernes: 07:30 a 19:30 hs (Corrido)<br />Sábados: 08:30 a 13:00 hs
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-item__icon">📧</div>
+            <div class="info-item__text">
+              <strong>Correo Electrónico</strong>
+              contacto@petcarejujuy.com.ar
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-item__icon">📱</div>
+            <div class="info-item__text">
+              <strong>Línea de Guardia & Traslados</strong>
+              +54 9 388 400-0000
+            </div>
+          </div>
+
+          <a href="https://wa.me/5493884000000?text=Hola%20PetCare!%20Quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20la%20guarder%C3%ADa" target="_blank" class="btn-wa">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.981.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <span>Consultar por WhatsApp</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       MODAL DE REGISTRO CON SIMULACIÓN DE BD
+  ======================================== -->
+  <div class="modal-overlay" id="registerModal" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h3 id="modalHeaderTitle">Registrar mi Mascota 🐾</h3>
+          <p id="modalHeaderSubtitle">Completá los datos para activar tu Carnet y acceder al Dashboard</p>
+        </div>
+        <div class="modal-close-btn" onclick="closeRegisterModal()" title="Cerrar ventana">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <!-- Formulario Interactivo -->
+        <form id="petRegistrationForm" onsubmit="handleRegistrationSubmit(event)">
+          <div class="auth-field">
+            <label for="mOwnerName">Tu Nombre y Apellido (Tutor) *</label>
+            <input type="text" id="mOwnerName" required placeholder="Ej: Mariano Benítez" value="Mariano Benítez" />
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="auth-field">
+              <label for="mPhone">Celular (+54) *</label>
+              <input type="tel" id="mPhone" required placeholder="388 4123456" value="388 4123456" />
+            </div>
+            <div class="auth-field">
+              <label for="mEmail">Correo Electrónico *</label>
+              <input type="email" id="mEmail" required placeholder="mariano@email.com" value="mariano@empresa.com" />
+            </div>
+          </div>
+
+          <div class="auth-field">
+            <label>Especie de Mascota</label>
+            <div class="modal-species-toggle">
+              <div class="modal-species-btn selected" id="btnDog" onclick="selectModalSpecies('Perro')">🐶 Perro</div>
+              <div class="modal-species-btn" id="btnCat" onclick="selectModalSpecies('Gato')">🐱 Gato</div>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap: 14px;">
+            <div class="auth-field">
+              <label for="mPetName">Nombre de la Mascota *</label>
+              <input type="text" id="mPetName" required placeholder="Ej: Toby, Luna, Rocky..." value="Toby" />
+            </div>
+            <div class="auth-field">
+              <label for="mPetBreed">Raza / Tamaño</label>
+              <input type="text" id="mPetBreed" placeholder="Ej: Golden Retriever" value="Golden Retriever" />
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap: 14px;">
+            <div class="auth-field">
+              <label for="mPlanSelect">Plan a Contratar</label>
+              <select id="mPlanSelect" style="width:100%; padding:14px 18px; border:1.5px solid var(--gray-200); border-radius:var(--radius-sm); font-size:.95rem; background:white; color:var(--black); outline:none;">
+                <option value="Abono Mensual Full">🏆 Abono Mensual Full</option>
+                <option value="Pase Diario">☀️ Pase Diario Ocasional</option>
+                <option value="Huellitas Express">🚐 Huellitas Express (Con Traslado)</option>
+              </select>
+            </div>
+            <div class="auth-field">
+              <label for="mPetAge">Edad</label>
+              <input type="text" id="mPetAge" placeholder="Ej: 3 Años" value="3 Años" />
+            </div>
+          </div>
+
+          <div class="auth-field">
+            <label for="mCompanyCode">Código de Convenio Empresarial <span style="font-weight:400;text-transform:none;color:var(--gray-400);">(Opcional)</span></label>
+            <input type="text" id="mCompanyCode" placeholder="Ej: TELECOM20, LEDESMA, MACRO" value="TELECOM20" oninput="detectCorporateDiscount(this)" />
+            <div id="mDiscountBadge" style="display:block; margin-top:8px; padding:6px 14px; background:var(--orange-50); border:1px solid var(--orange-300); border-radius:var(--radius-pill); font-size:.78rem; font-weight:700; color:#9A3412;">
+              🎉 ¡Convenio Validado! 20% OFF aplicado en tu suscripción mensual
+            </div>
+          </div>
+
+          <!-- Botón de registro que intercepta, guarda en localStorage y redirige al Dashboard -->
+          <button class="btn-primary" id="btnSubmitModal" type="submit" style="width:100%; padding:16px;">
+            Confirmar Registro y Acceder al Panel
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER (MINIMALIST & DARK) ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <div class="footer__brand-name">Pet<span>Care</span> Jujuy</div>
+          <div class="footer__brand-desc">El segundo hogar de tu mejor amigo. Centro integral de guardería diurna, recreación y hotel canino en San Salvador de Jujuy.</div>
+          <div class="footer__socials">
+            <a href="#" class="footer__social" title="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#" class="footer__social" title="Facebook">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </a>
+            <a href="https://wa.me/5493884000000" target="_blank" class="footer__social" title="WhatsApp">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.981.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <div class="footer__col-title">Navegación</div>
+          <a href="#hero" class="footer__link">Inicio</a>
+          <a href="#nosotros" class="footer__link">Nosotros</a>
+          <a href="#planes" class="footer__link">Servicios y Planes</a>
+          <a href="#instalaciones" class="footer__link">Instalaciones</a>
+          <a href="#nutricion" class="footer__link">Nutrición</a>
+          <a href="#contacto" class="footer__link">Contacto</a>
+        </div>
+        <div>
+          <div class="footer__col-title">Acceso Clientes</div>
+          <a href="dashboard.html" class="footer__link" style="color:var(--orange-400); font-weight:700;">🐾 Mi Carnet Digital</a>
+          <a href="dashboard.html" class="footer__link">📹 PetCam Live Simulador</a>
+          <a href="dashboard.html" class="footer__link">🚐 Huellitas Express GPS</a>
+          <a href="dashboard.html" class="footer__link">🥩 Beneficio Alimentos</a>
+        </div>
+        <div>
+          <div class="footer__col-title">Seguridad & Protocolo</div>
+          <a href="#contacto" class="footer__link">Protocolo Veterinario</a>
+          <a href="#contacto" class="footer__link">Vacunación Requerida</a>
+          <a href="#contacto" class="footer__link">Términos y Condiciones</a>
+          <a href="#contacto" class="footer__link">Privacidad de Datos</a>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2026 PetCare Jujuy — Cuidado integral y bienestar para tu mascota.</span>
+        <span>San Salvador de Jujuy, Argentina 🇦🇷</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    /* === Mobile Menu === */
+    function toggleMobileMenu() {
+      document.getElementById('navLinks').classList.toggle('open');
+    }
+    document.querySelectorAll('.nav__link').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('open');
+      });
+    });
+
+    /* === Active Nav on Scroll === */
+    const sections = document.querySelectorAll('section[id], div[id]');
+    const navLinks = document.querySelectorAll('.nav__link');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        if (window.scrollY >= sectionTop) {
+          current = section.getAttribute('id');
+        }
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('active');
+        }
+      });
+    });
+
+    /* === Scroll Reveal Observer === */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    /* === Modal Logic === */
+    let selectedSpecies = 'Perro';
+
+    function openRegisterModal(planName) {
+      const modal = document.getElementById('registerModal');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      // Load previous data from localStorage if exists
+      const saved = localStorage.getItem('petcare_registration');
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          if (data.ownerName) document.getElementById('mOwnerName').value = data.ownerName;
+          if (data.ownerPhone) document.getElementById('mPhone').value = data.ownerPhone;
+          if (data.ownerEmail) document.getElementById('mEmail').value = data.ownerEmail;
+          if (data.petName) document.getElementById('mPetName').value = data.petName;
+          if (data.petBreed) document.getElementById('mPetBreed').value = data.petBreed;
+          if (data.petAge) document.getElementById('mPetAge').value = data.petAge;
+          if (data.petSpecies) selectModalSpecies(data.petSpecies);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      if (planName) {
+        const select = document.getElementById('mPlanSelect');
+        if (select) {
+          if (planName.includes('Diario')) select.value = 'Pase Diario';
+          else if (planName.includes('Express') || planName.includes('Traslado')) select.value = 'Huellitas Express';
+          else select.value = 'Abono Mensual Full';
+        }
+      }
+    }
+
+    function closeRegisterModal() {
+      const modal = document.getElementById('registerModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function closeModalOnBackdrop(e) {
+      if (e.target.id === 'registerModal') {
+        closeRegisterModal();
+      }
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeRegisterModal();
+    });
+
+    function selectModalSpecies(species) {
+      selectedSpecies = species;
+      const btnDog = document.getElementById('btnDog');
+      const btnCat = document.getElementById('btnCat');
+      if (species === 'Perro') {
+        btnDog.classList.add('selected');
+        btnCat.classList.remove('selected');
+      } else {
+        btnCat.classList.add('selected');
+        btnDog.classList.remove('selected');
+      }
+    }
+
+    function detectCorporateDiscount(input) {
+      const val = input.value.toLowerCase().trim();
+      const badge = document.getElementById('mDiscountBadge');
+      const corporateCompanies = ['telecom', 'ledesma', 'macro', 'exar', 'ypf', 'osde', 'claro'];
+      const hasMatch = corporateCompanies.some(company => val.includes(company));
+      badge.style.display = hasMatch ? 'block' : 'none';
+    }
+
+    /* ========================================================
+       INTERCEPTAR FORMULARIO, SIMULAR BD (localStorage) Y REDIRIGIR
+    ======================================================== */
+    function handleRegistrationSubmit(e) {
+      // 1. Interceptar envío por defecto (evita recarga de página)
+      e.preventDefault();
+
+      const btn = document.getElementById('btnSubmitModal');
+      btn.textContent = 'Guardando registro...';
+      btn.style.opacity = '0.8';
+
+      // 2. Capturar datos del formulario
+      const ownerName = document.getElementById('mOwnerName').value.trim() || 'Mariano Benítez';
+      const ownerPhone = document.getElementById('mPhone').value.trim() || '+54 388 4123456';
+      const ownerEmail = document.getElementById('mEmail').value.trim() || 'mariano@empresa.com';
+      const petName = document.getElementById('mPetName').value.trim() || 'Toby';
+      const petBreed = document.getElementById('mPetBreed').value.trim() || (selectedSpecies === 'Gato' ? 'Europeo Común' : 'Golden Retriever');
+      const petAge = document.getElementById('mPetAge').value.trim() || '3 Años';
+      const planSelected = document.getElementById('mPlanSelect').value || 'Abono Mensual Full';
+      const companyCode = document.getElementById('mCompanyCode').value.trim() || 'Particular';
+
+      // Generación de ID único y selección de imagen según especie
+      const petId = '#JUY-' + Math.floor(1000 + Math.random() * 9000) + '-' + petName.substring(0, 3).toUpperCase();
+      const petPhoto = selectedSpecies === 'Gato' 
+        ? 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&q=80' 
+        : 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=400&q=80';
+
+      const registrationRecord = {
+        ownerName: ownerName,
+        ownerPhone: ownerPhone,
+        ownerEmail: ownerEmail,
+        petName: petName,
+        petSpecies: selectedSpecies,
+        petBreed: petBreed,
+        petAge: petAge,
+        planSelected: planSelected,
+        companyCode: companyCode,
+        petId: petId,
+        petPhoto: petPhoto,
+        registeredAt: new Date().toISOString()
+      };
+
+      // 3. Guardar en Base de Datos local (localStorage)
+      localStorage.setItem('petcare_registration', JSON.stringify(registrationRecord));
+
+      // 4. Redirección automática inmediata al Dashboard
+      setTimeout(() => {
+        btn.textContent = 'Registro exitoso. Redirigiendo al panel...';
+        window.location.href = 'dashboard.html';
+      }, 350);
+    }
+
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      alert('¡Gracias por comunicarte con PetCare Jujuy! Te responderemos a la brevedad por correo o WhatsApp.');
+      e.target.reset();
+    }
+  </script>
+
+</body>
+</html>

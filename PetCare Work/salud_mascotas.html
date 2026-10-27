@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PetCare Mobile | Salud de Mascotas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+
+  <div class="mobile-device">
+    <!-- Status Bar -->
+    <div class="mobile-status-bar">
+      <span class="status-clock">09:41</span>
+      <div class="dynamic-island"></div>
+      <div style="display: flex; gap: 4px; align-items: center; font-size: 10px;">
+        <span>5G</span>
+        <span>100%</span>
+      </div>
+    </div>
+
+    <!-- App Bar with Dynamic Back Button -->
+    <div class="app-bar">
+      <div class="app-bar-left">
+        <button class="btn-back" data-go-back title="Regresar al Panel">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          <span>⬅ Volver</span>
+        </button>
+        <h2 class="app-bar-title" style="margin-left: 4px;">Salud & Cuidados</h2>
+      </div>
+      <div class="app-bar-user">
+        <span class="status-pill-mobile warning">3 Alertas</span>
+      </div>
+    </div>
+
+    <!-- Scrollable Content -->
+    <div class="mobile-content">
+
+      <!-- Alert Banner -->
+      <div class="mobile-card" style="background-color: var(--status-amber-bg); border-color: var(--status-amber-text);">
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <span style="font-size: 22px;">⚠️</span>
+          <div>
+            <div style="font-size: 12px; font-weight: 800; color: #92400E;">Protocolo Clínico del Día</div>
+            <div style="font-size: 11px; color: #78350F;">Verificar ración pesada de Toby antes de las 12:30 hs.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mascotas Registradas con Pautas de Salud -->
+      <div class="card-title-row">
+        <h3 class="card-title-h3">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          Expedientes Clínicos en Guardería
+        </h3>
+        <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">4 en predio</span>
+      </div>
+
+      <!-- Mascota 1: Toby -->
+      <div class="pet-health-item">
+        <div class="pet-health-top">
+          <div class="pet-avatar-emoji" style="background-color: #FED7AA;">🐕</div>
+          <div class="pet-meta-text">
+            <h4>Toby • Golden Retriever (3 años)</h4>
+            <span>Peso: 28 kg • Microchip: #9820003412</span>
+          </div>
+          <span class="status-pill-mobile warning" style="margin-left: auto;">Dieta</span>
+        </div>
+
+        <div class="medication-banner">
+          ⚠️ Dieta Específica: Alimento propio 150g al mediodía (Casillero #14).
+        </div>
+
+        <div style="font-size: 11px; color: #334155; line-height: 1.4;">
+          <strong>Sanidad:</strong> Antirrábica al día (Vence: Dic 2026 ✅) • Desparasitado.<br>
+          <strong>Comportamiento:</strong> Muy sociable con medianos. Evitar juegos bruscos con cachorros.<br>
+          <strong>Veterinario:</strong> Dra. Ramos (Clínica Jujuy Pet - Tel: 388-4223344).
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-top: 4px;">
+          <a href="tel:3884223344" style="flex: 1; text-align: center; text-decoration: none; font-size: 11px; font-weight: 700; background-color: var(--primary-orange-tint); color: var(--primary-orange-dark); padding: 7px; border-radius: var(--radius-sm); border: 1px solid var(--primary-orange-light);">
+            📞 Urgencia Dra. Ramos
+          </a>
+        </div>
+      </div>
+
+      <!-- Mascota 2: Luna -->
+      <div class="pet-health-item">
+        <div class="pet-health-top">
+          <div class="pet-avatar-emoji" style="background-color: #E0E7FF;">🐩</div>
+          <div class="pet-meta-text">
+            <h4>Luna • Caniche Toy (2 años)</h4>
+            <span>Peso: 4.2 kg • Microchip: #9820005578</span>
+          </div>
+          <span class="status-pill-mobile warning" style="margin-left: auto;">Gotas</span>
+        </div>
+
+        <div class="medication-banner" style="background-color: #EFF6FF; border-left-color: #3B82F6; color: #1E40AF;">
+          💧 Medicación: 2 gotas oftálmicas recetadas a las 14:00 hs.
+        </div>
+
+        <div style="font-size: 11px; color: #334155; line-height: 1.4;">
+          <strong>Sanidad:</strong> Séxtuple y antirrábica al día (Vence: Ago 2027 ✅).<br>
+          <strong>Veterinario:</strong> Dr. Morales (Veterinaria Belgrano - Tel: 388-4901234).
+        </div>
+      </div>
+
+      <!-- Mascota 3: Rocco -->
+      <div class="pet-health-item">
+        <div class="pet-health-top">
+          <div class="pet-avatar-emoji" style="background-color: #FCE7F3;">🐶</div>
+          <div class="pet-meta-text">
+            <h4>Rocco • Bulldog Francés (4 años)</h4>
+            <span>Peso: 12.5 kg • Microchip: #9820008891</span>
+          </div>
+          <span class="status-pill-mobile ok" style="margin-left: auto;">Estable</span>
+        </div>
+
+        <div style="font-size: 11px; color: #334155; line-height: 1.4;">
+          <strong>Pauta:</strong> Monitorear respiración si la temperatura ambiente supera 26°C.<br>
+          <strong>Sanidad:</strong> Esquema completo al día (Vence: Ene 2027 ✅).<br>
+          <strong>Veterinario:</strong> Dra. Tolaba (Centro Veterinario Alvear).
+        </div>
+      </div>
+
+      <!-- Mascota 4: Mia -->
+      <div class="pet-health-item">
+        <div class="pet-health-top">
+          <div class="pet-avatar-emoji" style="background-color: #D1FAE5;">🐕‍🦺</div>
+          <div class="pet-meta-text">
+            <h4>Mia • Border Collie (1 año)</h4>
+            <span>Peso: 16.8 kg • Microchip: #9820009943</span>
+          </div>
+          <span class="status-pill-mobile ok" style="margin-left: auto;">Al día</span>
+        </div>
+
+        <div style="font-size: 11px; color: #334155; line-height: 1.4;">
+          <strong>Pauta:</strong> Dieta hipercalórica cachorros activa.<br>
+          <strong>Sanidad:</strong> Plan anual completo (Vence: Nov 2026 ✅).
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="mobile.js"></script>
+</body>
+</html>

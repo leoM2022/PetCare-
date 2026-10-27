@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PetCare - PetWork | Inicio de Sesión</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="app_styles.css">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="main-navbar">
+    <div class="navbar-inner" style="justify-content: center;">
+      <div class="brand-badge">
+        <div class="brand-icon-box">🐾</div>
+        <div>
+          <div class="brand-title">PetCare Jujuy</div>
+          <div class="brand-sub">PetWork Platform • Acceso de Personal</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Login Form Container -->
+  <main class="app-container">
+    <div class="auth-centered-container">
+      <div class="auth-card">
+        
+        <div style="text-align: center; margin-bottom: 24px;">
+          <div class="brand-icon-box" style="margin: 0 auto 12px auto; width: 64px; height: 64px; font-size: 32px;">
+            🔐
+          </div>
+          <h1 style="font-size: 22px; font-weight: 800; color: var(--text-dark);">Iniciar Sesión de Trabajo</h1>
+          <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">
+            Ingresa tu email y contraseña para acceder a tu panel asignado.
+          </p>
+        </div>
+
+        <form id="loginEmployeeForm">
+          <div class="form-group-custom">
+            <label class="form-label-custom" for="loginEmail">Correo Electrónico (Email)</label>
+            <input 
+              type="email" 
+              id="loginEmail" 
+              class="form-input-custom" 
+              placeholder="ejemplo: jefe@petcare.com..." 
+              required 
+              autofocus
+            >
+          </div>
+
+          <div class="form-group-custom">
+            <label class="form-label-custom" for="loginPassword">Contraseña</label>
+            <input 
+              type="password" 
+              id="loginPassword" 
+              class="form-input-custom" 
+              placeholder="••••••••" 
+              required
+            >
+          </div>
+
+          <div id="loginAlertBox" style="display: none; padding: 10px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; margin-bottom: 16px;"></div>
+
+          <button type="submit" class="btn-primary-orange">
+            <span>Validar Credenciales & Entrar</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </form>
+
+        <!-- Quick Credentials / Seeded Testing Accounts -->
+        <div style="margin-top: 24px; padding: 14px; background-color: var(--bg-main); border-radius: var(--radius-lg); border: 1px dashed var(--primary-orange);">
+          <div style="font-size: 11px; font-weight: 800; color: var(--primary-orange-dark); text-transform: uppercase; margin-bottom: 8px;">
+            ⚡ Cuentas Precargadas en Base de Datos (Clave: 1234):
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <button type="button" class="quick-email-btn" data-email="jefe@petcare.com" data-pass="1234">
+              <span>👑 <strong>jefe@petcare.com</strong></span>
+            </button>
+            <button type="button" class="quick-email-btn" data-email="admin@petcare.com" data-pass="1234">
+              <span>💼 <strong>admin@petcare.com</strong></span>
+            </button>
+            <button type="button" class="quick-email-btn" data-email="cuidador@petcare.com" data-pass="1234">
+              <span>🩺 <strong>cuidador@petcare.com</strong></span>
+            </button>
+            <button type="button" class="quick-email-btn" data-email="chofer@petcare.com" data-pass="1234">
+              <span>🚐 <strong>chofer@petcare.com</strong></span>
+            </button>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px; font-size: 13px; color: var(--text-muted);">
+          ¿Eres un nuevo colaborador? 
+          <a href="registro.html" style="color: var(--primary-orange-dark); font-weight: 700; text-decoration: none;">
+            Registrarse aquí en el sistema ➜
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="auth_db.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('loginEmployeeForm');
+      const emailInput = document.getElementById('loginEmail');
+      const passInput = document.getElementById('loginPassword');
+      const alertBox = document.getElementById('loginAlertBox');
+
+      // Quick test pills handler
+      document.querySelectorAll('.quick-email-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          emailInput.value = btn.dataset.email;
+          passInput.value = btn.dataset.pass;
+          processLogin(btn.dataset.email, btn.dataset.pass);
+        });
+      });
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        processLogin(emailInput.value, passInput.value);
+      });
+
+      function processLogin(email, password) {
+        alertBox.style.display = 'none';
+        const res = loginUser(email, password);
+
+        if (res.success) {
+          alertBox.style.display = 'block';
+          alertBox.style.backgroundColor = 'var(--status-green-bg)';
+          alertBox.style.color = 'var(--status-green-text)';
+          alertBox.style.border = '1px solid #A7F3D0';
+          alertBox.textContent = `¡Bienvenido/a ${res.user.nombre} (${res.user.rol})! Redirigiendo a tu panel...`;
+
+          setTimeout(() => {
+            redirectByRole(res.user.rol);
+          }, 800);
+        } else {
+          alertBox.style.display = 'block';
+          alertBox.style.backgroundColor = 'var(--status-red-bg)';
+          alertBox.style.color = 'var(--status-red-text)';
+          alertBox.style.border = '1px solid #FECACA';
+          alertBox.textContent = res.message;
+        }
+      }
+    });
+  </script>
+</body>
+</html>

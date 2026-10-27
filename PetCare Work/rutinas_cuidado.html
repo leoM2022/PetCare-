@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PetCare Mobile | Rutinas de Cuidado</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+
+  <div class="mobile-device">
+    <!-- Status Bar -->
+    <div class="mobile-status-bar">
+      <span class="status-clock">09:41</span>
+      <div class="dynamic-island"></div>
+      <div style="display: flex; gap: 4px; align-items: center; font-size: 10px;">
+        <span>5G</span>
+        <span>100%</span>
+      </div>
+    </div>
+
+    <!-- App Bar with Dynamic Back Button -->
+    <div class="app-bar">
+      <div class="app-bar-left">
+        <button class="btn-back" data-go-back title="Regresar al Panel">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          <span>⬅ Volver</span>
+        </button>
+        <h2 class="app-bar-title" style="margin-left: 4px;">Alimentación & Paseos</h2>
+      </div>
+      <div class="app-bar-user">
+        <span class="status-pill-mobile ok">Turno Mañana</span>
+      </div>
+    </div>
+
+    <!-- Scrollable Content -->
+    <div class="mobile-content">
+
+      <!-- Section: Rutina de Alimentación -->
+      <div class="card-title-row">
+        <h3 class="card-title-h3">
+          🥣 Control de Almuerzos de Hoy
+        </h3>
+        <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">12:00 hs</span>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <!-- Toby -->
+        <div class="mobile-card" style="padding: 12px 14px; border-left: 4px solid var(--primary-orange);" id="cardLunchToby">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <strong style="font-size: 13px;">🐕 Toby (Golden Retriever)</strong>
+            <span class="status-pill-mobile warning" id="badgeLunchToby">Pendiente</span>
+          </div>
+          <div style="font-size: 11px; color: #78350F; margin: 4px 0;">
+            ⚠️ Dieta especial: 150g de alimento propio (Casillero #14).
+          </div>
+          <button type="button" class="btn-primary-mobile" id="btnMarkToby" style="padding: 8px; font-size: 12px; margin-top: 6px;">
+            Marcar Almuerzo Servido ✅
+          </button>
+        </div>
+
+        <!-- Luna -->
+        <div class="mobile-card" style="padding: 12px 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <strong style="font-size: 13px;">🐩 Luna (Caniche Toy)</strong>
+            <span class="status-pill-mobile ok">Servido 11:30 hs ✅</span>
+          </div>
+          <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">
+            Ración mini 50g balanceado suave.
+          </div>
+        </div>
+
+        <!-- Mia -->
+        <div class="mobile-card" style="padding: 12px 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <strong style="font-size: 13px;">🐕‍🦺 Mia (Border Collie)</strong>
+            <span class="status-pill-mobile ok">Servido 11:45 hs ✅</span>
+          </div>
+          <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">
+            Ración hipercalórica active-dog 180g.
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Rutina de Paseos y Patio -->
+      <div class="card-title-row" style="margin-top: 10px;">
+        <h3 class="card-title-h3">
+          🎾 Turnos de Recreación & Paseo
+        </h3>
+        <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Jardín Central</span>
+      </div>
+
+      <div class="mobile-card" style="padding: 14px;">
+        <div style="font-size: 12px; font-weight: 800; color: var(--text-dark);">
+          Turno Tarde: Recreación con Obstáculos y Piletas de Agua
+        </div>
+        <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+          • 14:30 a 15:30 hs: Grupo Toby, Mia y activos (Frisbee y carreras).<br>
+          • 15:30 a 16:15 hs: Grupo Rocco y braquicéfalos (Juegos de baja intensidad y sombra).<br>
+          • 16:30 hs: Cepillado general y preparación para Combi Huellitas.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="mobile.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('btnMarkToby');
+      const badge = document.getElementById('badgeLunchToby');
+      btn.addEventListener('click', () => {
+        badge.className = 'status-pill-mobile ok';
+        badge.textContent = 'Servido y Registrado ✅';
+        btn.textContent = 'Almuerzo Listo • Registro Guardado';
+        btn.style.backgroundColor = '#10B981';
+        btn.disabled = true;
+      });
+    });
+  </script>
+</body>
+</html>

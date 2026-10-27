@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PetCare Mobile | Huellitas Express - Mapa Jujuy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Leaflet.js CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="mobile.css">
+  <style>
+    .leaflet-popup-content-wrapper {
+      border-radius: 12px;
+      padding: 4px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+    .leaflet-popup-content {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      line-height: 1.4;
+      margin: 10px 12px;
+    }
+    .popup-title {
+      font-weight: 800;
+      color: #18181B;
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+    .popup-desc {
+      color: #64748B;
+      font-size: 11px;
+    }
+    .popup-pill {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      background-color: #FFF7ED;
+      color: #EA580C;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="mobile-device">
+    <!-- Status Bar -->
+    <div class="mobile-status-bar">
+      <span class="status-clock">09:41</span>
+      <div class="dynamic-island"></div>
+      <div style="display: flex; gap: 4px; align-items: center; font-size: 10px;">
+        <span>5G</span>
+        <span>100%</span>
+      </div>
+    </div>
+
+    <!-- App Bar with prominent Back Button -->
+    <div class="app-bar">
+      <div class="app-bar-left">
+        <button class="btn-back" data-go-back title="Regresar al Panel">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          <span>⬅ Volver</span>
+        </button>
+        <h2 class="app-bar-title" style="margin-left: 4px;">Rutas Jujuy</h2>
+      </div>
+      <div class="app-bar-user">
+        <span class="status-pill-mobile ok">GPS Activo</span>
+      </div>
+    </div>
+
+    <!-- Scrollable Content -->
+    <div class="mobile-content" style="padding-bottom: 20px;">
+
+      <!-- Live Route Card -->
+      <div class="mobile-card" style="padding: 12px 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <div style="font-size: 13px; font-weight: 800; color: var(--text-dark);">
+              🚐 Huellitas Express • Combi 02
+            </div>
+            <div style="font-size: 11px; color: var(--text-muted);">
+              San Salvador de Jujuy • 4 Paradas Residenciales
+            </div>
+          </div>
+          <span class="status-pill-mobile ok">En Tránsito</span>
+        </div>
+      </div>
+
+      <!-- Interactive Leaflet Map Container -->
+      <div id="huellitasMap"></div>
+
+      <!-- Quick Legend & Next Stop -->
+      <div class="mobile-card" style="padding: 14px;">
+        <div class="card-title-row">
+          <h3 class="card-title-h3">
+            <span>📍</span> Próxima Parada Programada
+          </h3>
+          <span class="status-pill-mobile warning">18:20 hs</span>
+        </div>
+
+        <div style="background-color: var(--primary-orange-tint); border: 1px solid var(--primary-orange-light); border-radius: var(--radius-md); padding: 10px 12px;">
+          <div style="font-size: 13px; font-weight: 800; color: var(--primary-orange-dark);">
+            🐕 Toby (Golden Retriever)
+          </div>
+          <div style="font-size: 11px; color: #78350F; margin-top: 2px;">
+            Domicilio: Calle La Posta 450, B° Los Perales
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+            <span style="font-size: 10px; font-weight: 700; color: #9A3412;">Tutor: Martín R. (Telecom)</span>
+            <a href="tel:3885123456" style="font-size: 11px; font-weight: 700; background-color: #FFFFFF; color: var(--primary-orange-dark); padding: 3px 8px; border-radius: 4px; text-decoration: none; border: 1px solid var(--primary-orange-light);">
+              📞 Llamar Tutor
+            </a>
+          </div>
+        </div>
+
+        <!-- Neighborhood Summary List -->
+        <div style="margin-top: 14px;">
+          <div style="font-size: 11px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px;">
+            Resumen de Barriadas en Recorrido:
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; font-size: 11px;">
+            <div style="display: flex; justify-content: space-between; color: #334155;">
+              <span>🏠 1. B° Los Perales (Toby)</span>
+              <strong>18:20 hs</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; color: #334155;">
+              <span>🏠 2. B° Ciudad de Nieva (Luna)</span>
+              <strong>18:45 hs</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; color: #334155;">
+              <span>🏠 3. Alto Comedero (Rocco)</span>
+              <strong>19:15 hs</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; color: #334155;">
+              <span>🏠 4. B° San Pedrito (Mia)</span>
+              <strong>19:40 hs</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Leaflet.js Library -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="mobile.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Jujuy Coordinates
+      const jujuyCenter = [-24.185, -65.299];
+
+      // Initialize Leaflet Map
+      const map = L.map('huellitasMap', {
+        zoomControl: true,
+        attributionControl: false
+      }).setView(jujuyCenter, 13);
+
+      // OpenStreetMap Tiles
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+      }).addTo(map);
+
+      // Custom Icon Builders
+      function createHouseIcon(label) {
+        return L.divIcon({
+          className: 'custom-leaflet-marker marker-house',
+          html: `<div style="width:34px; height:34px; display:flex; align-items:center; justify-content:center;">🏠</div>`,
+          iconSize: [34, 34],
+          iconAnchor: [17, 17]
+        });
+      }
+
+      function createVanIcon() {
+        return L.divIcon({
+          className: 'custom-leaflet-marker marker-van',
+          html: `<div style="width:38px; height:38px; display:flex; align-items:center; justify-content:center;">🚐</div>`,
+          iconSize: [38, 38],
+          iconAnchor: [19, 19]
+        });
+      }
+
+      // 4 Residential Stops in Jujuy Neighborhoods
+      const stops = [
+        {
+          name: 'Domicilio de Toby (Martín R.)',
+          neighborhood: 'B° Los Perales (Calle La Posta 450)',
+          coords: [-24.1705, -65.3120],
+          pet: 'Toby 🐕 (Golden Retriever)',
+          time: '18:20 hs',
+          status: 'Próxima Parada'
+        },
+        {
+          name: 'Domicilio de Luna (Valeria C.)',
+          neighborhood: 'B° Ciudad de Nieva (Av. Libertad 820)',
+          coords: [-24.1780, -65.3190],
+          pet: 'Luna 🐩 (Caniche Toy)',
+          time: '18:45 hs',
+          status: 'Agendada'
+        },
+        {
+          name: 'Domicilio de Rocco (Esteban F.)',
+          neighborhood: 'Alto Comedero (Av. Forestal)',
+          coords: [-24.2380, -65.2650],
+          pet: 'Rocco 🐶 (Bulldog Francés)',
+          time: '19:15 hs',
+          status: 'Agendada'
+        },
+        {
+          name: 'Domicilio de Mia (Gonzalo S.)',
+          neighborhood: 'B° San Pedrito (Calle Almirante Brown 1100)',
+          coords: [-24.2040, -65.2890],
+          pet: 'Mia 🐕‍🦺 (Border Collie)',
+          time: '19:40 hs',
+          status: 'Agendada'
+        }
+      ];
+
+      // Add House Markers
+      stops.forEach((stop, index) => {
+        const marker = L.marker(stop.coords, { icon: createHouseIcon(index + 1) }).addTo(map);
+        marker.bindPopup(`
+          <div class="popup-title">${stop.name}</div>
+          <div class="popup-desc">${stop.neighborhood}</div>
+          <div style="font-weight:700; margin-top:4px;">🐾 ${stop.pet}</div>
+          <span class="popup-pill">⏰ Horario: ${stop.time}</span>
+        `);
+      });
+
+      // Huellitas Express Combi Location (Live)
+      const vanCoords = [-24.1800, -65.3050];
+      const vanMarker = L.marker(vanCoords, { icon: createVanIcon() }).addTo(map);
+      vanMarker.bindPopup(`
+        <div class="popup-title">🚐 Combi Huellitas Express #02</div>
+        <div class="popup-desc">Conductor: Héctor L. • En movimiento</div>
+        <span class="popup-pill" style="background:#ECFDF5; color:#059669;">Rumbo a B° Los Perales (4 min)</span>
+      `);
+
+      // Draw Route Polyline
+      const routePoints = [
+        vanCoords,
+        stops[0].coords,
+        stops[1].coords,
+        stops[3].coords,
+        stops[2].coords
+      ];
+
+      L.polyline(routePoints, {
+        color: '#FB923C',
+        weight: 4,
+        opacity: 0.85,
+        dashArray: '6, 8'
+      }).addTo(map);
+
+      // Initial auto-popup on van
+      vanMarker.openPopup();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1817 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PetCare Jujuy — Panel del Cliente & Carnet Digital</title>
+  <meta name="description" content="Panel de control corporativo de PetCare Jujuy. Credencial digital, simulador PetCam Live, logística Huellitas Express y beneficios personalizados según plan contratado." />
+  
+  <!-- Tipografía Corporativa de Alto Impacto -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ========================================================
+       SISTEMA DE DISEÑO CORPORATIVO (MÁXIMO 3 COLORES)
+       1. Base Neutra: #FFFFFF y #F8FAFC (Bordes: #E2E8F0)
+       2. Contraste & Estructura: #0F172A / #18181B (Slate Deep)
+       3. Acento Único: #EA580C (Naranja Cálido Sólido Profesional)
+       Sin degradados tipo IA, sin halos ni efectos neón.
+    ======================================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #F8FAFC;
+      color: #0F172A;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      width: 100%;
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    a { text-decoration: none; color: inherit; }
+    button, input, select, textarea { font-family: inherit; font-size: inherit; border: none; outline: none; background: none; }
+    input::placeholder, textarea::placeholder { color: #94A3B8; }
+    ul, ol { list-style: none; }
+
+    :root {
+      --color-bg: #F8FAFC;
+      --color-card: #FFFFFF;
+      --color-border: #E2E8F0;
+      --color-border-subtle: #F1F5F9;
+      --color-text-main: #0F172A;
+      --color-text-muted: #64748B;
+      --color-text-light: #94A3B8;
+      
+      /* Acento profesional único */
+      --color-accent: #EA580C;
+      --color-accent-hover: #C2410C;
+      --color-accent-subtle: #FFF7ED;
+      --color-accent-border: #FDBA74;
+
+      /* Estado neutro oscuro */
+      --color-dark: #0F172A;
+      --color-dark-surface: #1E293B;
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      --radius-pill: 9999px;
+
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
+      --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
+      --shadow-lg: 0 10px 24px rgba(15, 23, 42, 0.08);
+
+      --container-padding: clamp(20px, 4vw, 72px);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding-left: var(--container-padding);
+      padding-right: var(--container-padding);
+    }
+
+    /* ========================================================
+       BARRA DE DEMO / SELECTOR RÁPIDO DE PLANES
+    ======================================================== */
+    .demo-bar {
+      background: #0F172A;
+      color: #FFFFFF;
+      padding: 10px var(--container-padding);
+      font-size: 0.82rem;
+      border-bottom: 1px solid #1E293B;
+    }
+    .demo-bar__inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .demo-bar__label {
+      font-weight: 600;
+      color: #94A3B8;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .demo-bar__label strong { color: #FFFFFF; }
+    .demo-bar__actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .demo-btn {
+      padding: 5px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid #334155;
+      background: #1E293B;
+      color: #E2E8F0;
+      transition: all 0.2s ease;
+    }
+    .demo-btn:hover {
+      background: #334155;
+      color: #FFFFFF;
+    }
+    .demo-btn.active {
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+      color: #FFFFFF;
+    }
+
+    /* ========================================================
+       HEADER / NAVEGACIÓN CORPORATIVA
+    ======================================================== */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .nav__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 74px;
+    }
+    .nav__left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .nav__logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 900;
+      font-size: 1.35rem;
+      letter-spacing: -0.03em;
+      color: var(--color-text-main);
+    }
+    .nav__logo img {
+      height: 44px;
+      width: auto;
+      border-radius: 6px;
+      border: 1px solid var(--color-border);
+    }
+    .nav__logo span span { color: var(--color-accent); }
+
+    .nav__status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #F1F5F9;
+      border: 1px solid var(--color-border);
+      color: #334155;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10B981;
+    }
+
+    .nav__right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .btn-return-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 20px;
+      background: #FFFFFF;
+      color: var(--color-dark);
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      font-size: 0.86rem;
+      font-weight: 700;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .btn-return-home:hover {
+      border-color: var(--color-dark);
+      background: #F8FAFC;
+    }
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #FFFFFF;
+      padding: 5px 14px 5px 6px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--color-border);
+    }
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--color-dark);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.82rem;
+    }
+    .user-label {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--color-text-main);
+    }
+
+    /* ========================================================
+       WELCOME BAR (INFORMATIVA & RESUMEN)
+    ======================================================== */
+    .page-wrapper {
+      padding: 32px 0 72px;
+    }
+    .welcome-card {
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: clamp(24px, 3vw, 32px);
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .welcome-card__title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      color: var(--color-text-main);
+      margin-bottom: 4px;
+    }
+    .welcome-card__sub {
+      font-size: 0.92rem;
+      color: var(--color-text-muted);
+    }
+    .welcome-card__tags {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .plan-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: var(--radius-pill);
+      font-size: 0.85rem;
+      font-weight: 800;
+      background: var(--color-accent);
+      color: #FFFFFF;
+    }
+    .meta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: #F1F5F9;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    /* ========================================================
+       GRID PRINCIPAL (CARNET DIGITAL & PETCAM LIVE)
+    ======================================================== */
+    .dash-main-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: clamp(24px, 3vw, 36px);
+      margin-bottom: 44px;
+      align-items: start;
+    }
+    .corporate-card {
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: clamp(24px, 2.8vw, 32px);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+    }
+    .corporate-card__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 18px;
+      margin-bottom: 22px;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .corporate-card__title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.18rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--color-text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .corporate-tag {
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 4px 10px;
+      border-radius: 4px;
+      background: #F1F5F9;
+      color: #475569;
+      border: 1px solid var(--color-border);
+    }
+    .corporate-tag--active {
+      background: #DCFCE7;
+      color: #166534;
+      border-color: #BBF7D0;
+    }
+
+    /* ========================================================
+       CARNET DIGITAL AMIGO (MINIMALISTA CORPORATIVO)
+    ======================================================== */
+    .carnet-box {
+      background: #FFFFFF;
+      border: 1.5px solid var(--color-dark);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .carnet-top-row {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+    .carnet-photo {
+      width: 90px;
+      height: 90px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 2px solid var(--color-border);
+      flex-shrink: 0;
+      background: #F1F5F9;
+    }
+    .carnet-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .carnet-pet-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.55rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      color: var(--color-text-main);
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+    .carnet-pet-breed {
+      font-size: 0.88rem;
+      color: var(--color-text-muted);
+      margin-bottom: 8px;
+    }
+    .carnet-plan-chip {
+      display: inline-block;
+      font-size: 0.76rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      background: var(--color-dark);
+      color: #FFFFFF;
+      border-radius: var(--radius-pill);
+    }
+    .carnet-fields-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      background: #F8FAFC;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      margin-bottom: 20px;
+    }
+    .carnet-field-label {
+      display: block;
+      font-size: 0.74rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--color-text-muted);
+      margin-bottom: 2px;
+    }
+    .carnet-field-value {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--color-text-main);
+    }
+
+    .carnet-qr-block {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-top: 1px dashed var(--color-border);
+      padding-top: 18px;
+    }
+    .carnet-qr-svg {
+      width: 74px;
+      height: 74px;
+      padding: 4px;
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+    .carnet-qr-info {
+      font-size: 0.82rem;
+      color: var(--color-text-muted);
+      line-height: 1.45;
+    }
+    .carnet-qr-info strong {
+      display: block;
+      color: var(--color-text-main);
+      font-size: 0.88rem;
+      margin-bottom: 2px;
+    }
+
+    .carnet-actions {
+      display: flex;
+      gap: 12px;
+    }
+    .btn-solid-dark {
+      flex: 1;
+      padding: 12px 18px;
+      background: var(--color-dark);
+      color: #FFFFFF;
+      border-radius: var(--radius-pill);
+      font-size: 0.86rem;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+      border: 1.5px solid var(--color-dark);
+      transition: all 0.2s ease;
+    }
+    .btn-solid-dark:hover {
+      background: #000000;
+      border-color: #000000;
+    }
+    .btn-outline-dark {
+      flex: 1;
+      padding: 12px 18px;
+      background: #FFFFFF;
+      color: var(--color-dark);
+      border-radius: var(--radius-pill);
+      font-size: 0.86rem;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+      border: 1.5px solid var(--color-border);
+      transition: all 0.2s ease;
+    }
+    .btn-outline-dark:hover {
+      border-color: var(--color-dark);
+      background: #F8FAFC;
+    }
+
+    /* ========================================================
+       PETCAM LIVE SIMULATOR & ESTADOS DE GATING (BLOQUEO)
+    ======================================================== */
+    .cctv-wrapper {
+      position: relative;
+      background: #09090B;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      aspect-ratio: 16/10;
+      border: 1.5px solid #27272A;
+    }
+    .cctv-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Overlays de CCTV */
+    .cctv-hud-top {
+      position: absolute;
+      top: 14px;
+      left: 16px;
+      right: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #FFFFFF;
+      font-family: monospace;
+      font-size: 0.8rem;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .live-chip {
+      background: #DC2626;
+      color: #FFFFFF;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.05em;
+    }
+    .cam-location-label {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 4px 12px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .cam-timestamp {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 4px 12px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .cctv-hud-bottom {
+      position: absolute;
+      bottom: 14px;
+      left: 16px;
+      right: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #FFFFFF;
+      font-size: 0.8rem;
+      z-index: 2;
+    }
+    .cctv-status-line {
+      background: rgba(0, 0, 0, 0.75);
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    .cctv-tools {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cctv-tool-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .cctv-tool-btn:hover {
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+    }
+
+    /* Flash de captura */
+    .snap-flash-screen {
+      position: absolute;
+      inset: 0;
+      background: #FFFFFF;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 10;
+      transition: opacity 0.15s ease;
+    }
+    .snap-flash-screen.flash { opacity: 0.85; }
+
+    /* CCTV GATED OVERLAY (CUANDO NO ESTÁ CONTRATADO) */
+    .cctv-locked-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.94);
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 32px;
+      color: #FFFFFF;
+    }
+    .cctv-locked-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #1E293B;
+      border: 1.5px solid #334155;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 16px;
+    }
+    .cctv-locked-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: #FFFFFF;
+    }
+    .cctv-locked-desc {
+      font-size: 0.88rem;
+      color: #94A3B8;
+      max-width: 440px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+    .btn-upgrade-cctv {
+      padding: 11px 24px;
+      background: var(--color-accent);
+      color: #FFFFFF;
+      border-radius: var(--radius-pill);
+      font-size: 0.86rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-upgrade-cctv:hover {
+      background: var(--color-accent-hover);
+    }
+
+    /* Switcher de Cámaras */
+    .cam-tabs {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .cam-tab-btn {
+      flex: 1;
+      padding: 10px 12px;
+      background: #F1F5F9;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .cam-tab-btn.active {
+      background: var(--color-dark);
+      color: #FFFFFF;
+      border-color: var(--color-dark);
+    }
+    .cam-tab-btn:hover:not(.active):not(:disabled) {
+      background: #E2E8F0;
+      color: var(--color-dark);
+    }
+    .cam-tab-btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      background: #F8FAFC;
+    }
+
+    /* ========================================================
+       SECCIÓN DE BENEFICIOS (GATING DINÁMICO POR PLAN)
+    ======================================================== */
+    .benefits-wrapper {
+      margin-bottom: 48px;
+    }
+    .section-head {
+      margin-bottom: 22px;
+    }
+    .section-head__title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      color: var(--color-text-main);
+      margin-bottom: 4px;
+    }
+    .section-head__sub {
+      font-size: 0.92rem;
+      color: var(--color-text-muted);
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .benefit-card {
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: border-color 0.2s ease;
+    }
+    .benefit-card:hover {
+      border-color: var(--color-dark);
+    }
+    .benefit-card--locked {
+      background: #F8FAFC;
+      border-style: dashed;
+      opacity: 0.75;
+    }
+    .benefit-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: #F1F5F9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      margin-bottom: 16px;
+    }
+    .benefit-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 1.02rem;
+      color: var(--color-text-main);
+      margin-bottom: 6px;
+    }
+    .benefit-desc {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+      margin-bottom: 14px;
+      flex: 1;
+    }
+    .benefit-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      align-self: flex-start;
+    }
+    .benefit-status-pill--yes {
+      background: #DCFCE7;
+      color: #166534;
+    }
+    .benefit-status-pill--no {
+      background: #FEE2E2;
+      color: #991B1B;
+    }
+
+    /* ========================================================
+       SECCIÓN DE LOGÍSTICA / MAPA (HUELLITAS EXPRESS)
+    ======================================================== */
+    .logistics-wrapper {
+      margin-bottom: 48px;
+    }
+    .logistics-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+    .map-frame-box {
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      min-height: 420px;
+      position: relative;
+    }
+    .map-frame-box iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 420px;
+      border: none;
+    }
+    .map-chip {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      padding: 8px 16px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--color-text-main);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .logistics-details-card {
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+    .logistics-status-banner {
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.86rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .logistics-status-banner--active {
+      background: #DCFCE7;
+      border: 1px solid #BBF7D0;
+      color: #166534;
+    }
+    .logistics-status-banner--locked {
+      background: #FEF3C7;
+      border: 1px solid #FDE68A;
+      color: #92400E;
+    }
+
+    .form-field {
+      margin-bottom: 16px;
+    }
+    .form-field label {
+      display: block;
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--color-text-muted);
+      margin-bottom: 6px;
+    }
+    .form-field input, .form-field select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      background: #FFFFFF;
+      color: var(--color-text-main);
+      transition: border-color 0.2s ease;
+    }
+    .form-field input:focus, .form-field select:focus {
+      border-color: var(--color-dark);
+    }
+    .form-field input:disabled, .form-field select:disabled {
+      background: #F1F5F9;
+      cursor: not-allowed;
+    }
+
+    /* ========================================================
+       BANNERS DE NUTRICIÓN (PURINA & ROYAL CANIN - CORPORATIVOS)
+    ======================================================== */
+    .sponsors-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .sponsor-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 220px;
+      transition: border-color 0.2s ease;
+    }
+    .sponsor-card:hover {
+      border-color: var(--color-dark);
+    }
+    .sponsor-brand-label {
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 8px;
+    }
+    .sponsor-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--color-text-main);
+      margin-bottom: 8px;
+    }
+    .sponsor-desc {
+      font-size: 0.88rem;
+      color: var(--color-text-muted);
+      line-height: 1.55;
+      margin-bottom: 22px;
+    }
+    .btn-sponsor-cta {
+      align-self: flex-start;
+      padding: 10px 20px;
+      background: var(--color-dark);
+      color: #FFFFFF;
+      border-radius: var(--radius-pill);
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1.5px solid var(--color-dark);
+      transition: all 0.2s ease;
+    }
+    .btn-sponsor-cta:hover {
+      background: #000000;
+    }
+
+    /* ========================================================
+       FOOTER CORPORATIVO
+    ======================================================== */
+    .corporate-footer {
+      background: #0F172A;
+      color: #94A3B8;
+      padding: 40px 0 24px;
+      border-top: 1px solid #1E293B;
+      font-size: 0.85rem;
+    }
+    .corporate-footer__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 24px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #1E293B;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+    .corporate-footer__bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.8rem;
+      color: #64748B;
+    }
+
+    /* Toast sutil de notificación */
+    .toast-pill {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--color-dark);
+      color: #FFFFFF;
+      padding: 12px 22px;
+      border-radius: var(--radius-pill);
+      font-size: 0.85rem;
+      font-weight: 700;
+      box-shadow: var(--shadow-lg);
+      z-index: 1000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .toast-pill.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Responsive */
+    @media (max-width: 1080px) {
+      .dash-main-grid { grid-template-columns: 1fr; }
+      .benefits-grid { grid-template-columns: repeat(2, 1fr); }
+      .logistics-grid { grid-template-columns: 1fr; }
+      .sponsors-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .benefits-grid { grid-template-columns: 1fr; }
+      .carnet-top-row { flex-direction: column; text-align: center; }
+      .nav__status-badge { display: none; }
+      .welcome-card { flex-direction: column; align-items: flex-start; }
+      .demo-bar__inner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== BARRA DE CONTROL Y DEMOSTRACIÓN DE PLANES ===== -->
+  <div class="demo-bar">
+    <div class="demo-bar__inner">
+      <div class="demo-bar__label">
+        <span>⚙️</span>
+        <span>Demostración de Funcionalidades: probá cómo se adapta el panel al plan elegido:</span>
+      </div>
+      <div class="demo-bar__actions">
+        <button class="demo-btn" id="demoBtnPase" onclick="selectPlanDemo('Pase Diario')">☀️ Pase Diario</button>
+        <button class="demo-btn" id="demoBtnExpress" onclick="selectPlanDemo('Huellitas Express')">🚐 Huellitas Express</button>
+        <button class="demo-btn active" id="demoBtnFull" onclick="selectPlanDemo('Abono Mensual Full')">🏆 Abono Mensual Full</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== NAVEGACIÓN SUPERIOR ===== -->
+  <header class="nav">
+    <div class="container nav__inner">
+      <div class="nav__left">
+        <a href="index.html" class="nav__logo" title="Volver al Inicio">
+          <img src="logo-petcare.jpg" alt="PetCare Jujuy" />
+          <span>PetCare <span>Jujuy</span></span>
+        </a>
+        <div class="nav__status-badge">
+          <span class="status-dot"></span>
+          <span id="navLiveStatus">Toby en Sede Los Perales</span>
+        </div>
+      </div>
+
+      <div class="nav__right">
+        <div class="user-pill">
+          <div class="user-avatar" id="userAvatar">M</div>
+          <span class="user-label" id="userDisplayName">Mariano & Toby</span>
+        </div>
+        <a href="index.html" class="btn-return-home" title="Regresar a la página principal">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <span>Página Principal</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-wrapper">
+    <div class="container">
+
+      <!-- ===== BANNER DE BIENVENIDA Y ESTADO ===== -->
+      <section class="welcome-card">
+        <div>
+          <h1 class="welcome-card__title" id="welcomeTitle">Panel del Cliente · Toby</h1>
+          <p class="welcome-card__sub" id="welcomeSub">Bienvenido de nuevo, Mariano. Monitoreá la jornada y los servicios contratados para tu compañero.</p>
+        </div>
+        <div class="welcome-card__tags">
+          <div class="plan-badge" id="planBadgeActive">🏆 Abono Mensual Full</div>
+          <div class="meta-badge" id="scheduleBadge">⏰ Horario: 07:30 - 19:30 hs</div>
+          <div class="meta-badge" id="serviceBadge">📹 PetCam Live HD Habilitado</div>
+          <a href="index.html" style="font-size:0.8rem; font-weight:700; color:var(--color-accent); text-decoration:underline; margin-left:4px;">
+            Registrar otra mascota
+          </a>
+        </div>
+      </section>
+
+      <!-- ===== GRID SUPERIOR: CARNET DIGITAL & PETCAM LIVE ===== -->
+      <div class="dash-main-grid">
+
+        <!-- COLUMNA 1: CARNET DIGITAL AMIGO -->
+        <div class="corporate-card">
+          <div class="corporate-card__header">
+            <h2 class="corporate-card__title">
+              <span>💳 Carnet Digital Amigo</span>
+            </h2>
+            <span class="corporate-tag corporate-tag--active" id="carnetCheckinStatus">CHECK-IN VERIFICADO</span>
+          </div>
+
+          <!-- Tarjeta Física Digital -->
+          <div class="carnet-box">
+            <div class="carnet-top-row">
+              <div class="carnet-photo">
+                <img id="carnetPhoto" src="https://images.unsplash.com/photo-1552053831-71594a27632d?w=400&q=80" alt="Foto de la Mascota" />
+              </div>
+              <div>
+                <div class="carnet-pet-name" id="carnetPetName">Toby</div>
+                <div class="carnet-pet-breed" id="carnetPetBreed">Golden Retriever · 3 Años</div>
+                <span class="carnet-plan-chip" id="carnetPlanLabel">Abono Mensual Full 2026</span>
+              </div>
+            </div>
+
+            <!-- Datos Técnicos -->
+            <div class="carnet-fields-grid">
+              <div>
+                <span class="carnet-field-label">Tutor / Titular</span>
+                <span class="carnet-field-value" id="carnetOwnerName">Mariano Benítez</span>
+              </div>
+              <div>
+                <span class="carnet-field-label">Identificador</span>
+                <span class="carnet-field-value" id="carnetIdCode">#JUY-4819-TOB</span>
+              </div>
+              <div>
+                <span class="carnet-field-label">Casillero Asignado</span>
+                <span class="carnet-field-value" id="carnetLocker">#14 (Exclusivo)</span>
+              </div>
+              <div>
+                <span class="carnet-field-label">Convenio Empresa</span>
+                <span class="carnet-field-value" id="carnetCompanyCode">Telecom Jujuy (20% OFF)</span>
+              </div>
+            </div>
+
+            <!-- Código QR de Acceso Rápido -->
+            <div class="carnet-qr-block">
+              <svg class="carnet-qr-svg" viewBox="0 0 100 100" fill="#0F172A">
+                <path d="M0,0 h30 v30 h-30 z M6,6 h18 v18 h-18 z M10,10 h10 v10 h-10 z" />
+                <path d="M70,0 h30 v30 h-30 z M76,6 h18 v18 h-18 z M80,10 h10 v10 h-10 z" />
+                <path d="M0,70 h30 v30 h-30 z M6,76 h18 v18 h-18 z M10,80 h10 v10 h-10 z" />
+                <rect x="40" y="8" width="6" height="6" />
+                <rect x="52" y="8" width="6" height="6" />
+                <rect x="40" y="20" width="6" height="6" />
+                <rect x="48" y="26" width="6" height="6" />
+                <rect x="6" y="42" width="6" height="6" />
+                <rect x="18" y="48" width="6" height="6" />
+                <rect x="26" y="42" width="6" height="6" />
+                <rect x="40" y="40" width="20" height="20" fill="#EA580C" rx="3" />
+                <circle cx="50" cy="50" r="4" fill="white" />
+                <rect x="68" y="42" width="8" height="6" />
+                <rect x="84" y="48" width="8" height="6" />
+                <rect x="42" y="72" width="6" height="8" />
+                <rect x="56" y="68" width="6" height="6" />
+                <rect x="48" y="84" width="8" height="6" />
+                <rect x="70" y="70" width="8" height="8" />
+                <rect x="86" y="72" width="8" height="6" />
+                <rect x="76" y="86" width="16" height="6" />
+              </svg>
+              <div class="carnet-qr-info">
+                <strong>QR de Ingreso & Check-in</strong>
+                Presentá este código en recepción o al chofer de Huellitas Express para registrar el acceso de <span id="carnetQrPetName">Toby</span>.
+              </div>
+            </div>
+          </div>
+
+          <div class="carnet-actions">
+            <button class="btn-solid-dark" onclick="showToast('Descargando credencial oficial en PDF...')">
+              Descargar PDF 📄
+            </button>
+            <button class="btn-outline-dark" onclick="showToast('Enlace de credencial copiado al portapapeles!')">
+              Compartir 🔗
+            </button>
+          </div>
+        </div>
+
+        <!-- COLUMNA 2: PETCAM LIVE SIMULATOR (CON GATING POR PLAN) -->
+        <div class="corporate-card">
+          <div class="corporate-card__header">
+            <h2 class="corporate-card__title">
+              <span>📹 PetCam Live — Transmisión en Tiempo Real</span>
+            </h2>
+            <span class="corporate-tag" id="cctvHeaderQuality">SEÑAL HD 1080p</span>
+          </div>
+
+          <!-- Reproductor de Streaming -->
+          <div class="cctv-wrapper" id="cctvContainer">
+            <div class="snap-flash-screen" id="cctvFlash"></div>
+
+            <img id="cctvFeedImg" class="cctv-img" src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=1000&q=80" alt="Cámara en vivo PetCare" />
+
+            <!-- HUD Superior -->
+            <div class="cctv-hud-top">
+              <div class="live-chip">
+                <span class="status-dot" style="background:#FFFFFF;"></span>
+                <span>EN VIVO</span>
+              </div>
+              <div class="cam-location-label" id="cctvLocationLabel">CAM-01: PATIO VERDE PRINCIPAL</div>
+              <div class="cam-timestamp" id="cctvLiveClock">27/10/2026 09:30:15</div>
+            </div>
+
+            <!-- HUD Inferior -->
+            <div class="cctv-hud-bottom">
+              <div class="cctv-status-line">
+                <span>📶 30 FPS · Latencia 0.4s · Cifrado WPA3</span>
+              </div>
+              <div class="cctv-tools">
+                <button class="cctv-tool-btn" onclick="captureSnapshot()" title="Tomar foto instantánea">📸</button>
+                <button class="cctv-tool-btn" id="btnAudioToggle" onclick="toggleAudio()" title="Activar / Desactivar audio">🔊</button>
+                <button class="cctv-tool-btn" onclick="toggleFullscreen()" title="Pantalla completa">⛶</button>
+              </div>
+            </div>
+
+            <!-- OVERLAY DE BLOQUEO (SE MUESTRA SI EL PLAN NO TIENE PETCAM LIVE) -->
+            <div class="cctv-locked-overlay" id="cctvLockedOverlay" style="display:none;">
+              <div class="cctv-locked-icon">🔒</div>
+              <h3 class="cctv-locked-title" id="cctvLockedTitle">PetCam Live no incluida en tu plan</h3>
+              <p class="cctv-locked-desc" id="cctvLockedDesc">
+                El streaming continuo en vivo 1080p y el cambio multicámara es un beneficio exclusivo del <strong>Abono Mensual Full</strong>. Los usuarios con Pase Diario reciben reporte fotográfico al egreso.
+              </p>
+              <button class="btn-upgrade-cctv" onclick="selectPlanDemo('Abono Mensual Full')">
+                <span>Mejorar a Abono Mensual Full</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Switcher de Cámaras -->
+          <div class="cam-tabs">
+            <button class="cam-tab-btn active" id="camTab1" onclick="switchCamera('cam1', this)">
+              <span>🌿 Cam 1: Patios Verdes</span>
+            </button>
+            <button class="cam-tab-btn" id="camTab2" onclick="switchCamera('cam2', this)">
+              <span>🎾 Cam 2: Sala de Recreación</span>
+            </button>
+            <button class="cam-tab-btn" id="camTab3" onclick="switchCamera('cam3', this)">
+              <span>🛏️ Cam 3: Caniles Climatizados</span>
+            </button>
+          </div>
+
+          <div style="margin-top:12px; font-size:0.78rem; color:var(--color-text-muted); display:flex; justify-content:space-between; align-items:center;">
+            <span id="cctvFooterHelp">💡 Cámaras con visión nocturna y audio ambiental bidireccional.</span>
+            <span id="cctvActionPhoto" style="font-weight:700; color:var(--color-accent); cursor:pointer;" onclick="captureSnapshot()">
+              Capturar Foto del Día 📸
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ===== SECCIÓN DE BENEFICIOS CONTRATADOS (GATING DINÁMICO) ===== -->
+      <section class="benefits-wrapper">
+        <div class="section-head">
+          <h2 class="section-head__title" id="benefitsSectionTitle">Beneficios de tu Abono Mensual Full</h2>
+          <p class="section-head__sub" id="benefitsSectionSub">Servicios activos y cobertura garantizada según tu suscripción contratada.</p>
+        </div>
+
+        <div class="benefits-grid" id="benefitsContainer">
+          <!-- Se inyecta dinámicamente con JavaScript según el plan -->
+        </div>
+      </section>
+
+      <!-- ===== SECCIÓN DE LOGÍSTICA & MAPA JUJUY (HUELLITAS EXPRESS) ===== -->
+      <section class="logistics-wrapper">
+        <div class="section-head">
+          <h2 class="section-head__title">Logística & Traslado · Huellitas Express Jujuy</h2>
+          <p class="section-head__sub">Coordinación de retiro y entrega puerta a puerta en San Salvador de Jujuy.</p>
+        </div>
+
+        <div class="logistics-grid">
+          <!-- Mapa de Cobertura San Salvador de Jujuy -->
+          <div class="map-frame-box">
+            <div class="map-chip">
+              <span class="status-dot" style="background:var(--color-accent);"></span>
+              <span>Cobertura San Salvador de Jujuy</span>
+            </div>
+            <iframe 
+              src="https://www.openstreetmap.org/export/embed.html?bbox=-65.3400%2C-24.2150%2C-65.2600%2C-24.1600&amp;layer=mapnik&amp;marker=-24.1858%2C-65.2995"
+              loading="lazy"
+              title="Mapa de Jujuy">
+            </iframe>
+          </div>
+
+          <!-- Tarjeta de Gestión de Dirección y Chofer -->
+          <div class="logistics-details-card">
+            <div>
+              <div id="logisticsBanner" class="logistics-status-banner logistics-status-banner--active">
+                <span>🚐</span>
+                <span id="logisticsBannerText">Combi #3 Asignada · Chofer: Carlos Morales</span>
+              </div>
+
+              <h3 style="font-family:'Plus Jakarta Sans',sans-serif; font-size:1.15rem; font-weight:800; margin-bottom:6px; color:var(--color-text-main);">
+                Coordinación de Punto de Recogida
+              </h3>
+              <p style="font-size:0.86rem; color:var(--color-text-muted); margin-bottom:18px;" id="logisticsDescription">
+                Indicá la dirección exacta para el retiro matutino y regreso vespertino con arnés de seguridad.
+              </p>
+
+              <form id="logisticsForm" onsubmit="handleLogisticsSubmit(event)">
+                <div class="form-field">
+                  <label for="addressInput">Dirección de Retiro / Entrega en Jujuy</label>
+                  <input type="text" id="addressInput" required value="Av. Fascio 1050, San Salvador de Jujuy" />
+                </div>
+
+                <div class="form-field">
+                  <label for="timeSlotSelect">Franja Horaria Preferida</label>
+                  <select id="timeSlotSelect">
+                    <option value="completa" selected>Ida y Vuelta (07:30 retiro / 18:45 regreso)</option>
+                    <option value="solo_manana">Solo Retiro Matutino (07:30 - 08:30 hs)</option>
+                    <option value="solo_tarde">Solo Regreso Vespertino (18:30 - 19:30 hs)</option>
+                  </select>
+                </div>
+
+                <div class="form-field">
+                  <label for="instructionsInput">Instrucciones para el Chofer (Opcional)</label>
+                  <input type="text" id="instructionsInput" placeholder="Ej: Tocar timbre 2B, perro preparado con correa" />
+                </div>
+
+                <button type="submit" id="btnLogisticsAction" class="btn-solid-dark" style="width:100%; padding:13px;">
+                  Actualizar Dirección de Recogida 📍
+                </button>
+              </form>
+            </div>
+
+            <div style="margin-top:16px; font-size:0.78rem; color:var(--color-text-muted);" id="logisticsFooterNote">
+              🛡️ Vehículos equipados con caniles de seguridad térmicos, cinturones homologados y monitoreo satelital en vivo.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== BANNERS DE NUTRICIÓN (PURINA & ROYAL CANIN - ESTILO CORPORATIVO) ===== -->
+      <section class="sponsors-grid">
+        <!-- Purina Pro Plan -->
+        <div class="sponsor-card">
+          <div>
+            <div class="sponsor-brand-label">Convenio Nutricional · Purina® Pro Plan®</div>
+            <h3 class="sponsor-title">Nutrición de Alto Rendimiento</h3>
+            <p class="sponsor-desc">
+              Fórmula Adult Complete con OptiHealth™. Como cliente de PetCare Jujuy tenés un <strong>15% de descuento directo</strong> en bolsas selladas retiradas en nuestra sede.
+            </p>
+          </div>
+          <button class="btn-sponsor-cta" onclick="showToast('Código PURINA-PETCARE validado. Mostralo en recepción.')">
+            Solicitar con Descuento 🛍️
+          </button>
+        </div>
+
+        <!-- Royal Canin -->
+        <div class="sponsor-card">
+          <div>
+            <div class="sponsor-brand-label">Cuidado Veterinario · Royal Canin®</div>
+            <h3 class="sponsor-title">Nutrición Clínica Especializada</h3>
+            <p class="sponsor-desc">
+              Fórmulas adaptadas para piel sensible, articulaciones y digestión. Consultá con el equipo veterinario de PetCare Jujuy para armar su plan nutricional sin cargo.
+            </p>
+          </div>
+          <button class="btn-sponsor-cta" onclick="showToast('Consulta veterinaria agendada para el chequeo de hoy.')">
+            Consultar con Veterinaria 🩺
+          </button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ===== PIE DE PÁGINA CORPORATIVO ===== -->
+  <footer class="corporate-footer">
+    <div class="container">
+      <div class="corporate-footer__top">
+        <div>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:900; font-size:1.2rem; color:#FFFFFF; margin-bottom:4px;">
+            PetCare <span style="color:var(--color-accent);">Jujuy</span>
+          </div>
+          <p style="font-size:0.84rem; color:#94A3B8;">
+            Guardería Canina, Recreación & Logística para Mascotas de Familias Trabajadoras.
+          </p>
+        </div>
+        <div>
+          <a href="index.html" class="btn-return-home" style="background:#1E293B; color:#FFFFFF; border-color:#334155;">
+            Volver a la Página Principal
+          </a>
+        </div>
+      </div>
+      <div class="corporate-footer__bottom">
+        <span>© 2026 PetCare Jujuy. Todos los derechos reservados. San Salvador de Jujuy, Argentina.</span>
+        <span>Sede Los Perales · Guardia Veterinaria 24/7</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast flotante para feedback inmediato -->
+  <div class="toast-pill" id="toastPill">
+    <span id="toastIcon">✅</span>
+    <span id="toastMsg">Acción completada con éxito</span>
+  </div>
+
+  <!-- ========================================================
+       JAVASCRIPT: GATING DINÁMICO POR PLAN & SINCRONIZACIÓN LOCALSTORAGE
+  ======================================================== -->
+  <script>
+    // Estado global de la aplicación
+    let currentPetData = {
+      ownerName: 'Mariano Benítez',
+      ownerPhone: '+54 388 4123456',
+      ownerEmail: 'mariano@empresa.com',
+      petName: 'Toby',
+      petSpecies: 'Perro',
+      petBreed: 'Golden Retriever',
+      petAge: '3 Años',
+      planSelected: 'Abono Mensual Full',
+      companyCode: 'Telecom Jujuy (20% OFF)',
+      petId: '#JUY-4819-TOB',
+      petPhoto: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=400&q=80'
+    };
+
+    // Feeds de cámaras para CCTV
+    const cameraFeeds = {
+      cam1: {
+        title: 'CAM-01: PATIO VERDE PRINCIPAL',
+        img: 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=1000&q=80'
+      },
+      cam2: {
+        title: 'CAM-02: SALA DE RECREACIÓN CLIMATIZADA',
+        img: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=1000&q=80'
+      },
+      cam3: {
+        title: 'CAM-03: CANILES CLIMATIZADOS & SPAS',
+        img: 'https://images.unsplash.com/photo-1541599540903-216a46ca1dc0?w=1000&q=80'
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initDashboard();
+      startClock();
+    });
+
+    function initDashboard() {
+      // 1. Cargar datos de localStorage si existen
+      const saved = localStorage.getItem('petcare_registration');
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          currentPetData = { ...currentPetData, ...parsed };
+        } catch (e) {
+          console.error('Error parseando localStorage:', e);
+        }
+      }
+
+      // 2. Renderizar UI según el plan seleccionado
+      renderDashboardByPlan(currentPetData.planSelected);
+    }
+
+    /* ========================================================
+       RENDERIZADO DINÁMICO & GATING SEGÚN PLAN SELECCIONADO
+    ======================================================== */
+    function renderDashboardByPlan(planName) {
+      currentPetData.planSelected = planName;
+
+      // Actualizar botones de la barra de demo superior
+      document.querySelectorAll('.demo-btn').forEach(btn => btn.classList.remove('active'));
+      if (planName === 'Pase Diario') {
+        const b = document.getElementById('demoBtnPase');
+        if (b) b.classList.add('active');
+      } else if (planName === 'Huellitas Express') {
+        const b = document.getElementById('demoBtnExpress');
+        if (b) b.classList.add('active');
+      } else {
+        const b = document.getElementById('demoBtnFull');
+        if (b) b.classList.add('active');
+      }
+
+      // A. Textos generales de la mascota
+      const pName = currentPetData.petName || 'Toby';
+      const oName = currentPetData.ownerName || 'Mariano';
+      const oFirstName = oName.split(' ')[0];
+
+      document.getElementById('welcomeTitle').textContent = `Panel del Cliente · ${pName}`;
+      document.getElementById('welcomeSub').textContent = `Bienvenido de nuevo, ${oFirstName}. Monitoreá la jornada y los servicios contratados para tu compañero.`;
+      document.getElementById('navLiveStatus').textContent = `${pName} en Sede Los Perales`;
+      document.getElementById('userDisplayName').textContent = `${oFirstName} & ${pName}`;
+      document.getElementById('userAvatar').textContent = oFirstName.charAt(0).toUpperCase();
+
+      // B. Carnet Digital
+      document.getElementById('carnetPetName').textContent = pName;
+      document.getElementById('carnetPetBreed').textContent = `${currentPetData.petBreed || 'Mascota'} · ${currentPetData.petAge || 'Edad no esp.'}`;
+      document.getElementById('carnetOwnerName').textContent = oName;
+      document.getElementById('carnetIdCode').textContent = currentPetData.petId || '#JUY-9988-PET';
+      document.getElementById('carnetCompanyCode').textContent = currentPetData.companyCode || 'Particular';
+      document.getElementById('carnetQrPetName').textContent = pName;
+      if (currentPetData.petPhoto) {
+        document.getElementById('carnetPhoto').src = currentPetData.petPhoto;
+      }
+
+      // C. Lógica de Gating por Plan
+      const cctvOverlay = document.getElementById('cctvLockedOverlay');
+      const cctvLockedTitle = document.getElementById('cctvLockedTitle');
+      const cctvLockedDesc = document.getElementById('cctvLockedDesc');
+      const camTab1 = document.getElementById('camTab1');
+      const camTab2 = document.getElementById('camTab2');
+      const camTab3 = document.getElementById('camTab3');
+      const cctvHeaderQuality = document.getElementById('cctvHeaderQuality');
+      const cctvActionPhoto = document.getElementById('cctvActionPhoto');
+
+      const planBadge = document.getElementById('planBadgeActive');
+      const serviceBadge = document.getElementById('serviceBadge');
+      const carnetPlanLabel = document.getElementById('carnetPlanLabel');
+      const carnetCheckinStatus = document.getElementById('carnetCheckinStatus');
+      const carnetLocker = document.getElementById('carnetLocker');
+
+      const logisticsBanner = document.getElementById('logisticsBanner');
+      const logisticsBannerText = document.getElementById('logisticsBannerText');
+      const logisticsDescription = document.getElementById('logisticsDescription');
+      const addressInput = document.getElementById('addressInput');
+      const timeSlotSelect = document.getElementById('timeSlotSelect');
+      const instructionsInput = document.getElementById('instructionsInput');
+      const btnLogisticsAction = document.getElementById('btnLogisticsAction');
+
+      const benefitsTitle = document.getElementById('benefitsSectionTitle');
+      const benefitsSub = document.getElementById('benefitsSectionSub');
+      const benefitsContainer = document.getElementById('benefitsContainer');
+
+      // ==========================================
+      // CASO 1: PASE DIARIO
+      // ==========================================
+      if (planName === 'Pase Diario') {
+        // Badges y Carnet
+        planBadge.textContent = '☀️ Pase Diario Ocasional';
+        serviceBadge.textContent = '🔒 PetCam: Exclusivo Abono';
+        carnetPlanLabel.textContent = 'Pase Diario Ocasional (Válido Hoy)';
+        carnetCheckinStatus.textContent = 'PASE DIARIO VÁLIDO HOY';
+        carnetCheckinStatus.className = 'corporate-tag corporate-tag--active';
+        carnetLocker.textContent = 'Uso Transitorio del Día';
+
+        // Gating CCTV (BLOQUEADO)
+        cctvOverlay.style.display = 'flex';
+        cctvLockedTitle.textContent = 'PetCam Live HD Bloqueada';
+        cctvLockedDesc.innerHTML = `Tu mascota <strong>${pName}</strong> ingresó con <strong>Pase Diario</strong>. El acceso a streaming en vivo multicámara es exclusivo del <strong>Abono Mensual Full</strong>. Al retirarla a las 19:00 hs recibirás su reporte del día con fotos vía WhatsApp.`;
+        cctvHeaderQuality.textContent = 'ACCESO RESTRINGIDO';
+        cctvActionPhoto.style.display = 'none';
+
+        camTab1.disabled = true;
+        camTab2.disabled = true;
+        camTab3.disabled = true;
+        camTab1.title = 'Bloqueado para Pase Diario';
+        camTab2.title = 'Bloqueado para Pase Diario';
+        camTab3.title = 'Bloqueado para Pase Diario';
+
+        // Gating Logística (NO INCLUIDO)
+        logisticsBanner.className = 'logistics-status-banner logistics-status-banner--locked';
+        logisticsBannerText.textContent = '⚠️ Traslado Puerta a Puerta No Incluido en Pase Diario';
+        logisticsDescription.textContent = 'El Pase Diario requiere entrega y retiro presencial por nuestra sede en Los Perales (07:30 a 19:30 hs). Podés sumar el traslado por $3.500 adicionales.';
+        addressInput.disabled = true;
+        timeSlotSelect.disabled = true;
+        instructionsInput.disabled = true;
+        btnLogisticsAction.textContent = 'Sumar Traslado Huellitas Express ($3.500) 🚐';
+        btnLogisticsAction.onclick = (e) => {
+          e.preventDefault();
+          selectPlanDemo('Huellitas Express');
+          showToast('¡Servicio de traslado Huellitas Express agregado con éxito!');
+        };
+
+        // Beneficios Dinámicos
+        benefitsTitle.textContent = 'Beneficios de tu Pase Diario Ocasional';
+        benefitsSub.textContent = 'Cobertura para la jornada de hoy (07:30 a 19:30 hs).';
+        benefitsContainer.innerHTML = `
+          <div class="benefit-card">
+            <div class="benefit-icon">🌿</div>
+            <div class="benefit-title">Recreación en Parque 1.200 m²</div>
+            <div class="benefit-desc">Socialización guiada y juegos grupales con supervisión permanente de adiestradores.</div>
+            <span class="benefit-status-pill benefit-status-pill--yes">✅ Incluido en el Pase</span>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">🩺</div>
+            <div class="benefit-title">Supervisión Clínica Preventiva</div>
+            <div class="benefit-desc">Chequeo clínico veterinario matutino de ingreso y botiquín de primeros auxilios.</div>
+            <span class="benefit-status-pill benefit-status-pill--yes">✅ Incluido en el Pase</span>
+          </div>
+          <div class="benefit-card benefit-card--locked">
+            <div class="benefit-icon">📹</div>
+            <div class="benefit-title">PetCam Live Streaming HD</div>
+            <div class="benefit-desc">Acceso continuo a las 3 cámaras en vivo durante tu horario de oficina.</div>
+            <span class="benefit-status-pill benefit-status-pill--no">🔒 Exclusivo Abono Mensual</span>
+          </div>
+          <div class="benefit-card benefit-card--locked">
+            <div class="benefit-icon">🔐</div>
+            <div class="benefit-title">Casillero Fijo & Dieta Purina</div>
+            <div class="benefit-desc">Almacenamiento exclusivo de pertenencias y alimentación programada de marca.</div>
+            <span class="benefit-status-pill benefit-status-pill--no">🔒 Exclusivo Abono Mensual</span>
+          </div>
+        `;
+
+      // ==========================================
+      // CASO 2: HUELLITAS EXPRESS
+      // ==========================================
+      } else if (planName === 'Huellitas Express') {
+        // Badges y Carnet
+        planBadge.textContent = '🚐 Plan Huellitas Express';
+        serviceBadge.textContent = '📍 Logística Puerta a Puerta Activa';
+        carnetPlanLabel.textContent = 'Huellitas Express · Traslado y Guardería';
+        carnetCheckinStatus.textContent = 'RUTA GPS EN CURSO';
+        carnetCheckinStatus.className = 'corporate-tag corporate-tag--active';
+        carnetLocker.textContent = 'Casillero Móvil Combi #3';
+
+        // Gating CCTV (BLOQUEADO EN SEDE - EXCLUSIVO LOGÍSTICA)
+        cctvOverlay.style.display = 'flex';
+        cctvLockedTitle.textContent = 'Cámaras de Sede No Incluidas';
+        cctvLockedDesc.innerHTML = `Tu plan <strong>Huellitas Express</strong> se enfoca en el traslado seguro puerta a puerta con monitoreo satelital de la unidad. Para acceder a las cámaras en vivo de los parques, contratá el <strong>Abono Mensual Full</strong>.`;
+        cctvHeaderQuality.textContent = 'SOLO RASTREO GPS';
+        cctvActionPhoto.style.display = 'none';
+
+        camTab1.disabled = true;
+        camTab2.disabled = true;
+        camTab3.disabled = true;
+
+        // Gating Logística (100% ACTIVO Y DESTACADO)
+        logisticsBanner.className = 'logistics-status-banner logistics-status-banner--active';
+        logisticsBannerText.textContent = `🟢 Combi #3 en ruta · Recogida estimada de ${pName}: 08:15 hs`;
+        logisticsDescription.textContent = 'El traslado puerta a puerta está confirmado. Podés actualizar o cambiar el domicilio de entrega para la tarde a continuación:';
+        addressInput.disabled = false;
+        timeSlotSelect.disabled = false;
+        instructionsInput.disabled = false;
+        btnLogisticsAction.textContent = 'Confirmar Punto de Recogida / Entrega 📍';
+        btnLogisticsAction.onclick = null; // usa handleLogisticsSubmit
+
+        // Beneficios Dinámicos
+        benefitsTitle.textContent = 'Beneficios del Plan Huellitas Express';
+        benefitsSub.textContent = 'Logística vehicular integral, seguridad vial y recreación para tu mascota.';
+        benefitsContainer.innerHTML = `
+          <div class="benefit-card">
+            <div class="benefit-icon">🚐</div>
+            <div class="benefit-title">Traslado Puerta a Puerta</div>
+            <div class="benefit-desc">Combi adaptada con aire acondicionado, jaulas térmicas fijadas y arneses homologados.</div>
+            <span class="benefit-status-pill benefit-status-pill--yes">✅ Servicio Principal</span>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">🛰️</div>
+            <div class="benefit-title">Rastreo Satelital GPS</div>
+            <div class="benefit-desc">Seguimiento en tiempo real del recorrido del móvil y notificación al llegar a tu puerta.</div>
+            <span class="benefit-status-pill benefit-status-pill--yes">✅ Incluido en tu Plan</span>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">👨‍✈️</div>
+            <div class="benefit-title">Chofer & Asistente Certificado</div>
+            <div class="benefit-desc">Personal con formación en primeros auxilios caninos y manejo sin estrés.</div>
+            <span class="benefit-status-pill benefit-status-pill--yes">✅ Incluido en tu Plan</span>
+          </div>
+          <div class="benefit-card benefit-card--locked">
+            <div class="benefit-icon">📹</div>
+            <div class="benefit-title">PetCam Live Streaming HD</div>
+            <div class="benefit-desc">Streaming en tiempo real de los patios de juego durante la jornada de guardería.</div>
+            <span class="benefit-status-pill benefit-status-pill--no">🔒 Exclusivo Abono Mensual</span>
+          </div>
+        `;
+
+      // ==========================================
+      // CASO 3: ABONO MENSUAL FULL (DEFAULT)
+      // ==========================================
+      } else {
+        // Badges y Carnet
+        planBadge.textContent = '🏆 Abono Mensual Full';
+        serviceBadge.textContent = '📹 PetCam Live HD Habilitado';
+        carnetPlanLabel.textContent = 'Abono Mensual Full 2026';
+        carnetCheckinStatus.textContent = 'CHECK-IN VERIFICADO · ACCESO TOTAL';
+        carnetCheckinStatus.className = 'corporate-tag corporate-tag--active';
+        carnetLocker.textContent = '#14 (Exclusivo Titular)';
+
+        // Gating CCTV (100% DESBLOQUEADO)
+        cctvOverlay.style.display = 'none';
+        cctvHeaderQuality.textContent = 'SEÑAL HD 1080p';
+        cctvActionPhoto.style.display = 'inline';
+
+        camTab1.disabled = false;
+        camTab2.disabled = false;
+        camTab3.disabled = false;
+        camTab1.title = 'Cam 1: Patios Verdes';
+        camTab2.title = 'Cam 2: Sala de Recreación';
+        camTab3.title = 'Cam 3: Caniles Climatizados';
+
+        // Gating Logística (DISPONIBLE & COORDINABLE)
+        logisticsBanner.className = 'logistics-status-banner logistics-status-banner--active';
+        logisticsBannerText.textContent = `🚐 Traslado Opcional Disponible · Combi #3 Asignada`;
+        logisticsDescription.textContent = 'Como suscriptor del Abono Mensual Full tenés prioridad de ruta de traslado puerta a puerta programable.';
+        addressInput.disabled = false;
+        timeSlotSelect.disabled = false;
+        instructionsInput.disabled = false;
+        btnLogisticsAction.textContent = 'Actualizar Dirección de Recogida 📍';
+        btnLogisticsAction.onclick = null;
+
+        // Beneficios Dinámicos
+        benefitsTitle.textContent = 'Beneficios de tu Abono Mensual Full';
+        benefitsSub.textContent = 'La experiencia premium más completa para compatibilizar tu trabajo con el cuidado de tu mascota.';
+        benefitsContainer.innerHTML = `
+          <div class="benefit-card">
+            <div class="benefit-icon">🥩</div>
+            <div class="benefit-title">Nutrición Purina® Pro Plan®</div>
+            <div class="benefit-desc">Dieta balanceada controlada por peso y 15% OFF directo en compra de alimento para el hogar.</div>
+            <span class="benefit-status-pill benefit-status-pill--yes">✅ 100% Incluido</span>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">📹</div>
+            <div class="benefit-title">PetCam Live Streaming HD</div>
+            <div class="benefit-desc">Acceso ilimitado a las 3 cámaras en vivo desde tu computadora o celular todo el día.</div>
+            <span class="benefit-status-pill benefit-status-pill--yes">✅ 100% Incluido</span>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">🩺</div>
+            <div class="benefit-title">Guardia Veterinaria 24/7</div>
+            <div class="benefit-desc">Control clínico de ingreso cada mañana y atención veterinaria inmediata ante cualquier síntoma.</div>
+            <span class="benefit-status-pill benefit-status-pill--yes">✅ 100% Incluido</span>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">📱</div>
+            <div class="benefit-title">Reporte WhatsApp & Casillero</div>
+            <div class="benefit-desc">Casillero personal fijo #14 y reporte diario con fotos de alta definición a las 18:00 hs.</div>
+            <span class="benefit-status-pill benefit-status-pill--yes">✅ 100% Incluido</span>
+          </div>
+        `;
+      }
+    }
+
+    /* ========================================================
+       CAMBIO RÁPIDO DE PLAN (MODO DEMO / PERSISTENCIA)
+    ======================================================== */
+    function selectPlanDemo(planName) {
+      currentPetData.planSelected = planName;
+      localStorage.setItem('petcare_registration', JSON.stringify(currentPetData));
+      renderDashboardByPlan(planName);
+      showToast(`Plan cambiado a: "${planName}". Gating actualizado.`);
+    }
+
+    /* ========================================================
+       RELOJ Y SWITCHER DE CÁMARAS CCTV
+    ======================================================== */
+    function startClock() {
+      function update() {
+        const now = new Date();
+        const d = String(now.getDate()).padStart(2, '0');
+        const m = String(now.getMonth() + 1).padStart(2, '0');
+        const y = now.getFullYear();
+        const hh = String(now.getHours()).padStart(2, '0');
+        const mm = String(now.getMinutes()).padStart(2, '0');
+        const ss = String(now.getSeconds()).padStart(2, '0');
+        const el = document.getElementById('cctvLiveClock');
+        if (el) el.textContent = `${d}/${m}/${y} ${hh}:${mm}:${ss}`;
+      }
+      setInterval(update, 1000);
+      update();
+    }
+
+    function switchCamera(camKey, btn) {
+      if (btn.disabled) return;
+      document.querySelectorAll('.cam-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const data = cameraFeeds[camKey];
+      if (data) {
+        const img = document.getElementById('cctvFeedImg');
+        const label = document.getElementById('cctvLocationLabel');
+        img.style.opacity = '0.2';
+        setTimeout(() => {
+          img.src = data.img;
+          label.textContent = `${data.title} (${currentPetData.petName.toUpperCase()})`;
+          img.style.opacity = '1';
+        }, 150);
+      }
+    }
+
+    function captureSnapshot() {
+      const flash = document.getElementById('cctvFlash');
+      flash.classList.add('flash');
+      setTimeout(() => flash.classList.remove('flash'), 200);
+      setTimeout(() => {
+        showToast(`📸 Captura de ${currentPetData.petName} guardada y enviada a tu WhatsApp.`);
+      }, 250);
+    }
+
+    let isMuted = false;
+    function toggleAudio() {
+      isMuted = !isMuted;
+      const btn = document.getElementById('btnAudioToggle');
+      btn.textContent = isMuted ? '🔇' : '🔊';
+      showToast(isMuted ? 'Sonido de cámara silenciado.' : 'Audio ambiental activado.');
+    }
+
+    function toggleFullscreen() {
+      const el = document.getElementById('cctvContainer');
+      if (!document.fullscreenElement) {
+        if (el.requestFullscreen) el.requestFullscreen();
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    function handleLogisticsSubmit(e) {
+      e.preventDefault();
+      const addr = document.getElementById('addressInput').value;
+      showToast(`Punto de recogida actualizado: "${addr}". La combi pasará en la franja elegida.`);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastPill');
+      const text = document.getElementById('toastMsg');
+      text.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3500);
+    }
+  </script>
+</body>
+</html>

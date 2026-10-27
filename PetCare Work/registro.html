@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PetCare - PetWork | Registro de Nuevo Empleado</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="app_styles.css">
+</head>
+<body>
+
+  <!-- Brand Navbar -->
+  <header class="main-navbar">
+    <div class="navbar-inner" style="justify-content: center;">
+      <a href="index.html" class="brand-badge">
+        <div class="brand-icon-box">🐾</div>
+        <div>
+          <div class="brand-title">PetCare Jujuy</div>
+          <div class="brand-sub">PetWork Platform • Alta de Personal</div>
+        </div>
+      </a>
+    </div>
+  </header>
+
+  <!-- Registration Form Container -->
+  <main class="app-container">
+    <div class="auth-centered-container">
+      <div class="auth-card" style="max-width: 520px;">
+        
+        <div style="text-align: center; margin-bottom: 24px;">
+          <div class="brand-icon-box" style="margin: 0 auto 12px auto; width: 52px; height: 52px; font-size: 26px;">
+            📝
+          </div>
+          <h1 style="font-size: 22px; font-weight: 800; color: var(--text-dark);">Registrar Nuevo Empleado</h1>
+          <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">
+            Crea una cuenta en la base de datos de PetCare para acceder a tu panel de rol.
+          </p>
+        </div>
+
+        <form id="registerEmployeeForm">
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group-custom">
+              <label class="form-label-custom" for="regNombre">Nombre</label>
+              <input type="text" id="regNombre" class="form-input-custom" placeholder="Ej: Marcos" required autofocus>
+            </div>
+            <div class="form-group-custom">
+              <label class="form-label-custom" for="regApellido">Apellido</label>
+              <input type="text" id="regApellido" class="form-input-custom" placeholder="Ej: Benítez" required>
+            </div>
+          </div>
+
+          <div class="form-group-custom">
+            <label class="form-label-custom" for="regDireccion">Dirección Residencial</label>
+            <input type="text" id="regDireccion" class="form-input-custom" placeholder="Ej: Av. Balbín 450, B° Bajo La Viña, Jujuy" required>
+          </div>
+
+          <div class="form-group-custom">
+            <label class="form-label-custom" for="regEmail">Correo Electrónico (Email)</label>
+            <input type="email" id="regEmail" class="form-input-custom" placeholder="ejemplo@petcare.com" required>
+          </div>
+
+          <div class="form-group-custom">
+            <label class="form-label-custom" for="regPassword">Contraseña</label>
+            <input type="password" id="regPassword" class="form-input-custom" placeholder="Mínimo 4 caracteres" required>
+          </div>
+
+          <!-- Selector de Rol requerido -->
+          <div class="form-group-custom">
+            <label class="form-label-custom" for="regRol">Rol Asignado en la Empresa</label>
+            <select id="regRol" class="form-select-custom" required>
+              <option value="" disabled selected>Selecciona tu rol de trabajo...</option>
+              <option value="Jefe">Jefe (Dirección & Control Total)</option>
+              <option value="Empleado Administrativo">Empleado Administrativo (Finanzas, Mascotas e Insumos)</option>
+              <option value="Cuidador">Cuidador (Salud, Rutinas y Carnet Amigo)</option>
+              <option value="Chofer">Chofer (Huellitas Express - Rutas de Traslado)</option>
+            </select>
+          </div>
+
+          <div id="regAlertMsg" style="display: none; padding: 10px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; margin-bottom: 16px;"></div>
+
+          <button type="submit" class="btn-primary-orange" style="margin-top: 8px;">
+            <span>Crear Cuenta & Guardar en Base de Datos</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+        </form>
+
+        <div style="text-align: center; margin-top: 20px; font-size: 13px; color: var(--text-muted);">
+          ¿Ya tienes cuenta creada? 
+          <a href="index.html" style="color: var(--primary-orange-dark); font-weight: 700; text-decoration: none;">
+            Iniciar Sesión aquí ➜
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="auth_db.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('registerEmployeeForm');
+      const alertBox = document.getElementById('regAlertMsg');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alertBox.style.display = 'none';
+
+        const nombre = document.getElementById('regNombre').value;
+        const apellido = document.getElementById('regApellido').value;
+        const direccion = document.getElementById('regDireccion').value;
+        const email = document.getElementById('regEmail').value;
+        const password = document.getElementById('regPassword').value;
+        const rol = document.getElementById('regRol').value;
+
+        if (!rol) {
+          alertBox.style.display = 'block';
+          alertBox.style.backgroundColor = 'var(--status-red-bg)';
+          alertBox.style.color = 'var(--status-red-text)';
+          alertBox.style.border = '1px solid #FECACA';
+          alertBox.textContent = 'Por favor selecciona un rol válido.';
+          return;
+        }
+
+        const res = registerUser({ nombre, apellido, direccion, email, password, rol });
+        
+        if (res.success) {
+          alertBox.style.display = 'block';
+          alertBox.style.backgroundColor = 'var(--status-green-bg)';
+          alertBox.style.color = 'var(--status-green-text)';
+          alertBox.style.border = '1px solid #A7F3D0';
+          alertBox.textContent = `¡Usuario ${nombre} ${apellido} registrado con éxito con rol "${rol}"! Redirigiendo al Login...`;
+          
+          form.reset();
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 1500);
+        } else {
+          alertBox.style.display = 'block';
+          alertBox.style.backgroundColor = 'var(--status-red-bg)';
+          alertBox.style.color = 'var(--status-red-text)';
+          alertBox.style.border = '1px solid #FECACA';
+          alertBox.textContent = res.message;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

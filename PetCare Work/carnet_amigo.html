@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PetCare Mobile | Carnet Amigo Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="mobile.css">
+  <style>
+    .carnet-card-frame {
+      background: linear-gradient(135deg, #18181B 0%, #27272A 100%);
+      color: #FFFFFF;
+      border-radius: var(--radius-xl);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-elevated);
+      border: 1px solid rgba(251, 146, 60, 0.4);
+    }
+    .carnet-chip-icon {
+      width: 36px;
+      height: 26px;
+      background: linear-gradient(135deg, #FDBA74, #FB923C);
+      border-radius: 4px;
+      margin-bottom: 14px;
+      position: relative;
+    }
+    .carnet-qr-box {
+      width: 90px;
+      height: 90px;
+      background-color: #FFFFFF;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      box-shadow: var(--shadow-sm);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="mobile-device">
+    <!-- Status Bar -->
+    <div class="mobile-status-bar">
+      <span class="status-clock">09:41</span>
+      <div class="dynamic-island"></div>
+      <div style="display: flex; gap: 4px; align-items: center; font-size: 10px;">
+        <span>5G</span>
+        <span>100%</span>
+      </div>
+    </div>
+
+    <!-- App Bar with Dynamic Back Button -->
+    <div class="app-bar">
+      <div class="app-bar-left">
+        <button class="btn-back" data-go-back title="Regresar al Panel">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          <span>⬅ Volver</span>
+        </button>
+        <h2 class="app-bar-title" style="margin-left: 4px;">Carnet Amigo</h2>
+      </div>
+      <div class="app-bar-user">
+        <span class="status-pill-mobile ok">Válido</span>
+      </div>
+    </div>
+
+    <!-- Scrollable Content -->
+    <div class="mobile-content">
+
+      <!-- Pet Selector Tabs -->
+      <div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px;">
+        <button type="button" class="btn-role-pill" style="flex:1; background-color: var(--primary-orange); color:#FFFFFF; border-color:var(--primary-orange);">
+          🐕 Toby
+        </button>
+        <button type="button" class="btn-role-pill" style="flex:1;">
+          🐩 Luna
+        </button>
+        <button type="button" class="btn-role-pill" style="flex:1;">
+          🐶 Rocco
+        </button>
+        <button type="button" class="btn-role-pill" style="flex:1;">
+          🐕‍🦺 Mia
+        </button>
+      </div>
+
+      <!-- Digital Member Card (Carnet Amigo) -->
+      <div class="carnet-card-frame">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+          <div>
+            <div class="carnet-chip-icon"></div>
+            <div style="font-size: 10px; color: var(--primary-orange-light); text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">
+              PetCare Jujuy • Carnet Amigo VIP
+            </div>
+            <h2 style="font-size: 20px; font-weight: 800; color: #FFFFFF; margin-top: 2px;">Toby</h2>
+            <div style="font-size: 12px; color: #D4D4D8;">Golden Retriever • 3 años • 28 kg</div>
+          </div>
+          
+          <div class="carnet-qr-box">
+            <!-- Simulated QR -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="#18181B" stroke-width="2" style="width: 100%; height: 100%;">
+              <rect x="2" y="2" width="8" height="8" rx="1"/>
+              <rect x="14" y="2" width="8" height="8" rx="1"/>
+              <rect x="2" y="14" width="8" height="8" rx="1"/>
+              <rect x="15" y="15" width="4" height="4"/>
+              <rect x="19" y="19" width="3" height="3"/>
+            </svg>
+          </div>
+        </div>
+
+        <div style="margin-top: 20px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.12); display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 10px;">
+          <div>
+            <span style="color: #A1A1AA;">Tutor Principal:</span>
+            <div style="font-weight: 700; color: #FFFFFF; font-size: 11px;">Martín R.</div>
+            <div style="color: var(--primary-orange-light);">Telecom Jujuy (Convenio)</div>
+          </div>
+          <div>
+            <span style="color: #A1A1AA;">Microchip:</span>
+            <div style="font-weight: 700; color: #FFFFFF; font-family: monospace; font-size: 11px;">#9820003412</div>
+            <div style="color: #10B981;">Vacunas al día ✅</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Authorized Person for Pick-up -->
+      <div class="mobile-card" style="padding: 14px;">
+        <div class="card-title-row">
+          <h3 class="card-title-h3">
+            <span>🛡️</span> Retiro Autorizado por Tutor
+          </h3>
+          <span class="status-pill-mobile ok">Verificado</span>
+        </div>
+        <div style="font-size: 12px; color: #334155;">
+          <strong>Persona Autorizada:</strong> Hermana: Laura R.<br>
+          <strong>Documento:</strong> DNI 35.xxx.xxx<br>
+          <strong>Modalidad de Salida:</strong> Combi Huellitas Express (18:20 hs).
+        </div>
+      </div>
+
+      <!-- Quick Validate Action -->
+      <button class="btn-primary-mobile" id="btnValidateQr" style="margin-top: 4px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <span>Validar Identidad & Chip RFID</span>
+      </button>
+
+    </div>
+  </div>
+
+  <script src="mobile.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('btnValidateQr');
+      btn.addEventListener('click', () => {
+        alert('✅ Carnet Amigo de Toby (#9820003412) validado con éxito.\nTutor: Martín R. (Telecom Jujuy).\nAutorizada a retirar: Laura R.');
+      });
+    });
+  </script>
+</body>
+</html>

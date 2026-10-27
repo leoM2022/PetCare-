@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PetCare Mobile | Panel de Chofer (Huellitas Express)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+
+  <div class="mobile-device">
+    <!-- Status Bar -->
+    <div class="mobile-status-bar">
+      <span class="status-clock">09:41</span>
+      <div class="dynamic-island"></div>
+      <div style="display: flex; gap: 4px; align-items: center; font-size: 10px;">
+        <span>5G</span>
+        <span>100%</span>
+      </div>
+    </div>
+
+    <!-- App Bar -->
+    <div class="app-bar">
+      <div class="app-bar-left">
+        <span style="font-size: 18px;">🚐</span>
+        <h2 class="app-bar-title">Huellitas Express</h2>
+      </div>
+      <div class="app-bar-user">
+        <span class="user-badge-pill" id="userRoleBadge">Chofer</span>
+      </div>
+    </div>
+
+    <!-- Scrollable Content -->
+    <div class="mobile-content">
+      
+      <!-- Hero Card -->
+      <div class="user-hero-card">
+        <div class="user-hero-avatar">HL</div>
+        <div class="user-hero-info">
+          <h2>Héctor L.</h2>
+          <span class="user-hero-role">Conductor • Combi Huellitas 02</span>
+          <div style="font-size: 11px; opacity: 0.8; margin-top: 2px;">Ruta Tarde: 4 Paradas Residenciales</div>
+        </div>
+      </div>
+
+      <!-- Immediate Route Alert & Map Direct Button -->
+      <a href="mapa_huellitas.html" class="btn-primary-mobile" style="text-decoration: none; margin-top: 0; background-color: var(--primary-orange); color: #FFFFFF;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+        <span>Abrir Mapa Interactivo en Vivo (Leaflet Jujuy)</span>
+      </a>
+
+      <!-- Active Route Overview -->
+      <div class="card-title-row" style="margin-top: 4px;">
+        <h3 class="card-title-h3">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Hoja de Ruta de Traslados (Tarde)
+        </h3>
+        <span class="status-pill-mobile ok">En Proceso</span>
+      </div>
+
+      <div class="stops-list">
+        <!-- Parada 1: Los Perales (Toby) -->
+        <div class="stop-item-card">
+          <div class="stop-number-badge">1</div>
+          <div class="stop-details">
+            <div class="stop-pet-name">Toby 🐕 (Golden Retriever)</div>
+            <div class="stop-address">Calle La Posta 450, B° Los Perales</div>
+            <div style="font-size: 10px; color: var(--primary-orange-dark); font-weight: 600; margin-top: 2px;">
+              Tutor: Martín R. (Telecom) • Tel: 388-5123456
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <span class="stop-time-badge">18:20 hs</span>
+            <div style="margin-top: 4px;">
+              <span class="status-pill-mobile warning">Próxima</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Parada 2: Ciudad de Nieva (Luna) -->
+        <div class="stop-item-card">
+          <div class="stop-number-badge">2</div>
+          <div class="stop-details">
+            <div class="stop-pet-name">Luna 🐩 (Caniche Toy)</div>
+            <div class="stop-address">Av. Libertad 820, B° Ciudad de Nieva</div>
+            <div style="font-size: 10px; color: #475569; font-weight: 500; margin-top: 2px;">
+              Tutora: Valeria C. (Banco Macro)
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <span class="stop-time-badge">18:45 hs</span>
+            <div style="margin-top: 4px;">
+              <span class="status-pill-mobile ok">Confirmada</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Parada 3: Alto Comedero (Rocco) -->
+        <div class="stop-item-card">
+          <div class="stop-number-badge">3</div>
+          <div class="stop-details">
+            <div class="stop-pet-name">Rocco 🐶 (Bulldog Francés)</div>
+            <div class="stop-address">Av. Forestal Mza 12, Alto Comedero</div>
+            <div style="font-size: 10px; color: #475569; font-weight: 500; margin-top: 2px;">
+              Tutor: Esteban F. (EJE SA)
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <span class="stop-time-badge">19:15 hs</span>
+            <div style="margin-top: 4px;">
+              <span class="status-pill-mobile ok">Confirmada</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Parada 4: San Pedrito (Mia) -->
+        <div class="stop-item-card">
+          <div class="stop-number-badge">4</div>
+          <div class="stop-details">
+            <div class="stop-pet-name">Mia 🐕‍🦺 (Border Collie)</div>
+            <div class="stop-address">Calle Almirante Brown 1100, San Pedrito</div>
+            <div style="font-size: 10px; color: #475569; font-weight: 500; margin-top: 2px;">
+              Tutor: Gonzalo S. (Telecom)
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <span class="stop-time-badge">19:40 hs</span>
+            <div style="margin-top: 4px;">
+              <span class="status-pill-mobile ok">Confirmada</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Combi Fuel & Checklist -->
+      <div class="mobile-card" style="padding: 12px 14px; margin-top: 4px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px;">
+          <span>⛽ Tanque Combi 02: <strong>85%</strong></span>
+          <span>🌡️ Temperatura Cabina: <strong>21°C</strong></span>
+        </div>
+      </div>
+
+      <!-- Logout Button -->
+      <button class="btn-logout" style="margin-top: auto;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        <span>Finalizar Turno / Salir</span>
+      </button>
+
+    </div>
+  </div>
+
+  <script src="mobile.js"></script>
+  <script>
+    checkAuth('chofer');
+  </script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PetCare - PetWork | Panel de Dirección General (Jefe)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="app_styles.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="main-navbar">
+    <div class="navbar-inner">
+      <div class="navbar-left">
+        <!-- Return Button -->
+        <button class="btn-return-panel" data-action="return-panel" title="Regresar al Panel">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          <span>⬅ Volver</span>
+        </button>
+
+        <a href="panel_jefe.html" class="brand-badge" style="margin-left: 6px;">
+          <div class="brand-icon-box">👑</div>
+          <div>
+            <div class="brand-title">PetCare Jujuy</div>
+            <div class="brand-sub">Dirección General • Control Total</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="navbar-right">
+        <div class="user-identity-pill" id="navbarUserBadge">
+          <span>JEFE • Dirección</span>
+        </div>
+        <!-- Logout Button -->
+        <button class="btn-logout-nav" data-action="logout">
+          <span>Cerrar Sesión</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="app-container">
+    
+    <!-- Hero Banner -->
+    <section class="page-hero">
+      <div class="page-hero-info">
+        <h1>
+          <span>Tablero de Control de Dirección Ejecutiva</span>
+        </h1>
+        <p>Acceso irrestricto y supervisión integral de todos los módulos operativos, financieros, sanitarios y logísticos de la empresa.</p>
+        <span class="page-hero-badge">Rol: Jefe de Operaciones • Acceso Total</span>
+      </div>
+      <div style="text-align: right; font-size: 13px; color: #E4E4E7;">
+        <strong>Sede Central San Salvador de Jujuy</strong><br>
+        <span>Monitoreo Activo en Tiempo Real</span>
+      </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
+      <div class="card-white" style="margin-bottom: 0; padding: 16px 20px; display: flex; align-items: center; gap: 12px;">
+        <span style="font-size: 28px;">💰</span>
+        <div>
+          <div style="font-size: 18px; font-weight: 800; color: #059669;">$ 4.850.000</div>
+          <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Ingresos Octubre</div>
+        </div>
+      </div>
+
+      <div class="card-white" style="margin-bottom: 0; padding: 16px 20px; display: flex; align-items: center; gap: 12px;">
+        <span style="font-size: 28px;">🐕</span>
+        <div>
+          <div style="font-size: 18px; font-weight: 800; color: var(--text-dark);">24 / 30</div>
+          <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Ocupación Predio</div>
+        </div>
+      </div>
+
+      <div class="card-white" style="margin-bottom: 0; padding: 16px 20px; display: flex; align-items: center; gap: 12px;">
+        <span style="font-size: 28px;">🚐</span>
+        <div>
+          <div style="font-size: 18px; font-weight: 800; color: #2563EB;">Combi 02</div>
+          <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Ruta Tarde Activa</div>
+        </div>
+      </div>
+
+      <div class="card-white" style="margin-bottom: 0; padding: 16px 20px; display: flex; align-items: center; gap: 12px;">
+        <span style="font-size: 28px;">⚠️</span>
+        <div>
+          <div style="font-size: 18px; font-weight: 800; color: #D97706;">3 Especiales</div>
+          <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Dietas & Cuidados</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Navigation Menu (Real <a> Links to ALL Company Screens) -->
+    <div style="margin-bottom: 16px;">
+      <h2 style="font-size: 18px; font-weight: 800; color: var(--text-dark);">Módulos de la Empresa</h2>
+      <p style="font-size: 12px; color: var(--text-muted);">Haz clic en cualquier pantalla para ingresar:</p>
+    </div>
+
+    <section class="modules-grid">
+      
+      <!-- 1. Administración -->
+      <a href="panel_admin.html" class="module-link-card">
+        <div class="module-icon-wrap" style="background-color: #EFF6FF; color: #1D4ED8;">💼</div>
+        <div class="module-title">Administración & Finanzas</div>
+        <div class="module-description">
+          Capital ingresado vs. gastado, balance operativo, tabla completa de mascotas ingresadas e inventario de insumos en 4 rubros.
+        </div>
+        <div class="module-footer-action">
+          <span>Abrir Panel de Administración</span>
+          <span>➜</span>
+        </div>
+      </a>
+
+      <!-- 2. Salud de Mascotas -->
+      <a href="salud_mascota.html" class="module-link-card">
+        <div class="module-icon-wrap" style="background-color: var(--primary-orange-tint); color: var(--primary-orange-dark);">🩺</div>
+        <div class="module-title">Salud, Dietas & Carnet Amigo</div>
+        <div class="module-description">
+          Fichas veterinarias (vacunas antirrábicas), ración pesada de Toby 150g al mediodía y verificación de tutores con Carnet Amigo VIP.
+        </div>
+        <div class="module-footer-action">
+          <span>Ver Fichas de Salud</span>
+          <span>➜</span>
+        </div>
+      </a>
+
+      <!-- 3. Huellitas Express -->
+      <a href="huellitas_express.html" class="module-link-card">
+        <div class="module-icon-wrap" style="background-color: #ECFDF5; color: #059669;">🚐</div>
+        <div class="module-title">Huellitas Express (Rutas Jujuy)</div>
+        <div class="module-description">
+          Mapa interactivo Leaflet.js de San Salvador de Jujuy con las 4 casas de clientes y la combi en vivo monitoreando el servicio puerta a puerta.
+        </div>
+        <div class="module-footer-action">
+          <span>Abrir Mapa en Vivo</span>
+          <span>➜</span>
+        </div>
+      </a>
+
+      <!-- 4. PetCam Live -->
+      <a href="petcam_live.html" class="module-link-card">
+        <div class="module-icon-wrap" style="background-color: #FEF2F2; color: #DC2626;">🔴</div>
+        <div class="module-title">PetCam Live (Control de Salas)</div>
+        <div class="module-description">
+          Streaming y circuito cerrado en directo de Patio Central, Sala de Descanso Acústica y Dársena de Vehículos.
+        </div>
+        <div class="module-footer-action">
+          <span style="color: #DC2626;">Ver Cámaras en Vivo</span>
+          <span>➜</span>
+        </div>
+      </a>
+
+    </section>
+
+  </main>
+
+  <script src="auth_db.js"></script>
+</body>
+</html>

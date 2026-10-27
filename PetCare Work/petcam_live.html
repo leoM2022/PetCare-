@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PetCare - PetWork | PetCam Live (Control de Salas)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="app_styles.css">
+  <style>
+    .camera-frame {
+      background-color: #0F172A;
+      border-radius: var(--radius-xl);
+      padding: 16px;
+      color: #FFFFFF;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .camera-hud-bottom {
+      position: absolute;
+      bottom: 8px;
+      left: 12px;
+      right: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      font-family: monospace;
+      color: #94A3B8;
+      z-index: 12;
+      pointer-events: none;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar with "⬅ Volver" and "Cerrar Sesión" -->
+  <header class="main-navbar">
+    <div class="navbar-inner">
+      <div class="navbar-left">
+        <!-- Return Button -->
+        <button class="btn-return-panel" data-action="return-panel" title="Regresar al Panel">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          <span>⬅ Volver</span>
+        </button>
+
+        <a href="petcam_live.html" class="brand-badge" style="margin-left: 6px;">
+          <div class="brand-icon-box" style="background-color: #FEE2E2; color: #DC2626;">🔴</div>
+          <div>
+            <div class="brand-title">PetCare - PetCam Live</div>
+            <div class="brand-sub">Circuito Cerrado & Sensores IA</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="navbar-right">
+        <div class="user-identity-pill" id="navbarUserBadge">
+          <span>STREAMING • 4 Cámaras Activas</span>
+        </div>
+        <!-- Logout Button -->
+        <button class="btn-logout-nav" data-action="logout">
+          <span>Cerrar Sesión</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="app-container">
+    
+    <!-- Hero Banner -->
+    <section class="page-hero" style="margin-bottom: 20px;">
+      <div class="page-hero-info">
+        <h1>
+          <span>Circuito Cerrado de Cámaras PetCam Live</span>
+        </h1>
+        <p>Monitoreo inteligente con visión artificial y sensores telemétricos en tiempo real en predio Jujuy.</p>
+        <span class="page-hero-badge" style="background-color: rgba(239, 68, 68, 0.2); color: #FCA5A5; border-color: rgba(239, 68, 68, 0.4);">
+          🔴 Transmisión Activa • Reconocimiento Facial y Sensores de Collar
+        </span>
+      </div>
+      <div style="text-align: right; font-size: 12px; color: #E4E4E7;">
+        <strong>Servidor Local CCTV Jujuy</strong><br>
+        <span>FPS: 60 • Latencia: 14ms • Sincronizado</span>
+      </div>
+    </section>
+
+    <!-- Camera Feeds Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 20px; margin-bottom: 30px;">
+      
+      <!-- CAM 1: Patio Central de Juegos (Simulador Canino con 5 Perros y Sensores) -->
+      <div class="camera-frame">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <div>
+            <strong style="font-size: 13px;">CAM-01 • Patio Central de Juegos</strong>
+            <div style="font-size: 11px; color: #94A3B8;">Sector Recreativo • 5 Caninos Monitoreados</div>
+          </div>
+          <span style="font-size: 10px; font-weight: 800; color: #10B981; background: rgba(16, 185, 129, 0.15); padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(16, 185, 129, 0.3);">
+            ● 5 CANINOS TRACKING
+          </span>
+        </div>
+
+        <!-- Viewport Simulador Interactivo -->
+        <div class="camera-sim-viewport sim-patio-bg" id="viewportCam1" style="height: 320px;" title="Haz clic en el patio para arrojar la pelota 🎾">
+          <div class="cctv-grid"></div>
+          <div class="cctv-scanlines"></div>
+
+          <!-- Top CCTV OSD -->
+          <div class="cctv-top-bar">
+            <span><span class="cctv-rec-dot"></span>CAM-01 [REC] • PATIO JUJUY</span>
+            <span class="cctv-clock" id="clockCam1">2026-10-23 11:45:00</span>
+          </div>
+
+          <!-- Pet 1: Toby (Golden Retriever) -->
+          <div class="sim-pet-entity" id="petToby" style="left: 20%; top: 40%;">
+            <div class="sensor-hud-pill">
+              <div class="sensor-header">
+                <span class="sensor-status-dot"></span>
+                <span>TOBY</span>
+                <span style="font-size: 9px; opacity: 0.7;">(Golden)</span>
+              </div>
+              <div class="sensor-metrics-row">
+                <span>❤️ <span class="sensor-metric-val" id="tobyBpm">88</span> bpm</span>
+                <span>⚡ <span class="sensor-metric-val" id="tobyState">Jugando</span></span>
+              </div>
+            </div>
+            <div class="pet-reticle">
+              <span class="reticle-corner corner-tl"></span>
+              <span class="reticle-corner corner-tr"></span>
+              <span class="reticle-corner corner-bl"></span>
+              <span class="reticle-corner corner-br"></span>
+              <div class="pet-sprite-body" id="spriteToby">🐕</div>
+            </div>
+          </div>
+
+          <!-- Pet 2: Max (Beagle) -->
+          <div class="sim-pet-entity" id="petMax" style="left: 45%; top: 65%;">
+            <div class="sensor-hud-pill">
+              <div class="sensor-header">
+                <span class="sensor-status-dot"></span>
+                <span>MAX</span>
+                <span style="font-size: 9px; opacity: 0.7;">(Beagle)</span>
+              </div>
+              <div class="sensor-metrics-row">
+                <span>❤️ <span class="sensor-metric-val" id="maxBpm">84</span> bpm</span>
+                <span>⚡ <span class="sensor-metric-val" id="maxState">Explorando</span></span>
+              </div>
+            </div>
+            <div class="pet-reticle">
+              <span class="reticle-corner corner-tl"></span>
+              <span class="reticle-corner corner-tr"></span>
+              <span class="reticle-corner corner-bl"></span>
+              <span class="reticle-corner corner-br"></span>
+              <div class="pet-sprite-body" id="spriteMax">🐶</div>
+            </div>
+          </div>
+
+          <!-- Pet 3: Rocco (Bulldog Francés) -->
+          <div class="sim-pet-entity" id="petRocco" style="left: 75%; top: 45%;">
+            <div class="sensor-hud-pill">
+              <div class="sensor-header">
+                <span class="sensor-status-dot"></span>
+                <span>ROCCO</span>
+                <span style="font-size: 9px; opacity: 0.7;">(Bulldog)</span>
+              </div>
+              <div class="sensor-metrics-row">
+                <span>❤️ <span class="sensor-metric-val" id="roccoBpm">92</span> bpm</span>
+                <span>⚡ <span class="sensor-metric-val">Corriendo</span></span>
+              </div>
+            </div>
+            <div class="pet-reticle">
+              <span class="reticle-corner corner-tl"></span>
+              <span class="reticle-corner corner-tr"></span>
+              <span class="reticle-corner corner-bl"></span>
+              <span class="reticle-corner corner-br"></span>
+              <div class="pet-sprite-body" id="spriteRocco">🐕‍🦺</div>
+            </div>
+          </div>
+
+          <!-- Pet 4: Thor (Pastor Alemán) -->
+          <div class="sim-pet-entity" id="petThor" style="left: 30%; top: 75%;">
+            <div class="sensor-hud-pill">
+              <div class="sensor-header">
+                <span class="sensor-status-dot"></span>
+                <span>THOR</span>
+                <span style="font-size: 9px; opacity: 0.7;">(Pastor)</span>
+              </div>
+              <div class="sensor-metrics-row">
+                <span>❤️ <span class="sensor-metric-val" id="thorBpm">80</span> bpm</span>
+                <span>⚡ <span class="sensor-metric-val">Alerta</span></span>
+              </div>
+            </div>
+            <div class="pet-reticle">
+              <span class="reticle-corner corner-tl"></span>
+              <span class="reticle-corner corner-tr"></span>
+              <span class="reticle-corner corner-bl"></span>
+              <span class="reticle-corner corner-br"></span>
+              <div class="pet-sprite-body" id="spriteThor">🐺</div>
+            </div>
+          </div>
+
+          <!-- Pet 5: Kiara (Labrador Canela) -->
+          <div class="sim-pet-entity" id="petKiara" style="left: 65%; top: 25%;">
+            <div class="sensor-hud-pill">
+              <div class="sensor-header">
+                <span class="sensor-status-dot"></span>
+                <span>KIARA</span>
+                <span style="font-size: 9px; opacity: 0.7;">(Labrador)</span>
+              </div>
+              <div class="sensor-metrics-row">
+                <span>❤️ <span class="sensor-metric-val" id="kiaraBpm">86</span> bpm</span>
+                <span>⚡ <span class="sensor-metric-val">Saltando</span></span>
+              </div>
+            </div>
+            <div class="pet-reticle">
+              <span class="reticle-corner corner-tl"></span>
+              <span class="reticle-corner corner-tr"></span>
+              <span class="reticle-corner corner-bl"></span>
+              <span class="reticle-corner corner-br"></span>
+              <div class="pet-sprite-body" id="spriteKiara">🦮</div>
+            </div>
+          </div>
+
+          <!-- Interactive Bouncing Toy Ball -->
+          <div class="sim-toy-ball" id="toyBall" style="left: 50%; top: 45%;">🎾</div>
+
+          <!-- Bottom HUD Bar -->
+          <div class="camera-hud-bottom">
+            <span>PREDIO JUJUY • PATIO RECREATIVO A</span>
+            <span>CLIMA: 24°C • COBERTURA: 100%</span>
+          </div>
+        </div>
+
+        <!-- Interactive Control Bar -->
+        <div class="sim-controls-bar">
+          <div class="sim-btn-group">
+            <button class="btn-sim-action active" id="btnToggleSensorsCam1">
+              <span>📡 Sensores IA: ON</span>
+            </button>
+            <button class="btn-sim-action" id="btnThrowBall">
+              <span>🎾 Tirar Pelota</span>
+            </button>
+          </div>
+          <div class="sim-btn-group">
+            <button class="btn-sim-action" id="btnNightCam1">
+              <span>🌙 Visión Nocturna</span>
+            </button>
+          </div>
+        </div>
+
+        <div style="font-size: 11px; color: #94A3B8; margin-top: 8px;">
+          💡 <em>Toby, Max, Rocco, Thor y Kiara interactúan en el patio. Haz clic en el césped para arrojar la pelota.</em>
+        </div>
+      </div>
+
+      <!-- CAM 2: Sala Felina & Descanso Acústico (Simulador Felino con 4 Gatos) -->
+      <div class="camera-frame">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <div>
+            <strong style="font-size: 13px;">CAM-02 • Sala Felina & Descanso Acústico</strong>
+            <div style="font-size: 11px; color: #94A3B8;">Área Silenciosa • 4 Felinos Monitoreados</div>
+          </div>
+          <span style="font-size: 10px; font-weight: 800; color: #F59E0B; background: rgba(245, 158, 11, 0.15); padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(245, 158, 11, 0.3);">
+            ● 4 FELINOS TRACKING
+          </span>
+        </div>
+
+        <!-- Viewport Simulador Interactivo Felino -->
+        <div class="camera-sim-viewport sim-indoor-bg" id="viewportCam2" style="height: 320px;" title="Mueve el mouse para guiar el puntero láser 🔴">
+          <div class="cctv-grid"></div>
+          <div class="cctv-scanlines"></div>
+
+          <!-- Top CCTV OSD -->
+          <div class="cctv-top-bar" style="color: #F59E0B;">
+            <span><span class="cctv-rec-dot" style="background-color: #F59E0B;"></span>CAM-02 [REC] • SALA FELINA</span>
+            <span class="cctv-clock" id="clockCam2">2026-10-23 11:45:00</span>
+          </div>
+
+          <!-- Pet 1: Luna (Gato Siamés) -->
+          <div class="sim-pet-entity" id="petLuna" style="left: 20%; top: 40%;">
+            <div class="sensor-hud-pill sensor-amber">
+              <div class="sensor-header">
+                <span class="sensor-status-dot"></span>
+                <span>LUNA</span>
+                <span style="font-size: 9px; opacity: 0.7;">(Siamés)</span>
+              </div>
+              <div class="sensor-metrics-row">
+                <span>❤️ <span class="sensor-metric-val" id="lunaBpm">76</span> bpm</span>
+                <span>⚡ <span class="sensor-metric-val" id="lunaState">Acechando</span></span>
+              </div>
+            </div>
+            <div class="pet-reticle sensor-amber">
+              <span class="reticle-corner corner-tl"></span>
+              <span class="reticle-corner corner-tr"></span>
+              <span class="reticle-corner corner-bl"></span>
+              <span class="reticle-corner corner-br"></span>
+              <div class="pet-sprite-body" id="spriteLuna">🐈</div>
+            </div>
+          </div>
+
+          <!-- Pet 2: Mia (Gato Persa) -->
+          <div class="sim-pet-entity" id="petMia" style="left: 70%; top: 60%;">
+            <div class="sensor-hud-pill sensor-amber">
+              <div class="sensor-header">
+                <span class="sensor-status-dot"></span>
+                <span>MIA</span>
+                <span style="font-size: 9px; opacity: 0.7;">(Persa)</span>
+              </div>
+              <div class="sensor-metrics-row">
+                <span>❤️ <span class="sensor-metric-val" id="miaBpm">72</span> bpm</span>
+                <span>⚡ <span class="sensor-metric-val">Siesta</span></span>
+              </div>
+            </div>
+            <div class="pet-reticle sensor-amber">
+              <span class="reticle-corner corner-tl"></span>
+              <span class="reticle-corner corner-tr"></span>
+              <span class="reticle-corner corner-bl"></span>
+              <span class="reticle-corner corner-br"></span>
+              <div class="pet-sprite-body" id="spriteMia">🐱</div>
+            </div>
+          </div>
+
+          <!-- Pet 3: Simba (Gato Atigrado Naranja) -->
+          <div class="sim-pet-entity" id="petSimba" style="left: 40%; top: 75%;">
+            <div class="sensor-hud-pill sensor-amber">
+              <div class="sensor-header">
+                <span class="sensor-status-dot"></span>
+                <span>SIMBA</span>
+                <span style="font-size: 9px; opacity: 0.7;">(Tabby)</span>
+              </div>
+              <div class="sensor-metrics-row">
+                <span>❤️ <span class="sensor-metric-val" id="simbaBpm">78</span> bpm</span>
+                <span>⚡ <span class="sensor-metric-val">Curioso</span></span>
+              </div>
+            </div>
+            <div class="pet-reticle sensor-amber">
+              <span class="reticle-corner corner-tl"></span>
+              <span class="reticle-corner corner-tr"></span>
+              <span class="reticle-corner corner-bl"></span>
+              <span class="reticle-corner corner-br"></span>
+              <div class="pet-sprite-body" id="spriteSimba">🐈‍⬛</div>
+            </div>
+          </div>
+
+          <!-- Pet 4: Oreo (Gato Blanco y Negro) -->
+          <div class="sim-pet-entity" id="petOreo" style="left: 80%; top: 30%;">
+            <div class="sensor-hud-pill sensor-amber">
+              <div class="sensor-header">
+                <span class="sensor-status-dot"></span>
+                <span>OREO</span>
+                <span style="font-size: 9px; opacity: 0.7;">(Bicolor)</span>
+              </div>
+              <div class="sensor-metrics-row">
+                <span>❤️ <span class="sensor-metric-val" id="oreoBpm">74</span> bpm</span>
+                <span>⚡ <span class="sensor-metric-val">Rascador</span></span>
+              </div>
+            </div>
+            <div class="pet-reticle sensor-amber">
+              <span class="reticle-corner corner-tl"></span>
+              <span class="reticle-corner corner-tr"></span>
+              <span class="reticle-corner corner-bl"></span>
+              <span class="reticle-corner corner-br"></span>
+              <div class="pet-sprite-body" id="spriteOreo">🐾</div>
+            </div>
+          </div>
+
+          <!-- Laser pointer dot -->
+          <div class="sim-laser-dot" id="laserDot" style="left: 50%; top: 45%; display: block;"></div>
+
+          <!-- Bottom HUD Bar -->
+          <div class="camera-hud-bottom">
+            <span>SECTOR B • CONTROL ACÚSTICO 35dB</span>
+            <span>CLIMA: 22°C • FEROMONAS: ACTIVAS</span>
+          </div>
+        </div>
+
+        <!-- Interactive Control Bar -->
+        <div class="sim-controls-bar">
+          <div class="sim-btn-group">
+            <button class="btn-sim-action active" id="btnToggleSensorsCam2">
+              <span>📡 Sensores IA: ON</span>
+            </button>
+            <button class="btn-sim-action active" id="btnToggleLaser">
+              <span>🔴 Puntero Láser</span>
+            </button>
+          </div>
+          <div class="sim-btn-group">
+            <button class="btn-sim-action" id="btnNightCam2">
+              <span>🌙 Visión Nocturna</span>
+            </button>
+          </div>
+        </div>
+
+        <div style="font-size: 11px; color: #94A3B8; margin-top: 8px;">
+          💡 <em>Luna, Mia, Simba y Oreo en sector de descanso. Mueve el cursor para guiar el láser rojo.</em>
+        </div>
+      </div>
+
+      <!-- CAM 3: Área de Alimentación & Casilleros con Bruno -->
+      <div class="camera-frame">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <div>
+            <strong style="font-size: 13px;">CAM-03 • Área de Alimentación & Casilleros</strong>
+            <div style="font-size: 11px; color: #94A3B8;">Higiene & Raciones Nutricionales</div>
+          </div>
+          <span style="font-size: 10px; font-weight: 800; color: #38BDF8; background: rgba(56, 189, 248, 0.15); padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(56, 189, 248, 0.3);">
+            ● BALANZAS ONLINE
+          </span>
+        </div>
+        <div class="camera-sim-viewport" style="height: 320px; background: radial-gradient(circle at 50% 50%, #1e293b 0%, #090e17 100%);">
+          <div class="cctv-grid"></div>
+          <div class="cctv-scanlines"></div>
+          <div class="cctv-top-bar" style="color: #38BDF8;">
+            <span><span class="cctv-rec-dot" style="background-color: #38BDF8;"></span>CAM-03 [REC] • ALIMENTACIÓN</span>
+            <span class="cctv-clock" id="clockCam3">2026-10-23 11:45:00</span>
+          </div>
+          
+          <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+            <div style="font-size: 40px; margin-bottom: 6px;">🥣 🍽️ ⚖️</div>
+            
+            <!-- Animated Puppy Bruno waiting for food -->
+            <div style="margin-bottom: 10px; animation: petBobbing 1.2s infinite alternate ease-in-out;">
+              <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(56, 189, 248, 0.6); padding: 3px 8px; border-radius: 6px; font-family: monospace; font-size: 10px; color: #FFFFFF; display: inline-flex; align-items: center; gap: 4px; margin-bottom: 3px;">
+                <span style="color: #38BDF8;">●</span> <strong>BRUNO</strong> <span style="color:#94A3B8;">(Cachorro)</span> | ❤️ 95 bpm
+              </div>
+              <div style="font-size: 28px;">🐶</div>
+            </div>
+
+            <div style="background: rgba(15, 23, 42, 0.85); padding: 6px 14px; border-radius: 6px; border: 1px solid rgba(56, 189, 248, 0.4); font-family: monospace; font-size: 11px;">
+              <span style="color: #38BDF8;">● CONTROL DIGITAL:</span> 5 Viandas Formuladas Listas<br>
+              <span style="color: #94A3B8; font-size: 10px;">Toby (320g) • Luna (60g Royal) • Max (180g) • Mia (50g) • Rocco (220g)</span>
+            </div>
+          </div>
+
+          <div class="camera-hud-bottom">
+            <span>SECTOR DIETAS • PROTOCOLO SANITARIO</span>
+            <span>AGUA OZONIZADA: DISPONIBLE</span>
+          </div>
+        </div>
+        <div style="font-size: 11px; color: #94A3B8; margin-top: 10px;">
+          Pesado y asignación individual de viandas propias del mediodía y agua fresca.
+        </div>
+      </div>
+
+      <!-- CAM 4: Dársena Huellitas Express -->
+      <div class="camera-frame">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <div>
+            <strong style="font-size: 13px;">CAM-04 • Dársena Huellitas Express</strong>
+            <div style="font-size: 11px; color: #94A3B8;">Bahía de Traslado & Caniles</div>
+          </div>
+          <span style="font-size: 10px; font-weight: 800; color: #10B981; background: rgba(16, 185, 129, 0.15); padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(16, 185, 129, 0.3);">
+            ● MÓVIL #02 EN RUTA
+          </span>
+        </div>
+        <div class="camera-sim-viewport" style="height: 320px; background: radial-gradient(circle at 50% 50%, #1e293b 0%, #090e17 100%);">
+          <div class="cctv-grid"></div>
+          <div class="cctv-scanlines"></div>
+          <div class="cctv-top-bar">
+            <span><span class="cctv-rec-dot"></span>CAM-04 [REC] • DÁRSENA LOGÍSTICA</span>
+            <span class="cctv-clock" id="clockCam4">2026-10-23 11:45:00</span>
+          </div>
+
+          <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+            <div style="font-size: 44px; margin-bottom: 8px;">🚐 🅿️ 🐾</div>
+            <div style="background: rgba(15, 23, 42, 0.85); padding: 6px 14px; border-radius: 6px; border: 1px solid rgba(16, 185, 129, 0.4); font-family: monospace; font-size: 11px;">
+              <span style="color: #10B981;">● MERCEDES SPRINTER (AA-928-JK):</span> En Tránsito<br>
+              <span style="color: #94A3B8; font-size: 10px;">GPS Vinculado • Ruta Huellitas Express hacia B° Los Perales</span>
+            </div>
+          </div>
+
+          <div class="camera-hud-bottom">
+            <span>DÁRSENA 01 • RUTA TARDE ACTIVA</span>
+            <span>VELOCIDAD: 38 KM/H</span>
+          </div>
+        </div>
+        <div style="font-size: 11px; color: #94A3B8; margin-top: 10px;">
+          Monitoreo telemétrico de la unidad de traslado con las familias de Jujuy.
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Auth Script -->
+  <script src="auth_db.js"></script>
+
+  <!-- Animated Multi-Pet Simulator Engine -->
+  <script>
+    (function initPetCamSimulator() {
+      // 1. Live CCTV Clock
+      function updateClock() {
+        const now = new Date();
+        const str = now.getFullYear() + '-' +
+          String(now.getMonth() + 1).padStart(2, '0') + '-' +
+          String(now.getDate()).padStart(2, '0') + ' ' +
+          String(now.getHours()).padStart(2, '0') + ':' +
+          String(now.getMinutes()).padStart(2, '0') + ':' +
+          String(now.getSeconds()).padStart(2, '0');
+        
+        ['clockCam1', 'clockCam2', 'clockCam3', 'clockCam4'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = str;
+        });
+      }
+      setInterval(updateClock, 1000);
+      updateClock();
+
+      // 2. CAM-01 Simulator (5 Dogs: Toby, Max, Rocco, Thor, Kiara + Tennis Ball)
+      const viewport1 = document.getElementById('viewportCam1');
+      const toyBall = document.getElementById('toyBall');
+
+      const dogs = [
+        {
+          id: 'toby',
+          el: document.getElementById('petToby'),
+          sprite: document.getElementById('spriteToby'),
+          x: 90, y: 120, vx: 1.3, vy: 0.8, speed: 1.5,
+          attraction: 0.035
+        },
+        {
+          id: 'max',
+          el: document.getElementById('petMax'),
+          sprite: document.getElementById('spriteMax'),
+          x: 200, y: 220, vx: -0.9, vy: 0.7, speed: 1.2,
+          attraction: 0.02
+        },
+        {
+          id: 'rocco',
+          el: document.getElementById('petRocco'),
+          sprite: document.getElementById('spriteRocco'),
+          x: 280, y: 150, vx: 1.1, vy: -0.9, speed: 1.4,
+          attraction: 0.025
+        },
+        {
+          id: 'thor',
+          el: document.getElementById('petThor'),
+          sprite: document.getElementById('spriteThor'),
+          x: 120, y: 240, vx: -0.7, vy: 0.6, speed: 1.1,
+          attraction: 0.015
+        },
+        {
+          id: 'kiara',
+          el: document.getElementById('petKiara'),
+          sprite: document.getElementById('spriteKiara'),
+          x: 240, y: 90, vx: 1.2, vy: 1.1, speed: 1.6,
+          attraction: 0.03
+        }
+      ];
+
+      const ball = {
+        el: toyBall,
+        x: 180,
+        y: 140,
+        vx: 2.4,
+        vy: 1.6
+      };
+
+      // 3. CAM-02 Simulator (4 Cats: Luna, Mia, Simba, Oreo + Laser Dot)
+      const viewport2 = document.getElementById('viewportCam2');
+      const laserDot = document.getElementById('laserDot');
+
+      const cats = [
+        {
+          id: 'luna',
+          el: document.getElementById('petLuna'),
+          sprite: document.getElementById('spriteLuna'),
+          x: 80, y: 130, vx: 0.8, vy: 0.4, speed: 0.95,
+          laserAttraction: 0.04
+        },
+        {
+          id: 'mia',
+          el: document.getElementById('petMia'),
+          sprite: document.getElementById('spriteMia'),
+          x: 280, y: 190, vx: -0.3, vy: 0.2, speed: 0.55,
+          laserAttraction: 0.005
+        },
+        {
+          id: 'simba',
+          el: document.getElementById('petSimba'),
+          sprite: document.getElementById('spriteSimba'),
+          x: 150, y: 230, vx: 0.6, vy: -0.5, speed: 0.85,
+          laserAttraction: 0.03
+        },
+        {
+          id: 'oreo',
+          el: document.getElementById('petOreo'),
+          sprite: document.getElementById('spriteOreo'),
+          x: 300, y: 100, vx: -0.5, vy: 0.4, speed: 0.7,
+          laserAttraction: 0.02
+        }
+      ];
+
+      const laser = {
+        el: laserDot,
+        active: true,
+        x: 160,
+        y: 140,
+        tx: 220,
+        ty: 160
+      };
+
+      // Physics Loop
+      function updatePhysics() {
+        // --- CAM-01: Update Dogs & Ball ---
+        if (viewport1) {
+          const rect1 = viewport1.getBoundingClientRect();
+          const w1 = rect1.width || 380;
+          const h1 = rect1.height || 320;
+
+          // Ball physics
+          ball.x += ball.vx;
+          ball.y += ball.vy;
+          if (ball.x <= 20) { ball.x = 20; ball.vx = Math.abs(ball.vx); }
+          if (ball.x >= w1 - 20) { ball.x = w1 - 20; ball.vx = -Math.abs(ball.vx); }
+          if (ball.y <= 40) { ball.y = 40; ball.vy = Math.abs(ball.vy); }
+          if (ball.y >= h1 - 35) { ball.y = h1 - 35; ball.vy = -Math.abs(ball.vy); }
+
+          if (ball.el) {
+            ball.el.style.left = ball.x + 'px';
+            ball.el.style.top = ball.y + 'px';
+          }
+
+          // Update each of the 5 dogs
+          dogs.forEach(dog => {
+            updateDog(dog, w1, h1, ball.x, ball.y);
+          });
+        }
+
+        // --- CAM-02: Update Cats & Laser ---
+        if (viewport2) {
+          const rect2 = viewport2.getBoundingClientRect();
+          const w2 = rect2.width || 380;
+          const h2 = rect2.height || 320;
+
+          // Laser slight autonomous drift
+          if (laser.active) {
+            laser.x += (laser.tx - laser.x) * 0.05;
+            laser.y += (laser.ty - laser.y) * 0.05;
+            if (Math.hypot(laser.tx - laser.x, laser.ty - laser.y) < 10) {
+              laser.tx = 40 + Math.random() * (w2 - 80);
+              laser.ty = 60 + Math.random() * (h2 - 100);
+            }
+            if (laser.el) {
+              laser.el.style.left = laser.x + 'px';
+              laser.el.style.top = laser.y + 'px';
+            }
+          }
+
+          // Update each of the 4 cats
+          cats.forEach(cat => {
+            updateCat(cat, w2, h2, laser.active ? laser.x : null, laser.active ? laser.y : null);
+          });
+        }
+
+        requestAnimationFrame(updatePhysics);
+      }
+
+      function updateDog(dog, w, h, targetX, targetY) {
+        if (!dog.el) return;
+
+        if (targetX !== null && targetY !== null && Math.random() < 0.75) {
+          const dx = targetX - dog.x;
+          const dy = targetY - dog.y;
+          const dist = Math.hypot(dx, dy);
+          if (dist > 30) {
+            dog.vx += (dx / dist) * dog.attraction;
+            dog.vy += (dy / dist) * dog.attraction;
+          }
+        }
+
+        dog.vx += (Math.random() - 0.5) * 0.2;
+        dog.vy += (Math.random() - 0.5) * 0.2;
+
+        const currentSpeed = Math.hypot(dog.vx, dog.vy);
+        if (currentSpeed > dog.speed) {
+          dog.vx = (dog.vx / currentSpeed) * dog.speed;
+          dog.vy = (dog.vy / currentSpeed) * dog.speed;
+        }
+
+        dog.x += dog.vx;
+        dog.y += dog.vy;
+
+        const padX = 35;
+        const padY = 55;
+        const bPadY = 40;
+        if (dog.x < padX) { dog.x = padX; dog.vx = Math.abs(dog.vx); }
+        if (dog.x > w - padX) { dog.x = w - padX; dog.vx = -Math.abs(dog.vx); }
+        if (dog.y < padY) { dog.y = padY; dog.vy = Math.abs(dog.vy); }
+        if (dog.y > h - bPadY) { dog.y = h - bPadY; dog.vy = -Math.abs(dog.vy); }
+
+        if (dog.sprite) {
+          dog.sprite.style.transform = dog.vx < 0 ? 'scaleX(-1)' : 'scaleX(1)';
+        }
+
+        dog.el.style.left = dog.x + 'px';
+        dog.el.style.top = dog.y + 'px';
+      }
+
+      function updateCat(cat, w, h, targetX, targetY) {
+        if (!cat.el) return;
+
+        if (targetX !== null && targetY !== null && cat.laserAttraction > 0.01) {
+          const dx = targetX - cat.x;
+          const dy = targetY - cat.y;
+          const dist = Math.hypot(dx, dy);
+          if (dist > 25) {
+            cat.vx += (dx / dist) * cat.laserAttraction;
+            cat.vy += (dy / dist) * cat.laserAttraction;
+          }
+        } else {
+          if (Math.random() < 0.02) {
+            cat.vx = (Math.random() - 0.5) * 0.7;
+            cat.vy = (Math.random() - 0.5) * 0.7;
+          }
+        }
+
+        const currentSpeed = Math.hypot(cat.vx, cat.vy);
+        if (currentSpeed > cat.speed) {
+          cat.vx = (cat.vx / currentSpeed) * cat.speed;
+          cat.vy = (cat.vy / currentSpeed) * cat.speed;
+        }
+
+        cat.x += cat.vx;
+        cat.y += cat.vy;
+
+        const padX = 35;
+        const padY = 55;
+        const bPadY = 40;
+        if (cat.x < padX) { cat.x = padX; cat.vx = Math.abs(cat.vx); }
+        if (cat.x > w - padX) { cat.x = w - padX; cat.vx = -Math.abs(cat.vx); }
+        if (cat.y < padY) { cat.y = padY; cat.vy = Math.abs(cat.vy); }
+        if (cat.y > h - bPadY) { cat.y = h - bPadY; cat.vy = -Math.abs(cat.vy); }
+
+        if (cat.sprite) {
+          cat.sprite.style.transform = cat.vx < 0 ? 'scaleX(-1)' : 'scaleX(1)';
+        }
+
+        cat.el.style.left = cat.x + 'px';
+        cat.el.style.top = cat.y + 'px';
+      }
+
+      requestAnimationFrame(updatePhysics);
+
+      // 4. Biometric Sensor Pulse (Updates BPM values every 2 seconds)
+      setInterval(() => {
+        const tobyBpm = document.getElementById('tobyBpm');
+        const maxBpm = document.getElementById('maxBpm');
+        const roccoBpm = document.getElementById('roccoBpm');
+        const thorBpm = document.getElementById('thorBpm');
+        const kiaraBpm = document.getElementById('kiaraBpm');
+
+        const lunaBpm = document.getElementById('lunaBpm');
+        const miaBpm = document.getElementById('miaBpm');
+        const simbaBpm = document.getElementById('simbaBpm');
+        const oreoBpm = document.getElementById('oreoBpm');
+
+        if (tobyBpm) tobyBpm.textContent = 86 + Math.floor(Math.random() * 8);
+        if (maxBpm) maxBpm.textContent = 82 + Math.floor(Math.random() * 6);
+        if (roccoBpm) roccoBpm.textContent = 90 + Math.floor(Math.random() * 6);
+        if (thorBpm) thorBpm.textContent = 78 + Math.floor(Math.random() * 6);
+        if (kiaraBpm) kiaraBpm.textContent = 85 + Math.floor(Math.random() * 7);
+
+        if (lunaBpm) lunaBpm.textContent = 74 + Math.floor(Math.random() * 5);
+        if (miaBpm) miaBpm.textContent = 70 + Math.floor(Math.random() * 4);
+        if (simbaBpm) simbaBpm.textContent = 76 + Math.floor(Math.random() * 5);
+        if (oreoBpm) oreoBpm.textContent = 72 + Math.floor(Math.random() * 4);
+      }, 2000);
+
+      // 5. Interactive controls CAM-01: Throw ball on click or button
+      if (viewport1) {
+        viewport1.addEventListener('click', (e) => {
+          const rect = viewport1.getBoundingClientRect();
+          ball.x = e.clientX - rect.left;
+          ball.y = e.clientY - rect.top;
+          ball.vx = (Math.random() - 0.5) * 5;
+          ball.vy = (Math.random() - 0.5) * 5;
+        });
+      }
+
+      const btnThrow = document.getElementById('btnThrowBall');
+      if (btnThrow && viewport1) {
+        btnThrow.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const rect = viewport1.getBoundingClientRect();
+          ball.x = (rect.width || 380) / 2;
+          ball.y = 80;
+          ball.vx = (Math.random() - 0.5) * 6;
+          ball.vy = 2 + Math.random() * 4;
+        });
+      }
+
+      // Interactive controls CAM-02: Move laser on mousemove or click
+      if (viewport2) {
+        viewport2.addEventListener('mousemove', (e) => {
+          if (!laser.active) return;
+          const rect = viewport2.getBoundingClientRect();
+          laser.tx = e.clientX - rect.left;
+          laser.ty = e.clientY - rect.top;
+        });
+
+        viewport2.addEventListener('click', (e) => {
+          const rect = viewport2.getBoundingClientRect();
+          laser.tx = e.clientX - rect.left;
+          laser.ty = e.clientY - rect.top;
+          laser.x = laser.tx;
+          laser.y = laser.ty;
+        });
+      }
+
+      const btnToggleLaser = document.getElementById('btnToggleLaser');
+      if (btnToggleLaser) {
+        btnToggleLaser.addEventListener('click', (e) => {
+          e.stopPropagation();
+          laser.active = !laser.active;
+          if (laser.el) laser.el.style.display = laser.active ? 'block' : 'none';
+          btnToggleLaser.classList.toggle('active', laser.active);
+          btnToggleLaser.innerHTML = laser.active ? '<span>🔴 Puntero Láser: ON</span>' : '<span>⚪ Puntero Láser: OFF</span>';
+        });
+      }
+
+      // Toggle Sensors CAM-01
+      const btnToggleSensorsCam1 = document.getElementById('btnToggleSensorsCam1');
+      if (btnToggleSensorsCam1 && viewport1) {
+        btnToggleSensorsCam1.addEventListener('click', (e) => {
+          e.stopPropagation();
+          viewport1.classList.toggle('hide-sensors');
+          const isHidden = viewport1.classList.contains('hide-sensors');
+          btnToggleSensorsCam1.classList.toggle('active', !isHidden);
+          btnToggleSensorsCam1.innerHTML = isHidden ? '<span>📡 Sensores IA: OFF</span>' : '<span>📡 Sensores IA: ON</span>';
+        });
+      }
+
+      // Toggle Sensors CAM-02
+      const btnToggleSensorsCam2 = document.getElementById('btnToggleSensorsCam2');
+      if (btnToggleSensorsCam2 && viewport2) {
+        btnToggleSensorsCam2.addEventListener('click', (e) => {
+          e.stopPropagation();
+          viewport2.classList.toggle('hide-sensors');
+          const isHidden = viewport2.classList.contains('hide-sensors');
+          btnToggleSensorsCam2.classList.toggle('active', !isHidden);
+          btnToggleSensorsCam2.innerHTML = isHidden ? '<span>📡 Sensores IA: OFF</span>' : '<span>📡 Sensores IA: ON</span>';
+        });
+      }
+
+      // Toggle Night Vision CAM-01
+      const btnNightCam1 = document.getElementById('btnNightCam1');
+      if (btnNightCam1 && viewport1) {
+        btnNightCam1.addEventListener('click', (e) => {
+          e.stopPropagation();
+          viewport1.classList.toggle('filter-night');
+          const isNight = viewport1.classList.contains('filter-night');
+          btnNightCam1.classList.toggle('active', isNight);
+        });
+      }
+
+      // Toggle Night Vision CAM-02
+      const btnNightCam2 = document.getElementById('btnNightCam2');
+      if (btnNightCam2 && viewport2) {
+        btnNightCam2.addEventListener('click', (e) => {
+          e.stopPropagation();
+          viewport2.classList.toggle('filter-night');
+          const isNight = viewport2.classList.contains('filter-night');
+          btnNightCam2.classList.toggle('active', isNight);
+        });
+      }
+
+    })();
+  </script>
+</body>
+</html>

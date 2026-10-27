@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PetCare - PetWork | Salud, Rutinas & Carnet Amigo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="app_styles.css">
+  <style>
+    .carnet-vip-box {
+      background: linear-gradient(135deg, #18181B 0%, #27272A 100%);
+      color: #FFFFFF;
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      box-shadow: var(--shadow-lg);
+      border: 1.5px solid rgba(251, 146, 60, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar with "⬅ Volver" and "Cerrar Sesión" -->
+  <header class="main-navbar">
+    <div class="navbar-inner">
+      <div class="navbar-left">
+        <!-- Return Button -->
+        <button class="btn-return-panel" data-action="return-panel" title="Regresar al Panel">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          <span>⬅ Volver</span>
+        </button>
+
+        <a href="salud_mascota.html" class="brand-badge" style="margin-left: 6px;">
+          <div class="brand-icon-box">🩺</div>
+          <div>
+            <div class="brand-title">Salud de la Mascota</div>
+            <div class="brand-sub">Fichas Clínicas • Caninos & Felinos</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="navbar-right">
+        <div class="user-identity-pill" id="navbarUserBadge">
+          <span>CUIDADOR • Salud</span>
+        </div>
+        <!-- Logout Button -->
+        <button class="btn-logout-nav" data-action="logout">
+          <span>Cerrar Sesión</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="app-container">
+
+    <!-- Header Hero -->
+    <section class="page-hero" style="margin-bottom: 20px;">
+      <div class="page-hero-info">
+        <h1>
+          <span>Expedientes de Salud, Nutrición & Carnet Amigo</span>
+        </h1>
+        <p>Base de datos clínica activa para caninos y felinos. Control sanitario, dietas personalizadas y validación biométrica.</p>
+        <span class="page-hero-badge">Estación de Cuidados • Caninos & Felinos en Predio</span>
+      </div>
+      <div style="text-align: right; font-size: 12px; color: #E4E4E7;">
+        <strong>Veterinaria de Cabecera: Dra. Ramos</strong><br>
+        <span>Clínica Jujuy Pet (Tel: 388-4223344)</span>
+      </div>
+    </section>
+
+    <!-- Pet Switcher Tabs (Varied: Dogs and Cats) -->
+    <div class="pet-tabs-bar" id="petTabsContainer">
+      <button type="button" class="pet-tab-btn active" data-pet="toby">
+        <span>🐕</span> Toby (Golden Retriever)
+      </button>
+      <button type="button" class="pet-tab-btn" data-pet="luna">
+        <span>🐱</span> Luna (Gato Siamés)
+      </button>
+      <button type="button" class="pet-tab-btn" data-pet="max">
+        <span>🐶</span> Max (Beagle)
+      </button>
+      <button type="button" class="pet-tab-btn" data-pet="mia">
+        <span>🐈</span> Mia (Gato Persa)
+      </button>
+    </div>
+
+    <!-- Health, Nutrition & Carnet Grid -->
+    <div class="health-grid-layout">
+
+      <!-- Left Column: Health & Routine Details -->
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        
+        <!-- Medical & Health Card -->
+        <div class="card-white" id="medicalCard">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+            <div>
+              <h2 style="font-size: 18px; font-weight: 800; color: var(--text-dark);" id="petNameHeader">Toby • Perro Golden Retriever</h2>
+              <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;" id="petMetaHeader">
+                Edad: 3 años • Peso: 28 kg • Sexo: Macho • Microchip: #9820003412
+              </div>
+            </div>
+            <span class="page-hero-badge" style="background-color: var(--status-amber-bg); color: var(--status-amber-text); border-color: #FDE68A;" id="petStatusBadge">
+              ⚠️ Alerta Nutricional
+            </span>
+          </div>
+
+          <!-- Sanidad Pills -->
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
+            <span style="font-size: 12px; font-weight: 700; background-color: var(--status-green-bg); color: var(--status-green-text); padding: 4px 10px; border-radius: 6px; border: 1px solid #A7F3D0;" id="petVaccineText">
+              🛡️ Vacuna Antirrábica al día (Vence: Dic 2026 ✅)
+            </span>
+            <span style="font-size: 12px; font-weight: 700; background-color: var(--status-blue-bg); color: var(--status-blue-text); padding: 4px 10px; border-radius: 6px; border: 1px solid #BFDBFE;">
+              💊 Desparasitación al Día (Octubre 2026)
+            </span>
+          </div>
+
+          <!-- Vet Contact -->
+          <div style="background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 12px 16px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Veterinario de Cabecera</div>
+              <div style="font-size: 13px; font-weight: 700; color: var(--text-dark);" id="petVetText">Dra. Ramos (Clínica Jujuy Pet - Tel: 388-4223344)</div>
+            </div>
+            <a href="tel:3884223344" style="background-color: var(--primary-orange-tint); color: var(--primary-orange-dark); font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 6px; text-decoration: none; border: 1px solid var(--primary-orange-light);">
+              📞 Llamar
+            </a>
+          </div>
+
+          <!-- Behavior -->
+          <div>
+            <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px;">Comportamiento & Pautas de Cuidado</div>
+            <div style="font-size: 12px; color: #334155; line-height: 1.5; background-color: #FFFFFF; border-left: 3px solid #3B82F6; padding: 8px 12px; border-radius: 0 6px 6px 0; border: 1px solid var(--border-color); border-left-width: 4px;" id="petBehaviorText">
+              "Muy sociable con perros medianos. Evitar juegos bruscos con cachorros pequeños. Excelente respuesta al llamado de cuidadores."
+            </div>
+          </div>
+        </div>
+
+        <!-- Feeding & Routine Management Section -->
+        <div class="card-white" id="almuerzos">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <h3 style="font-size: 16px; font-weight: 800; color: var(--text-dark);">
+              🥣 Control de Alimentación & Dieta
+            </h3>
+            <span style="font-size: 12px; font-weight: 700; color: var(--primary-orange-dark); background-color: var(--primary-orange-tint); padding: 3px 10px; border-radius: var(--radius-full);">
+              Horario: 12:00 hs
+            </span>
+          </div>
+
+          <div style="background-color: var(--primary-orange-tint); border: 1px solid var(--primary-orange-light); border-radius: var(--radius-lg); padding: 16px; margin-bottom: 16px;">
+            <div style="font-size: 13px; font-weight: 800; color: #9A3412;" id="petDietTitle">
+              ⚠️ Alimento Propio: 150g al Mediodía
+            </div>
+            <div style="font-size: 12px; color: #78350F; margin-top: 4px;" id="petDietDesc">
+              Ubicación: Ración pesada en Casillero #14. Traído por el tutor Martín R. (Telecom Jujuy).
+            </div>
+            <div style="margin-top: 12px;">
+              <button type="button" class="btn-primary-orange" id="btnToggleLunch" style="width: auto; padding: 9px 18px;">
+                <span>Marcar Ración Servida ✅</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Schedule of the Day -->
+          <div id="rutinas">
+            <h4 style="font-size: 13px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px;">Rutinas Asignadas del Turno:</h4>
+            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px;">
+              <div style="display: flex; justify-content: space-between; background-color: var(--bg-main); padding: 8px 12px; border-radius: 6px;">
+                <span id="petRoutine1">🎾 10:30 hs: Sesión de Recreación en Patio Central</span>
+                <strong style="color: #059669;">Completado ✅</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; background-color: var(--bg-main); padding: 8px 12px; border-radius: 6px;">
+                <span id="petRoutine2">💧 12:00 hs: Almuerzo, Hidratación & Bandeja Sanitaria</span>
+                <strong style="color: var(--primary-orange-dark);" id="lunchStatusTxt">En Curso</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; background-color: var(--bg-main); padding: 8px 12px; border-radius: 6px;">
+                <span id="petRoutine3">🚐 18:20 hs: Salida en Combi Huellitas Express</span>
+                <strong style="color: #2563EB;">Agendado</strong>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Right Column: Carnet Amigo VIP & Pickup Verification -->
+      <div style="display: flex; flex-direction: column; gap: 20px;" id="carnet">
+        
+        <!-- Carnet Amigo Card Frame -->
+        <div class="carnet-vip-box">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <div style="font-size: 10px; font-weight: 800; color: var(--primary-orange-light); text-transform: uppercase; letter-spacing: 0.06em;">
+                PetCare Jujuy • Carnet Amigo VIP
+              </div>
+              <h3 style="font-size: 22px; font-weight: 800; color: #FFFFFF; margin-top: 2px;" id="carnetPetName">
+                Toby
+              </h3>
+              <div style="font-size: 12px; color: #E4E4E7;" id="carnetPetBreed">
+                Perro Golden Retriever • 28 kg
+              </div>
+            </div>
+
+            <!-- QR Box -->
+            <div style="background-color: #FFFFFF; padding: 6px; border-radius: 8px; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#18181B" stroke-width="2" style="width: 100%; height: 100%;">
+                <rect x="2" y="2" width="8" height="8" rx="1"/>
+                <rect x="14" y="2" width="8" height="8" rx="1"/>
+                <rect x="2" y="14" width="8" height="8" rx="1"/>
+                <rect x="15" y="15" width="4" height="4"/>
+                <rect x="19" y="19" width="3" height="3"/>
+              </svg>
+            </div>
+          </div>
+
+          <div style="margin-top: 24px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.15); display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 11px;">
+            <div>
+              <span style="color: #A1A1AA;">Tutor Principal:</span>
+              <div style="font-weight: 700; color: #FFFFFF; font-size: 12px;" id="carnetOwnerName">Martín R.</div>
+              <div style="color: var(--primary-orange-light);" id="carnetCorpText">Telecom Jujuy (Convenio B2B)</div>
+            </div>
+            <div>
+              <span style="color: #A1A1AA;">Microchip:</span>
+              <div style="font-weight: 700; color: #FFFFFF; font-family: monospace; font-size: 12px;" id="carnetChipText">#9820003412</div>
+              <div style="color: #34D399;">Sanidad al día ✅</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Authorized Pickup Details -->
+        <div class="card-white">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h4 style="font-size: 14px; font-weight: 800; color: var(--text-dark);">
+              🛡️ Retiro Autorizado por Tutor
+            </h4>
+            <span style="font-size: 10px; font-weight: 700; background-color: var(--status-green-bg); color: var(--status-green-text); padding: 2px 8px; border-radius: var(--radius-full);">
+              Validado
+            </span>
+          </div>
+
+          <div style="font-size: 12px; color: #334155; line-height: 1.6;" id="carnetAuthDetails">
+            <strong>Persona Autorizada:</strong> Hermana: Laura R.<br>
+            <strong>Documento de Identidad:</strong> DNI 35.xxx.xxx<br>
+            <strong>Modalidad Salida:</strong> Combi Huellitas (18:20 hs).
+          </div>
+
+          <div style="margin-top: 16px;">
+            <button type="button" class="btn-primary-orange" id="btnScanCheckin" style="font-size: 12px; padding: 10px 14px;">
+              <span>Simular Escaneo RFID / Carnet</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <script src="auth_db.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const allPets = getPets();
+
+      function loadPetDetails(petId) {
+        const p = allPets.find(item => item.id === petId) || allPets[0];
+        if (!p) return;
+
+        document.getElementById('petNameHeader').textContent = `${p.nombre} • ${p.especie} ${p.raza}`;
+        document.getElementById('petMetaHeader').textContent = `Edad: ${p.edad} • Peso: ${p.peso} • Sexo: ${p.sexo} • Microchip: ${p.microchip}`;
+        document.getElementById('petStatusBadge').textContent = p.alerta;
+        document.getElementById('petVaccineText').textContent = p.vacuna;
+        document.getElementById('petVetText').textContent = p.vet;
+        document.getElementById('petBehaviorText').textContent = `"${p.comportamiento}"`;
+        document.getElementById('petDietTitle').textContent = p.dietaTitle;
+        document.getElementById('petDietDesc').textContent = p.dietaDesc;
+
+        document.getElementById('carnetPetName').textContent = p.nombre;
+        document.getElementById('carnetPetBreed').textContent = `${p.especie} ${p.raza} • ${p.peso}`;
+        document.getElementById('carnetOwnerName').textContent = p.tutor;
+        document.getElementById('carnetCorpText').textContent = `${p.empresa} (${p.convenio})`;
+        document.getElementById('carnetChipText').textContent = p.microchip;
+        document.getElementById('carnetAuthDetails').innerHTML = `<strong>Persona Autorizada:</strong> ${p.autorizado}<br><strong>Modalidad Salida:</strong> ${p.modalidadSalida}.<br><strong>Casillero:</strong> ${p.casillero}`;
+
+        // Custom routines
+        if (p.especie === 'Gato') {
+          document.getElementById('petRoutine1').textContent = '🌿 10:30 hs: Sesión en Rascadores y Cojines de Sala Felina';
+          document.getElementById('petRoutine2').textContent = '🥣 12:00 hs: Ración Royal Canin & Limpieza de Arena Sanitaria';
+          document.getElementById('petRoutine3').textContent = `🚗 ${p.modalidadSalida}`;
+        } else {
+          document.getElementById('petRoutine1').textContent = '🎾 10:30 hs: Sesión de Pelota y Recreación en Patio Central';
+          document.getElementById('petRoutine2').textContent = '🥣 12:00 hs: Almuerzo Asistido & Control de Hidratación';
+          document.getElementById('petRoutine3').textContent = `🚐 ${p.modalidadSalida}`;
+        }
+      }
+
+      // Switch pet tabs
+      document.querySelectorAll('.pet-tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.pet-tab-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          loadPetDetails(btn.dataset.pet);
+        });
+      });
+
+      // Load initial pet
+      loadPetDetails('toby');
+
+      // Toggle lunch button
+      const lunchBtn = document.getElementById('btnToggleLunch');
+      const lunchStatus = document.getElementById('lunchStatusTxt');
+      let served = false;
+      lunchBtn.addEventListener('click', () => {
+        served = !served;
+        if (served) {
+          lunchBtn.textContent = 'Ración Registrada ✅';
+          lunchBtn.style.backgroundColor = '#10B981';
+          lunchStatus.textContent = 'Servido y Registrado ✅';
+          lunchStatus.style.color = '#10B981';
+          alert('Ración alimentaria servida y registrada en la bitácora sanitaria.');
+        } else {
+          lunchBtn.textContent = 'Marcar Ración Servida ✅';
+          lunchBtn.style.backgroundColor = 'var(--text-dark)';
+          lunchStatus.textContent = 'En Curso';
+          lunchStatus.style.color = 'var(--primary-orange-dark)';
+        }
+      });
+
+      // Simulate RFID / QR Scan
+      document.getElementById('btnScanCheckin').addEventListener('click', () => {
+        const activeTab = document.querySelector('.pet-tab-btn.active');
+        const p = allPets.find(item => item.id === activeTab.dataset.pet) || allPets[0];
+        alert(`✅ Carnet Amigo Escaneado con Éxito.\nIdentidad confirmada: ${p.nombre} (${p.microchip})\nTutor: ${p.tutor} (${p.empresa})\nAutorizado: ${p.autorizado}`);
+      });
+    });
+  </script>
+</body>
+</html>

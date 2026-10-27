@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PetCare - PetWork | Administración & Convenios B2B</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="app_styles.css">
+  <style>
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .admin-table th {
+      background-color: var(--bg-main);
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .admin-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar with Prominent "⬅ Volver al Panel" -->
+  <header class="main-navbar">
+    <div class="navbar-inner">
+      <div class="navbar-left">
+        <button class="btn-return-panel" data-action="return-panel" title="Regresar al Panel Correspondiente">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          <span>⬅ Volver al Panel</span>
+        </button>
+
+        <div class="brand-badge" style="margin-left: 6px;">
+          <div class="brand-icon-box">💼</div>
+          <div>
+            <div class="brand-title">Administración</div>
+            <div class="brand-sub">Convenios & Gestión B2B</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="navbar-right">
+        <div class="user-identity-pill" id="navbarRoleBadge">
+          <span>ADMIN • Activo</span>
+        </div>
+        <button class="btn-logout-nav" data-action="logout">
+          <span>Salir</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="app-container">
+    
+    <!-- Hero Banner -->
+    <section class="page-hero" style="margin-bottom: 20px;">
+      <div class="page-hero-info">
+        <h1>
+          <span>Gestión Administrativa & Alianzas Corporativas</span>
+        </h1>
+        <p>Convenios con empresas de San Salvador de Jujuy, beneficios para empleados por recibo de sueldo y facturación institucional.</p>
+        <span class="page-hero-badge">6 Alianzas Empresariales Activas</span>
+      </div>
+      <div style="text-align: right; font-size: 12px; color: #E4E4E7;">
+        <strong>Período: Octubre 2026</strong><br>
+        <span>Cobranza: 100% al Día</span>
+      </div>
+    </section>
+
+    <!-- Metrics -->
+    <section class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-icon-box">🏢</div>
+        <div>
+          <div class="metric-num">6</div>
+          <div class="metric-label">Empresas en Convenio</div>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon-box">🐾</div>
+        <div>
+          <div class="metric-num">38</div>
+          <div class="metric-label">Mascotas de Empleados</div>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon-box">💰</div>
+        <div>
+          <div class="metric-num">20%</div>
+          <div class="metric-label">Descuento Promedio</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Corporate Accounts Table -->
+    <div class="card-white" style="margin-bottom: 30px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <div>
+          <h3 style="font-size: 16px; font-weight: 800; color: var(--text-dark);">Directorio de Cuentas Corporativas</h3>
+          <p style="font-size: 12px; color: var(--text-muted);">Empresas adheridas con descuento por nómina en Jujuy</p>
+        </div>
+        <button type="button" class="btn-primary-orange" style="width: auto; padding: 8px 16px; font-size: 12px;" onclick="alert('Formulario de alta de convenio habilitado.')">
+          <span>+ Añadir Convenio</span>
+        </button>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Empresa / Entidad</th>
+              <th>Código Identificador</th>
+              <th>Beneficio</th>
+              <th>Colaboradores</th>
+              <th>Modalidad de Pago</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Telecom Jujuy</strong></td>
+              <td><code style="background-color: var(--bg-main); padding: 3px 8px; border-radius: 4px; font-weight: 700;">CORP-JUJUY</code></td>
+              <td><span style="background-color: var(--status-green-bg); color: var(--status-green-text); font-weight: 700; padding: 2px 8px; border-radius: 4px;">20% OFF</span></td>
+              <td><strong>14 empleados</strong> (Toby, Mia...)</td>
+              <td>Factura Directa B2B</td>
+              <td><span style="color: #059669; font-weight: 700;">Al día ✅</span></td>
+            </tr>
+            <tr>
+              <td><strong>Banco Macro Jujuy</strong></td>
+              <td><code style="background-color: var(--bg-main); padding: 3px 8px; border-radius: 4px; font-weight: 700;">MACRO-PET</code></td>
+              <td><span style="background-color: var(--status-green-bg); color: var(--status-green-text); font-weight: 700; padding: 2px 8px; border-radius: 4px;">15% OFF</span></td>
+              <td><strong>9 empleados</strong> (Luna...)</td>
+              <td>Débito en Cuenta Nómina</td>
+              <td><span style="color: #059669; font-weight: 700;">Al día ✅</span></td>
+            </tr>
+            <tr>
+              <td><strong>EJE SA (Distribuidora Eléctrica)</strong></td>
+              <td><code style="background-color: var(--bg-main); padding: 3px 8px; border-radius: 4px; font-weight: 700;">EJESA-CARE</code></td>
+              <td><span style="background-color: var(--status-green-bg); color: var(--status-green-text); font-weight: 700; padding: 2px 8px; border-radius: 4px;">15% OFF</span></td>
+              <td><strong>7 empleados</strong> (Rocco...)</td>
+              <td>Transferencia Mensual</td>
+              <td><span style="color: #059669; font-weight: 700;">Al día ✅</span></td>
+            </tr>
+            <tr>
+              <td><strong>Cannava Jujuy S.E.</strong></td>
+              <td><code style="background-color: var(--bg-main); padding: 3px 8px; border-radius: 4px; font-weight: 700;">CANNAVA-PET</code></td>
+              <td><span style="background-color: var(--status-green-bg); color: var(--status-green-text); font-weight: 700; padding: 2px 8px; border-radius: 4px;">20% OFF</span></td>
+              <td><strong>5 empleados</strong></td>
+              <td>Convenio Institucional</td>
+              <td><span style="color: #059669; font-weight: 700;">Al día ✅</span></td>
+            </tr>
+            <tr>
+              <td><strong>Consejo Cs. Económicas Jujuy</strong></td>
+              <td><code style="background-color: var(--bg-main); padding: 3px 8px; border-radius: 4px; font-weight: 700;">CPCEJ-BENEFIT</code></td>
+              <td><span style="background-color: var(--status-green-bg); color: var(--status-green-text); font-weight: 700; padding: 2px 8px; border-radius: 4px;">10% OFF</span></td>
+              <td><strong>2 profesionales</strong></td>
+              <td>Cuota Colegiada</td>
+              <td><span style="color: #059669; font-weight: 700;">Al día ✅</span></td>
+            </tr>
+            <tr>
+              <td><strong>Colegio de Abogados Jujuy</strong></td>
+              <td><code style="background-color: var(--bg-main); padding: 3px 8px; border-radius: 4px; font-weight: 700;">ABOG-JUJ-CARE</code></td>
+              <td><span style="background-color: var(--status-green-bg); color: var(--status-green-text); font-weight: 700; padding: 2px 8px; border-radius: 4px;">10% OFF</span></td>
+              <td><strong>1 profesional</strong></td>
+              <td>Cuota Colegiada</td>
+              <td><span style="color: #059669; font-weight: 700;">Al día ✅</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="auth_nav.js"></script>
+</body>
+</html>

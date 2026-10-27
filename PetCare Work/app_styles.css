@@ -1,0 +1,983 @@
+/* ==========================================================================
+   PetCare - PetWork Responsive Web Stylesheet
+   Desktop • Tablet • Mobile Fluid Layout
+   Palette: #F4F4F5 (Bg), #FFFFFF (Cards), #18181B (Text), #FB923C (Orange Accent)
+   ========================================================================== */
+
+:root {
+  --primary-orange: #FB923C;
+  --primary-orange-light: #FDBA74;
+  --primary-orange-tint: #FFF7ED;
+  --primary-orange-dark: #EA580C;
+  --primary-orange-border: #FED7AA;
+
+  --bg-main: #F4F4F5;
+  --card-bg: #FFFFFF;
+  --text-dark: #18181B;
+  --text-muted: #71717A;
+  --text-light: #A1A1AA;
+  --border-color: #E4E4E7;
+  --border-subtle: #F1F5F9;
+
+  --status-green: #10B981;
+  --status-green-bg: #ECFDF5;
+  --status-green-text: #059669;
+
+  --status-amber: #F59E0B;
+  --status-amber-bg: #FFFBEB;
+  --status-amber-text: #B45309;
+
+  --status-red: #EF4444;
+  --status-red-bg: #FEF2F2;
+  --status-red-text: #DC2626;
+
+  --status-blue: #3B82F6;
+  --status-blue-bg: #EFF6FF;
+  --status-blue-text: #1D4ED8;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-card: 0 2px 6px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.08);
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-main);
+  color: var(--text-dark);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Fluid Responsive Container */
+.app-container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 20px 30px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   Navigation Bar (App Bar with "⬅ Volver" and "Cerrar Sesión")
+   ========================================================================== */
+.main-navbar {
+  background-color: var(--card-bg);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: var(--shadow-sm);
+}
+
+.navbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--text-dark);
+}
+
+.brand-icon-box {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #18181B 0%, #27272A 100%);
+  border: 1px solid var(--primary-orange);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.brand-title {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.brand-sub {
+  font-size: 11px;
+  color: var(--primary-orange-dark);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Return to Panel Button */
+.btn-return-panel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--primary-orange-tint);
+  color: var(--primary-orange-dark);
+  border: 1px solid var(--primary-orange-light);
+  padding: 7px 14px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(251, 146, 60, 0.1);
+}
+
+.btn-return-panel:hover {
+  background-color: #FED7AA;
+  transform: translateX(-2px);
+  color: #9A3412;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-identity-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.btn-logout-nav {
+  background: none;
+  border: 1px solid #FECACA;
+  color: var(--status-red-text);
+  background-color: var(--status-red-bg);
+  padding: 6px 14px;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-logout-nav:hover {
+  background-color: #FEE2E2;
+}
+
+/* ==========================================================================
+   Page Headers & Hero Cards
+   ========================================================================== */
+.page-hero {
+  background: linear-gradient(135deg, #18181B 0%, #27272A 100%);
+  color: #FFFFFF;
+  border-radius: var(--radius-xl);
+  padding: 24px 28px;
+  margin: 20px 0 24px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.page-hero::after {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(251, 146, 60, 0.25) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.page-hero-info h1 {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-hero-info p {
+  font-size: 13px;
+  color: #D4D4D8;
+  margin-top: 4px;
+}
+
+.page-hero-badge {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary-orange-light);
+  background-color: rgba(251, 146, 60, 0.18);
+  border: 1px solid rgba(251, 146, 60, 0.3);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+}
+
+/* ==========================================================================
+   Financial Metrics Grid (panel_admin.html)
+   ========================================================================== */
+.financial-metrics-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.finance-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 20px 24px;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+
+.finance-card.income {
+  border-top: 4px solid #10B981;
+}
+
+.finance-card.expense {
+  border-top: 4px solid #EF4444;
+}
+
+.finance-card.net {
+  border-top: 4px solid var(--primary-orange);
+}
+
+.finance-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.finance-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.finance-amount {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-dark);
+}
+
+.finance-subtext {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* Common Card */
+.card-white {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 22px 24px;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 24px;
+}
+
+/* ==========================================================================
+   Table Styles
+   ========================================================================== */
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.custom-table th {
+  background-color: var(--bg-main);
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.custom-table td {
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
+}
+
+.custom-table tr:hover {
+  background-color: #FAFAFA;
+}
+
+/* ==========================================================================
+   Inventory 4 Categories Grid
+   ========================================================================== */
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.inventory-item-card {
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.inventory-item-card:hover {
+  border-color: var(--primary-orange);
+  background-color: #FFFFFF;
+  box-shadow: var(--shadow-sm);
+}
+
+.inventory-item-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.inventory-category-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.inventory-stock-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+}
+
+.stock-good {
+  background-color: var(--status-green-bg);
+  color: var(--status-green-text);
+  border: 1px solid #A7F3D0;
+}
+
+.stock-warning {
+  background-color: var(--status-amber-bg);
+  color: var(--status-amber-text);
+  border: 1px solid #FDE68A;
+}
+
+.stock-critical {
+  background-color: var(--status-red-bg);
+  color: var(--status-red-text);
+  border: 1px solid #FECACA;
+}
+
+/* ==========================================================================
+   Module Menu Cards Grid
+   ========================================================================== */
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.module-link-card {
+  background-color: var(--card-bg);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 24px 20px;
+  text-decoration: none;
+  color: var(--text-dark);
+  box-shadow: var(--shadow-card);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.module-link-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary-orange);
+  box-shadow: var(--shadow-md);
+}
+
+.module-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-lg);
+  background-color: var(--primary-orange-tint);
+  color: var(--primary-orange-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  margin-bottom: 14px;
+}
+
+.module-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+}
+
+.module-description {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.45;
+  flex: 1;
+}
+
+.module-footer-action {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--primary-orange-dark);
+}
+
+/* ==========================================================================
+   Leaflet Map (huellitas_express.html) - Robust Fix
+   ========================================================================== */
+.map-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+#jujuyLeafletMap {
+  width: 100% !important;
+  height: 520px !important;
+  min-height: 480px;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-card);
+  z-index: 10;
+  display: block !important;
+  position: relative;
+}
+
+.stops-sidebar-panel {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 20px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+.leaflet-custom-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease;
+}
+
+.marker-house {
+  background-color: #FFFFFF;
+  border: 2px solid var(--primary-orange);
+  color: var(--primary-orange-dark);
+  font-size: 18px;
+}
+
+.marker-van {
+  background-color: #18181B;
+  border: 2px solid #FFFFFF;
+  color: #FFFFFF;
+  font-size: 20px;
+  animation: pulseVan 2s infinite ease-in-out;
+}
+
+@keyframes pulseVan {
+  0% { box-shadow: 0 0 0 0 rgba(251, 146, 60, 0.8); }
+  70% { box-shadow: 0 0 0 14px rgba(251, 146, 60, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(251, 146, 60, 0); }
+}
+
+/* ==========================================================================
+   Forms (Login & Registro)
+   ========================================================================== */
+.auth-centered-container {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 0;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 480px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 36px 32px;
+  box-shadow: var(--shadow-lg);
+}
+
+.form-group-custom {
+  margin-bottom: 14px;
+}
+
+.form-label-custom {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--text-dark);
+}
+
+.form-input-custom {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 13px;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  outline: none;
+  transition: all 0.2s ease;
+  background-color: #FFFFFF;
+}
+
+.form-input-custom:focus {
+  border-color: var(--primary-orange);
+  box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.15);
+}
+
+.form-select-custom {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 13px;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  background-color: #FFFFFF;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.form-select-custom:focus {
+  border-color: var(--primary-orange);
+  box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.15);
+}
+
+.btn-primary-orange {
+  width: 100%;
+  background-color: var(--text-dark);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 13px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary-orange:hover {
+  background-color: var(--primary-orange);
+  box-shadow: 0 4px 12px rgba(251, 146, 60, 0.35);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Responsive Adaptability
+   ========================================================================== */
+@media (max-width: 992px) {
+  .map-layout-grid {
+    grid-template-columns: 1fr;
+  }
+  #jujuyLeafletMap {
+    height: 420px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .navbar-inner {
+    padding: 10px 14px;
+  }
+  .btn-return-panel {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  .page-hero {
+    padding: 18px;
+    margin: 14px 0 18px 0;
+  }
+  .page-hero-info h1 {
+    font-size: 18px;
+  }
+  .modules-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  #jujuyLeafletMap {
+    height: 360px !important;
+  }
+}
+
+/* ==========================================================================
+   PetCam Live Animated Simulator & Biometric Sensor Overlays
+   ========================================================================== */
+.camera-sim-viewport {
+  position: relative;
+  width: 100%;
+  height: 290px;
+  background: radial-gradient(circle at 50% 50%, #1E293B 0%, #0F172A 100%);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  user-select: none;
+  cursor: crosshair;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sim-patio-bg {
+  background: radial-gradient(circle at 50% 40%, #162E25 0%, #0B1914 100%);
+}
+
+.sim-indoor-bg {
+  background: radial-gradient(circle at 50% 40%, #201E38 0%, #0D0C1A 100%);
+}
+
+/* Subtle CCTV Grid and Scanlines */
+.cctv-grid {
+  position: absolute;
+  inset: 0;
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  pointer-events: none;
+}
+
+.cctv-scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 8;
+}
+
+/* Night Vision & Thermal Filters */
+.camera-sim-viewport.filter-night {
+  filter: sepia(90%) hue-rotate(85deg) saturate(320%) brightness(1.15) contrast(1.2);
+}
+
+.camera-sim-viewport.filter-thermal {
+  filter: invert(85%) hue-rotate(185deg) saturate(300%) contrast(1.3);
+}
+
+/* Top Timestamp & Status Bar */
+.cctv-top-bar {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: monospace;
+  font-size: 11px;
+  color: #10B981;
+  z-index: 12;
+  pointer-events: none;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.cctv-rec-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: #EF4444;
+  border-radius: 50%;
+  margin-right: 6px;
+  animation: recBlink 1.2s infinite ease-in-out;
+}
+
+@keyframes recBlink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.2; transform: scale(0.85); }
+}
+
+/* Animated Pet Entity */
+.sim-pet-entity {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 15;
+  cursor: pointer;
+  transition: transform 0.15s ease-out;
+}
+
+.sim-pet-entity:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* Biometric Sensor HUD */
+.sensor-hud-pill {
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid rgba(16, 185, 129, 0.7);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), 0 0 10px rgba(16, 185, 129, 0.25);
+  backdrop-filter: blur(4px);
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-family: monospace;
+  white-space: nowrap;
+  margin-bottom: 6px;
+  pointer-events: auto;
+  transition: all 0.2s ease;
+}
+
+.sensor-hud-pill.sensor-amber {
+  border-color: rgba(245, 158, 11, 0.8);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), 0 0 10px rgba(245, 158, 11, 0.25);
+}
+
+.sensor-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.sensor-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #10B981;
+  display: inline-block;
+  animation: sensorPulse 1.5s infinite;
+}
+
+.sensor-amber .sensor-status-dot {
+  background-color: #F59E0B;
+}
+
+@keyframes sensorPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.sensor-metrics-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  color: #94A3B8;
+  margin-top: 2px;
+}
+
+.sensor-metric-val {
+  color: #38BDF8;
+  font-weight: 600;
+}
+
+.sensor-amber .sensor-metric-val {
+  color: #FBBF24;
+}
+
+/* Reticle Target Bounding Box */
+.pet-reticle {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reticle-corner {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-color: #10B981;
+  border-style: solid;
+  border-width: 0;
+  transition: all 0.2s ease;
+}
+
+.sensor-amber .reticle-corner {
+  border-color: #F59E0B;
+}
+
+.corner-tl { top: 0; left: 0; border-top-width: 2px; border-left-width: 2px; }
+.corner-tr { top: 0; right: 0; border-top-width: 2px; border-right-width: 2px; }
+.corner-bl { bottom: 0; left: 0; border-bottom-width: 2px; border-left-width: 2px; }
+.corner-br { bottom: 0; right: 0; border-bottom-width: 2px; border-right-width: 2px; }
+
+/* Animated Sprite Body */
+.pet-sprite-body {
+  font-size: 28px;
+  line-height: 1;
+  animation: petBobbing 0.7s infinite alternate ease-in-out;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.6));
+  transition: transform 0.2s ease;
+}
+
+@keyframes petBobbing {
+  0% { transform: translateY(0px) rotate(-1deg); }
+  100% { transform: translateY(-4px) rotate(2deg); }
+}
+
+/* Bouncing Interactive Toys */
+.sim-toy-ball {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  font-size: 18px;
+  transform: translate(-50%, -50%);
+  z-index: 14;
+  cursor: grab;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+}
+
+.sim-laser-dot {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #EF4444;
+  box-shadow: 0 0 12px #EF4444, 0 0 20px #DC2626;
+  transform: translate(-50%, -50%);
+  z-index: 14;
+  pointer-events: none;
+  animation: laserPulse 0.5s infinite alternate;
+}
+
+@keyframes laserPulse {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.75; }
+}
+
+/* Interactive Simulation Controls Bar */
+.sim-controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  flex-wrap: wrap;
+}
+
+.sim-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-sim-action {
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #E2E8F0;
+  border-radius: var(--radius-sm);
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+}
+
+.btn-sim-action:hover {
+  background: var(--primary-orange);
+  color: #18181B;
+  border-color: var(--primary-orange);
+}
+
+.btn-sim-action.active {
+  background: #10B981;
+  color: #FFFFFF;
+  border-color: #10B981;
+}
+
+/* Hide sensor class */
+.hide-sensors .sensor-hud-pill,
+.hide-sensors .reticle-corner {
+  display: none !important;
+}
+
