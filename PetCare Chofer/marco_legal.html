@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PetCare Chofer | Marco Legal & Control de Tránsito</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tablet_styles.css">
+  <style>
+    .legal-grid-scroll {
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .legal-doc-card {
+      background: #FFFFFF;
+      border: 1.5px solid #E4E4E7;
+      border-radius: 16px;
+      padding: 16px 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+    .legal-doc-card.primary-highlight {
+      border-color: #FB923C;
+      background: linear-gradient(180deg, #FFF7ED 0%, #FFFFFF 100%);
+    }
+    .legal-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 800;
+      background: #ECFDF5;
+      color: #059669;
+      border: 1px solid #A7F3D0;
+    }
+    .legal-spec-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid #F1F5F9;
+      font-size: 12px;
+    }
+    .legal-spec-row:last-child {
+      border-bottom: none;
+    }
+    .legal-spec-label {
+      color: #64748B;
+      font-weight: 600;
+    }
+    .legal-spec-val {
+      color: #18181B;
+      font-weight: 700;
+      text-align: right;
+    }
+    #quickInspectorOverlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      padding: 24px;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Prototype Helper Bar -->
+  <div class="tablet-helper-bar">
+    <div class="tablet-helper-title">
+      <span style="font-size: 18px;">⚖️</span>
+      <strong>PetCare Jujuy • Padrón Legal & Control Vehicular (Combi 02)</strong>
+      <span class="tablet-badge-online">
+        <span class="tablet-badge-pulse"></span>
+        Habilitación Municipal Vigente
+      </span>
+    </div>
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <span style="font-size: 12px; opacity: 0.8;">Héctor López (Chofer Oficial)</span>
+      <button id="btnToggleFullscreen" class="btn-driver-secondary" style="padding: 6px 12px; font-size: 11px; background: #3F3F46; border-color: #52525B; color: white;">
+        📺 Pantalla Completa
+      </button>
+    </div>
+  </div>
+
+  <!-- Physical Tablet Mockup Frame -->
+  <div class="tablet-frame-wrapper">
+    <div class="tablet-camera-notch" title="Cámara Frontal Tablet"></div>
+    <div class="tablet-speaker-slit"></div>
+
+    <div class="tablet-screen">
+      
+      <!-- Top Status Bar -->
+      <div class="tablet-status-bar">
+        <div class="status-bar-left">
+          <span id="tabletClock">18:28:00</span>
+          <span style="font-size: 11px; color: #64748B;">• Jujuy (GMT-3)</span>
+          <span class="legal-badge-pill" style="font-size: 10px; padding: 2px 8px;">🛡️ Documentación 100% al Día</span>
+        </div>
+        <div class="status-bar-center">
+          <span>San Salvador de Jujuy • Dirección de Tránsito & Seguridad Vial</span>
+        </div>
+        <div class="status-bar-right">
+          <span style="font-size: 11px;">5G 📶</span>
+          <span style="font-size: 11px;">🔋 96%</span>
+        </div>
+      </div>
+
+      <!-- Tablet Header Bar -->
+      <div class="tablet-header-bar">
+        <div class="brand-section">
+          <div class="brand-icon" style="background: #18181B; color: #FB923C;">⚖️</div>
+          <div>
+            <h1 class="brand-title">Marco Legal & Controles de Tránsito</h1>
+            <span class="brand-subtitle">Documentación oficial para presentar ante inspectores de Jujuy y Policía Vial</span>
+          </div>
+        </div>
+
+        <div style="display: flex; items-center; gap: 10px;">
+          <button id="btnOpenInspectorCard" class="btn-driver-primary" style="background: #EA580C; box-shadow: 0 4px 14px rgba(234, 88, 12, 0.4);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>🚨 Modo Control de Tránsito (1 Toque)</span>
+          </button>
+
+          <div class="driver-pill-badge">
+            <div class="driver-avatar-circle">HL</div>
+            <div class="driver-info-text">
+              <span class="driver-name">Héctor López</span>
+              <span class="driver-role">Chofer Combi 02</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Workspace: Legal Information Cards -->
+      <div class="tablet-workspace">
+        <div class="legal-grid-scroll">
+          
+          <!-- TOP HERO CARD -->
+          <div style="background: #18181B; border-radius: 16px; padding: 14px 20px; color: #FFFFFF; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 6px 20px rgba(0,0,0,0.25);">
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <div style="width: 44px; height: 44px; background: rgba(251, 146, 60, 0.2); border: 1.5px solid #FB923C; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px;">
+                👮‍♂️
+              </div>
+              <div>
+                <h2 style="font-size: 15px; font-weight: 800; color: #FFFFFF; margin-bottom: 2px;">
+                  ¿Control Vial en Puente Gorriti, Los Perales o Av. Fascio?
+                </h2>
+                <p style="font-size: 11px; color: #CBD5E1; line-height: 1.35;">
+                  Presenta esta pantalla en la tablet. La Combi 02 cuenta con habilitación especial de traslado de mascotas, mampara reglamentaria, sujeción homologada y libretas sanitarias de los 8 pasajeros.
+                </p>
+              </div>
+            </div>
+
+            <button onclick="document.getElementById('btnOpenInspectorCard').click()" class="btn-driver-secondary" style="background: #FFFFFF; color: #18181B; border: none; font-size: 12px; font-weight: 800; padding: 10px 14px; white-space: nowrap;">
+              Ver Credencial de Inspección
+            </button>
+          </div>
+
+          <!-- GRID OF 3 KEY PILLARS -->
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+            
+            <!-- Pillar 1: Habilitación Municipal de Jujuy -->
+            <div class="legal-doc-card primary-highlight">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                <div style="font-size: 22px;">🏛️</div>
+                <span class="legal-badge-pill">VIGENTE ✅</span>
+              </div>
+              <h3 style="font-size: 14px; font-weight: 800; color: #18181B; margin-bottom: 2px;">
+                Habilitación de Transporte
+              </h3>
+              <p style="font-size: 10px; color: #71717A; margin-bottom: 10px;">
+                Municipalidad de San Salvador de Jujuy (Tránsito & Zoonosis)
+              </p>
+
+              <div class="legal-spec-row">
+                <span class="legal-spec-label">Resolución:</span>
+                <span class="legal-spec-val">RES-SSJ-412/2026</span>
+              </div>
+              <div class="legal-spec-row">
+                <span class="legal-spec-label">Vehículo:</span>
+                <span class="legal-spec-val">Combi Mercedes Sprinter</span>
+              </div>
+              <div class="legal-spec-row">
+                <span class="legal-spec-label">Dominio / Patente:</span>
+                <span class="legal-spec-val" style="color: #EA580C; font-size: 13px;">AB 829 CD</span>
+              </div>
+              <div class="legal-spec-row">
+                <span class="legal-spec-label">VTO Habilitación:</span>
+                <span class="legal-spec-val">31/12/2026</span>
+              </div>
+              <div class="legal-spec-row">
+                <span class="legal-spec-label">RTO Técnica:</span>
+                <span class="legal-spec-val">Aprobada (Octubre 2027)</span>
+              </div>
+            </div>
+
+            <!-- Pillar 2: Ley Nacional de Tránsito N° 24.449 -->
+            <div class="legal-doc-card">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                <div style="font-size: 22px;">📜</div>
+                <span class="legal-badge-pill">CUMPLIDO ✅</span>
+              </div>
+              <h3 style="font-size: 14px; font-weight: 800; color: #18181B; margin-bottom: 2px;">
+                Ley Nacional N° 24.449
+              </h3>
+              <p style="font-size: 10px; color: #71717A; margin-bottom: 10px;">
+                Transporte Reglamentario y Seguro de Animales Domésticos
+              </p>
+
+              <div class="legal-spec-row">
+                <span class="legal-spec-label">Art. 48 inc. q:</span>
+                <span class="legal-spec-val">Cero interferencia con chofer</span>
+              </div>
+              <div class="legal-spec-row">
+                <span class="legal-spec-label">Mampara Divisoria:</span>
+                <span class="legal-spec-val">Fija y blindada acústica</span>
+              </div>
+              <div class="legal-spec-row">
+                <span class="legal-spec-label">Sujeción en Asientos:</span>
+                <span class="legal-spec-val">Arnés con anclaje ISOFIX</span>
+              </div>
+              <div class="legal-spec-row">
+                <span class="legal-spec-label">Sector Conductual:</span>
+                <span class="legal-spec-val">Caniles fijos antitrauma</span>
+              </div>
+              <div class="legal-spec-row">
+                <span class="legal-spec-label">Mascotas Sueltas:</span>
+                <span class="legal-spec-val" style="color: #059669;">PROHIBIDAS (0/8)</span>
+              </div>
+            </div>
+
+            <!-- Pillar 3: Póliza de Seguro Automotor & Carga Viva -->
+            <div class="legal-doc-card">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                <div style="font-size: 22px;">🛡️</div>
+                <span class="legal-badge-pill">COBERTURA TOTAL ✅</span>
+              </div>
+              <h3 style="font-size: 14px; font-weight: 800; color: #18181B; margin-bottom: 2px;">
+                Seguro Comercial & Carga
+              </h3>
+              <p style="font-size: 10px; color: #71717A; margin-bottom: 10px;">
+                La Segunda Seguros • Póliza Flota Corporativa Jujuy
+              </p>
+
+              <div class="legal-spec-row">
+                <span class="legal-spec-label">Póliza N°:</span>
+                <span class="legal-spec-val">POL-JUJ-992384-26</span>
+              </div>
+              <div class="legal-spec-row">
+                <span class="legal-spec-label">Cobertura:</span>
+                <span class="legal-spec-val">Resp. Civil + Mascotas a Bordo</span>
+              </div>
+              <div class="legal-spec-row">
+                <span class="legal-spec-label">Auxilio Veterinario:</span>
+                <span class="legal-spec-val">Clínica Jujuy Pet 24 hs</span>
+              </div>
+              <div class="legal-spec-row">
+                <span class="legal-spec-label">Chofer Asignado:</span>
+                <span class="legal-spec-val">Héctor López (D2)</span>
+              </div>
+              <div class="legal-spec-row">
+                <span class="legal-spec-label">Vigencia:</span>
+                <span class="legal-spec-val">Hasta 15/04/2027</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- SANITARY MANIFEST (8 Mascotas a Bordo) -->
+          <div class="legal-doc-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <div>
+                <h3 style="font-size: 14px; font-weight: 800; color: #18181B;">
+                  📋 Manifiesto Sanitario de Pasajeros en Viaje (Zoonosis Jujuy)
+                </h3>
+                <span style="font-size: 10px; color: #71717A;">
+                  Certificación veterinaria de vacunación antirrábica al día para inspección en vía pública
+                </span>
+              </div>
+              <span class="badge-pill success" style="font-size: 10px;">8/8 Con Libreta al Día</span>
+            </div>
+
+            <div style="overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 11px; text-align: left;">
+                <thead>
+                  <tr style="background: #F8FAFC; border-bottom: 1.5px solid #E2E8F0; color: #475569; font-weight: 700;">
+                    <th style="padding: 8px 10px;">Mascota</th>
+                    <th style="padding: 8px 10px;">Raza</th>
+                    <th style="padding: 8px 10px;">Microchip</th>
+                    <th style="padding: 8px 10px;">Antirrábica</th>
+                    <th style="padding: 8px 10px;">Sujeción en Combi</th>
+                    <th style="padding: 8px 10px;">Tutor Responsable</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom: 1px solid #F1F5F9;">
+                    <td style="padding: 6px 10px; font-weight: 800;">Toby 🐕</td>
+                    <td style="padding: 6px 10px;">Golden Retriever</td>
+                    <td style="padding: 6px 10px; font-family: monospace;">#9820003412</td>
+                    <td style="padding: 6px 10px; color: #059669; font-weight: 700;">Dic 2026 ✅</td>
+                    <td style="padding: 6px 10px;">Asiento 01 • Arnés ISOFIX</td>
+                    <td style="padding: 6px 10px;">Martín R. (Telecom)</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid #F1F5F9;">
+                    <td style="padding: 6px 10px; font-weight: 800;">Luna 🐱</td>
+                    <td style="padding: 6px 10px;">Gato Siamés</td>
+                    <td style="padding: 6px 10px; font-family: monospace;">#9820005578</td>
+                    <td style="padding: 6px 10px; color: #059669; font-weight: 700;">Ago 2027 ✅</td>
+                    <td style="padding: 6px 10px;">Asiento 02 • Canil Térmico</td>
+                    <td style="padding: 6px 10px;">Valeria C. (Macro)</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid #F1F5F9;">
+                    <td style="padding: 6px 10px; font-weight: 800;">Mía 🐩</td>
+                    <td style="padding: 6px 10px;">Caniche Toy</td>
+                    <td style="padding: 6px 10px; font-family: monospace;">#9820006612</td>
+                    <td style="padding: 6px 10px; color: #059669; font-weight: 700;">Oct 2027 ✅</td>
+                    <td style="padding: 6px 10px;">Asiento 04 • Butaca Booster</td>
+                    <td style="padding: 6px 10px;">Florencia T. (CPCE)</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid #F1F5F9;">
+                    <td style="padding: 6px 10px; font-weight: 800;">Rocco 🦮</td>
+                    <td style="padding: 6px 10px;">Pastor Alemán</td>
+                    <td style="padding: 6px 10px; font-family: monospace;">#9820009941</td>
+                    <td style="padding: 6px 10px; color: #059669; font-weight: 700;">Nov 2026 ✅</td>
+                    <td style="padding: 6px 10px;">Asiento 03 • Arnés Doble</td>
+                    <td style="padding: 6px 10px;">Fernando B. (EJE SA)</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid #F1F5F9;">
+                    <td style="padding: 6px 10px; font-weight: 800;">Simón 🐈</td>
+                    <td style="padding: 6px 10px;">Gato Persa</td>
+                    <td style="padding: 6px 10px; font-family: monospace;">#9820004481</td>
+                    <td style="padding: 6px 10px; color: #059669; font-weight: 700;">Sep 2027 ✅</td>
+                    <td style="padding: 6px 10px;">Canil 03 • Cabina Felina</td>
+                    <td style="padding: 6px 10px;">Rodrigo M. (P. Judicial)</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid #F1F5F9;">
+                    <td style="padding: 6px 10px; font-weight: 800;">Thor 🐕‍🦺</td>
+                    <td style="padding: 6px 10px;">Mestizo Fila</td>
+                    <td style="padding: 6px 10px; font-family: monospace;">#9820008821</td>
+                    <td style="padding: 6px 10px; color: #059669; font-weight: 700;">Ene 2027 ✅</td>
+                    <td style="padding: 6px 10px; color: #1D4ED8; font-weight: 700;">Jaula 01 • Conductual</td>
+                    <td style="padding: 6px 10px;">Claudio P. (Cannava)</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid #F1F5F9;">
+                    <td style="padding: 6px 10px; font-weight: 800;">Max 🐶</td>
+                    <td style="padding: 6px 10px;">Border Collie</td>
+                    <td style="padding: 6px 10px; font-family: monospace;">#9820007733</td>
+                    <td style="padding: 6px 10px; color: #059669; font-weight: 700;">Mar 2027 ✅</td>
+                    <td style="padding: 6px 10px; color: #1D4ED8; font-weight: 700;">Jaula 02 • Conductual</td>
+                    <td style="padding: 6px 10px;">Marcela S. (Col. Médico)</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px 10px; font-weight: 800;">Bruno 🐾</td>
+                    <td style="padding: 6px 10px;">Bulldog Francés</td>
+                    <td style="padding: 6px 10px; font-family: monospace;">#9820001199</td>
+                    <td style="padding: 6px 10px; color: #059669; font-weight: 700;">Feb 2027 ✅</td>
+                    <td style="padding: 6px 10px;">Asiento 05 • Arnés Pecho</td>
+                    <td style="padding: 6px 10px;">Gonzalo V. (Ledesma)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Bottom Actions -->
+          <div style="display: flex; gap: 10px; justify-content: flex-end; padding-bottom: 8px;">
+            <button onclick="alert('Descargando archivo PDF oficial con certificado de habilitación municipal y póliza de seguro de PetCare Jujuy...');" class="btn-driver-secondary" style="font-size: 11px;">
+              📥 Descargar Legajo en PDF
+            </button>
+            <a href="tel:3884223344" class="btn-driver-secondary" style="font-size: 11px; text-decoration: none; color: #B45309; border-color: #FDE68A; background: #FFFBEB;">
+              📞 Guardia Veterinaria PetCare 24hs
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Persistent Tablet Bottom Navigation Bar -->
+      <nav class="tablet-navbar">
+        <a href="ruta.html" class="tablet-nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+          <span>Ruta & Mapa</span>
+        </a>
+
+        <a href="camaras.html" class="tablet-nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+          <span>Cámaras Cabina</span>
+          <span class="nav-badge">LIVE</span>
+        </a>
+
+        <a href="marco_legal.html" class="tablet-nav-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Marco Legal Tránsito</span>
+        </a>
+
+        <a href="scanner_qr.html" class="tablet-nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Escanear Carnet QR</span>
+        </a>
+
+        <a href="#" data-action="logout-driver" class="tablet-nav-item" style="color: #991B1B;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span>Bloquear Tablet</span>
+        </a>
+      </nav>
+
+    </div>
+  </div>
+
+  <!-- Fullscreen Modal Credential for Traffic Inspector -->
+  <div id="quickInspectorOverlay">
+    <div style="background: #FFFFFF; border-radius: 24px; padding: 26px 30px; width: 100%; max-width: 650px; box-shadow: 0 25px 60px rgba(0,0,0,0.5); border: 3px solid #FB923C;">
+      
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #E4E4E7; padding-bottom: 12px; margin-bottom: 14px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="font-size: 28px;">🏛️</div>
+          <div>
+            <h2 style="font-size: 16px; font-weight: 800; color: #18181B; margin: 0;">CREDENCIAL OFICIAL DE CONTROL VIAL</h2>
+            <span style="font-size: 11px; color: #71717A;">Dirección de Tránsito y Zoonosis • San Salvador de Jujuy</span>
+          </div>
+        </div>
+        <button id="btnCloseInspectorModal" style="background: #F4F4F5; border: none; font-size: 16px; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; color: #18181B; font-weight: 800;">✕</button>
+      </div>
+
+      <!-- Main Highlight -->
+      <div style="background: #FFF7ED; border: 2px solid #FDBA74; border-radius: 14px; padding: 14px 16px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div style="font-size: 10px; font-weight: 800; color: #EA580C; text-transform: uppercase;">Unidad Habilitada Huellitas Express</div>
+          <div style="font-size: 22px; font-weight: 900; color: #18181B;">PATENTE: AB 829 CD</div>
+          <div style="font-size: 12px; color: #4B5563; margin-top: 2px;">Resolución Municipal RES-SSJ-412/2026 • Estado: <strong>ACTIVO Y REGLAMENTARIO</strong></div>
+        </div>
+        <div style="text-align: center;">
+          <div style="width: 60px; height: 60px; background: white; border: 2px solid #18181B; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+            🏁
+          </div>
+          <span style="font-size: 9px; font-weight: 700; color: #18181B; display: block; margin-top: 2px;">QR VALIDEZ</span>
+        </div>
+      </div>
+
+      <!-- Conductor & Seguros -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 10px;">
+          <div style="font-size: 10px; color: #64748B; font-weight: 700;">CONDUCTOR DESIGNADO:</div>
+          <div style="font-size: 13px; font-weight: 800; color: #18181B;">Héctor López</div>
+          <div style="font-size: 11px; color: #334155;">Licencia: <strong>D2 Profesional</strong></div>
+          <div style="font-size: 10px; color: #059669; font-weight: 700;">Primeros Auxilios Caninos ✓</div>
+        </div>
+
+        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 10px;">
+          <div style="font-size: 10px; color: #64748B; font-weight: 700;">SEGURO Y ASISTENCIA:</div>
+          <div style="font-size: 13px; font-weight: 800; color: #18181B;">La Segunda Seguros</div>
+          <div style="font-size: 11px; color: #334155;">Póliza: <strong>POL-JUJ-992384-26</strong></div>
+          <div style="font-size: 10px; color: #059669; font-weight: 700;">8 Mascotas Amparadas ✓</div>
+        </div>
+      </div>
+
+      <div style="background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 10px; padding: 8px 12px; font-size: 11px; color: #065F46; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+        <span style="font-size: 16px;">✅</span>
+        <span>Cumple con la Ley Nacional de Tránsito N° 24.449 (dispositivos de sujeción fija e inhibición de distracciones al volante).</span>
+      </div>
+
+      <button id="btnInspectorOk" class="btn-driver-primary" style="width: 100%; height: 42px; font-size: 13px;">
+        Cerrar y Regresar a la Navegación
+      </button>
+
+    </div>
+  </div>
+
+  <script src="tablet_app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      enforceDriverAuth();
+
+      const overlay = document.getElementById('quickInspectorOverlay');
+      const openBtn = document.getElementById('btnOpenInspectorCard');
+      const closeBtn = document.getElementById('btnCloseInspectorModal');
+      const okBtn = document.getElementById('btnInspectorOk');
+
+      openBtn.addEventListener('click', () => {
+        overlay.style.display = 'flex';
+      });
+
+      closeBtn.addEventListener('click', () => {
+        overlay.style.display = 'none';
+      });
+
+      okBtn.addEventListener('click', () => {
+        overlay.style.display = 'none';
+      });
+    });
+  </script>
+</body>
+</html>

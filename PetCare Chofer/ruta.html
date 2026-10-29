@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PetCare Chofer | Navegación GPS & Hoja de Ruta Jujuy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tablet_styles.css">
+  <style>
+    /* Proporción de Pantalla: Mapa Amplio (~75%) y Lista Compacta (~25%) */
+    .route-layout-grid {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .map-pane-column {
+      flex: 3;
+      position: relative;
+      height: 100%;
+      background: #0A0F1D;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+    .stops-pane-column {
+      flex: 1.05;
+      min-width: 290px;
+      max-width: 330px;
+      height: 100%;
+      background: #FFFFFF;
+      border-left: 1.5px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: -4px 0 16px rgba(0,0,0,0.04);
+      z-index: 20;
+    }
+    .stops-list-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    /* Fichas Compactas de Mascotas */
+    .pet-stop-card-compact {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 10px 12px;
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+    .pet-stop-card-compact:hover {
+      border-color: #FED7AA;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .pet-stop-card-compact.is-active {
+      border-color: #FB923C;
+      background: #FFF7ED;
+      box-shadow: 0 4px 12px rgba(251, 146, 60, 0.15);
+    }
+    .pet-stop-card-compact.is-delivered {
+      background: #F8FAFC;
+      border-color: #E2E8F0;
+      opacity: 0.72;
+    }
+
+    /* Floating Navigation Cockpit Top HUD */
+    .floating-map-hud-top {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      right: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      pointer-events: none;
+    }
+    .floating-map-hud-top > * {
+      pointer-events: auto;
+    }
+    .hud-glass-card {
+      background: rgba(15, 23, 42, 0.94);
+      backdrop-filter: blur(10px);
+      color: #FFFFFF;
+      padding: 10px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+
+    /* Vector Map Viewport */
+    #vectorMapCanvasWrap {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      cursor: grab;
+      background: #0B1120;
+    }
+    #vectorMapCanvasWrap:active {
+      cursor: grabbing;
+    }
+    #vectorSvgMap {
+      width: 100%;
+      height: 100%;
+      transform-origin: center center;
+      transition: transform 0.05s ease-out;
+    }
+
+    /* Navigation Tools */
+    .map-nav-tools {
+      position: absolute;
+      bottom: 18px;
+      right: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 100;
+    }
+    .tool-btn-circle {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1.5px solid rgba(255,255,255,0.2);
+      color: #FFFFFF;
+      font-size: 16px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: all 0.15s ease;
+    }
+    .tool-btn-circle:hover {
+      background: #FB923C;
+      border-color: #FED7AA;
+      transform: scale(1.05);
+    }
+
+    /* Signature Canvas Modal */
+    #sigCanvas {
+      width: 100%;
+      height: 130px;
+      background: #FFFFFF;
+      border: 2px dashed #CBD5E1;
+      border-radius: 12px;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    /* Operational Mode Selector (Recibido vs Dejado) */
+    .logistics-mode-selector {
+      display: flex;
+      background: #F1F5F9;
+      padding: 4px;
+      border-radius: 12px;
+      margin-bottom: 14px;
+    }
+    .logistics-mode-btn {
+      flex: 1;
+      padding: 8px 12px;
+      border: none;
+      background: transparent;
+      border-radius: 9px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #64748B;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .logistics-mode-btn.active {
+      background: #FFFFFF;
+      color: #18181B;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Helper Bar -->
+  <div class="tablet-helper-bar">
+    <div class="tablet-helper-title">
+      <span style="font-size: 18px;">🚐</span>
+      <strong>PetCare Jujuy • Consola Tablet de Cabina (Combi 02)</strong>
+      <span class="tablet-badge-online">
+        <span class="tablet-badge-pulse"></span>
+        GPS & Navegación Vectorial Activa
+      </span>
+    </div>
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <span style="font-size: 12px; opacity: 0.8;">8 Mascotas a Bordo</span>
+      <button id="btnToggleFullscreen" class="btn-driver-secondary" style="padding: 6px 12px; font-size: 11px; background: #3F3F46; border-color: #52525B; color: white;">
+        📺 Pantalla Completa
+      </button>
+    </div>
+  </div>
+
+  <!-- Physical Tablet Mockup Frame -->
+  <div class="tablet-frame-wrapper">
+    <div class="tablet-camera-notch" title="Cámara Frontal Tablet"></div>
+    <div class="tablet-speaker-slit"></div>
+
+    <div class="tablet-screen">
+      
+      <!-- Top Status Bar -->
+      <div class="tablet-status-bar">
+        <div class="status-bar-left">
+          <span id="tabletClock">18:30:00</span>
+          <span style="font-size: 11px; color: #64748B;">• Jujuy (GMT-3)</span>
+          <span class="badge-pill success" style="font-size: 10px; padding: 2px 8px;">🟢 Navegación Guiada</span>
+        </div>
+        <div class="status-bar-center">
+          <span>🚐 Combi 02 • Tramo: Av. Fascio cruzando Puente Gorriti hacia Los Perales</span>
+        </div>
+        <div class="status-bar-right">
+          <span style="font-size: 11px;">5G 📶</span>
+          <span style="font-size: 11px;">🔋 98%</span>
+        </div>
+      </div>
+
+      <!-- Tablet Header Bar -->
+      <div class="tablet-header-bar">
+        <div class="brand-section">
+          <div class="brand-icon">🐾</div>
+          <div>
+            <h1 class="brand-title">Huellitas Express • Navegación & Ruta</h1>
+            <span class="brand-subtitle">San Salvador de Jujuy • Gestión Logística de Pasajeros</span>
+          </div>
+        </div>
+
+        <div style="display: flex; items-center; gap: 10px;">
+          <div class="driver-pill-badge">
+            <div class="driver-avatar-circle" id="headerDriverAvatar">HL</div>
+            <div class="driver-info-text">
+              <span class="driver-name" id="headerDriverName">Héctor López</span>
+              <span class="driver-role" id="headerDriverRole">Combi 02 • Chofer Oficial</span>
+            </div>
+          </div>
+
+          <button data-action="logout-driver" class="btn-driver-secondary" title="Bloquear Tablet" style="padding: 8px 12px; font-size: 11px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span>Bloquear</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Workspace: Map Dominant (~75%) & Compact Pet List (~25%) -->
+      <div class="tablet-workspace">
+        <div class="route-layout-grid">
+          
+          <!-- LEFT PANE: Large Professional Vector Map of Jujuy -->
+          <div class="map-pane-column">
+            
+            <!-- Floating Navigation Cockpit Top HUD -->
+            <div class="floating-map-hud-top">
+              <div class="hud-glass-card" style="display: flex; align-items: center; gap: 14px;">
+                <div style="width: 44px; height: 44px; background: #EA580C; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px;">
+                  ⬆
+                </div>
+                <div>
+                  <div style="font-size: 10px; color: #FB923C; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">
+                    EN 250M GIRE A LA DERECHA POR CALLE LA POSTA
+                  </div>
+                  <div style="font-size: 14px; font-weight: 800; color: #FFFFFF;" id="hudActivePetTitle">
+                    Próxima Parada: Toby 🐕 (Golden) • 18:20 hs
+                  </div>
+                  <div style="font-size: 11px; color: #CBD5E1;" id="hudActiveAddress">
+                    Calle La Posta 450, B° Los Perales • Asiento 01 (ISOFIX)
+                  </div>
+                </div>
+              </div>
+
+              <!-- Speed & Mode Badges -->
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <div class="hud-glass-card" style="text-align: center; padding: 6px 14px;">
+                  <span style="font-size: 18px; font-weight: 900; color: #34D399; display: block; line-height: 1;">36</span>
+                  <span style="font-size: 9px; color: #94A3B8; font-weight: 700;">KM/H</span>
+                </div>
+                <button id="btnToggleMapTheme" class="hud-glass-card" style="cursor: pointer; font-size: 11px; font-weight: 700; background: rgba(30, 41, 59, 0.9);">
+                  🌓 Tema Noche
+                </button>
+              </div>
+            </div>
+
+            <!-- Vector Map Viewport Container -->
+            <div id="vectorMapCanvasWrap">
+              <svg id="vectorSvgMap" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="pulseGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#FB923C" stop-opacity="0.8"/>
+                    <stop offset="100%" stop-color="#EA580C" stop-opacity="0"/>
+                  </radialGradient>
+                  <!-- 3D Building Drop Shadow -->
+                  <filter id="buildingShadow" x="-10%" y="-10%" width="130%" height="130%">
+                    <feDropShadow dx="2" dy="4" stdDeviation="3" flood-color="#000000" flood-opacity="0.45"/>
+                  </filter>
+                </defs>
+
+                <!-- City Base Background & Terrain -->
+                <rect width="1000" height="700" fill="#0B132B"/>
+
+                <!-- Urban Grid & Blocks (Barrios de Jujuy) -->
+                <!-- B° Los Perales (Top Left / Center) -->
+                <rect x="250" y="35" width="195" height="120" rx="10" fill="#15213D" stroke="#25355A" stroke-width="2" filter="url(#buildingShadow)"/>
+                <rect x="270" y="50" width="45" height="32" rx="4" fill="#1E293B"/>
+                <rect x="330" y="50" width="45" height="32" rx="4" fill="#1E293B"/>
+                <rect x="390" y="50" width="40" height="32" rx="4" fill="#1E293B"/>
+                <rect x="270" y="95" width="160" height="42" rx="6" fill="#064E3B" opacity="0.6"/>
+                <text x="280" y="120" fill="#34D399" font-size="10" font-weight="700">Parque B° Los Perales 🌲</text>
+
+                <!-- B° Chijra (Top Right) -->
+                <rect x="465" y="45" width="145" height="135" rx="10" fill="#15213D" stroke="#25355A" stroke-width="2" filter="url(#buildingShadow)"/>
+                <text x="480" y="75" fill="#94A3B8" font-size="11" font-weight="800">B° CHIJRA</text>
+                <circle cx="535" cy="115" r="22" fill="#065F46" opacity="0.5"/>
+
+                <!-- B° Ciudad de Nieva (Center Left) -->
+                <rect x="115" y="155" width="155" height="130" rx="10" fill="#15213D" stroke="#25355A" stroke-width="2" filter="url(#buildingShadow)"/>
+                <rect x="130" y="170" width="125" height="45" rx="4" fill="#1E293B"/>
+                <text x="135" y="240" fill="#60A5FA" font-size="11" font-weight="800">CIUDAD DE NIEVA</text>
+                <text x="135" y="255" fill="#93C5FD" font-size="9">Plaza de los Leones</text>
+
+                <!-- Centro Histórico / Plaza Belgrano -->
+                <rect x="285" y="225" width="170" height="95" rx="10" fill="#1F2937" stroke="#374151" stroke-width="2" filter="url(#buildingShadow)"/>
+                <rect x="325" y="240" width="75" height="65" rx="6" fill="#047857" opacity="0.7"/>
+                <text x="333" y="278" fill="#A7F3D0" font-size="10" font-weight="800">Plz. Belgrano</text>
+
+                <!-- B° Cuyaya (Center Bottom Left) -->
+                <rect x="115" y="315" width="155" height="130" rx="10" fill="#15213D" stroke="#25355A" stroke-width="2" filter="url(#buildingShadow)"/>
+                <text x="135" y="360" fill="#94A3B8" font-size="11" font-weight="800">B° CUYAYA</text>
+
+                <!-- B° San Pedrito (Bottom Center) -->
+                <rect x="235" y="415" width="230" height="160" rx="10" fill="#15213D" stroke="#25355A" stroke-width="2" filter="url(#buildingShadow)"/>
+                <text x="275" y="490" fill="#34D399" font-size="12" font-weight="800">B° SAN PEDRITO</text>
+                <text x="275" y="508" fill="#94A3B8" font-size="10">Av. Almirante Brown</text>
+
+                <!-- Alto La Viña & Bajo La Viña -->
+                <rect x="580" y="185" width="230" height="130" rx="10" fill="#15213D" stroke="#25355A" stroke-width="2" filter="url(#buildingShadow)"/>
+                <text x="620" y="220" fill="#FBBF24" font-size="12" font-weight="800">ALTO LA VIÑA ⛰️</text>
+                
+                <rect x="555" y="335" width="235" height="140" rx="10" fill="#15213D" stroke="#25355A" stroke-width="2" filter="url(#buildingShadow)"/>
+                <text x="595" y="370" fill="#F59E0B" font-size="12" font-weight="800">BAJO LA VIÑA</text>
+
+                <!-- Rivers with Shimmer (Río Xibi Xibi & Río Grande) -->
+                <path d="M 45 310 Q 280 340 500 300 T 955 330" fill="none" stroke="#0284C7" stroke-width="18" stroke-linecap="round" opacity="0.85"/>
+                <path d="M 45 310 Q 280 340 500 300 T 955 330" fill="none" stroke="#38BDF8" stroke-width="4" stroke-dasharray="20 10"/>
+                <text x="65" y="298" fill="#38BDF8" font-size="11" font-weight="700">Río Xibi Xibi (Parque Lineal)</text>
+
+                <path d="M 450 25 Q 480 180 500 300 T 520 685" fill="none" stroke="#0369A1" stroke-width="24" stroke-linecap="round" opacity="0.65"/>
+                <text x="535" y="610" fill="#7DD3FC" font-size="11" font-weight="700" transform="rotate(75, 535, 610)">Río Grande de Jujuy</text>
+
+                <!-- Bridges with Stone Piers -->
+                <rect x="420" y="270" width="28" height="52" rx="3" fill="#64748B" stroke="#CBD5E1" stroke-width="2"/>
+                <text x="350" y="295" fill="#F1F5F9" font-size="9" font-weight="700">Pte. Gorriti</text>
+
+                <rect x="270" y="280" width="26" height="48" rx="3" fill="#64748B" stroke="#CBD5E1" stroke-width="2"/>
+                <text x="210" y="295" fill="#F1F5F9" font-size="9" font-weight="700">Pte. S. Martín</text>
+
+                <!-- Major Avenues -->
+                <path d="M 350 260 L 350 160 L 380 130" fill="none" stroke="#334155" stroke-width="16" stroke-linecap="round"/>
+                <path d="M 350 260 L 350 160 L 380 130" fill="none" stroke="#F8FAFC" stroke-width="1.5" stroke-dasharray="6 6"/>
+
+                <path d="M 115 220 L 465 220" fill="none" stroke="#334155" stroke-width="14"/>
+                <path d="M 115 220 L 465 220" fill="none" stroke="#FBBF24" stroke-width="1.5"/>
+                <text x="165" y="214" fill="#94A3B8" font-size="10" font-weight="700">Av. Fascio (Centro)</text>
+
+                <path d="M 350 260 L 350 330 L 320 460" fill="none" stroke="#334155" stroke-width="14"/>
+                <path d="M 350 260 L 350 330 L 320 460" fill="none" stroke="#FBBF24" stroke-width="1.5"/>
+
+                <path d="M 440 290 L 580 290 L 680 240" fill="none" stroke="#334155" stroke-width="14"/>
+                <path d="M 580 290 L 630 380" fill="none" stroke="#334155" stroke-width="12"/>
+
+                <!-- Live Traffic Layers -->
+                <path d="M 355 260 L 355 160" fill="none" stroke="#10B981" stroke-width="3.5" opacity="0.85"/>
+                <path d="M 115 224 L 270 224" fill="none" stroke="#10B981" stroke-width="3.5" opacity="0.85"/>
+                <path d="M 270 224 L 350 224" fill="none" stroke="#F59E0B" stroke-width="3.5" opacity="0.85"/>
+
+                <!-- Route Polyline -->
+                <polyline id="activeNavLine" points="350,260 350,160 380,130 330,90 470,175 250,210 200,370 320,460 680,240 630,380" 
+                          fill="none" stroke="#EA580C" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="10 6" opacity="0.95"/>
+
+                <!-- Interactive Stop Pins (1 to 8) -->
+                <g id="mapPinsGroup">
+                  <!-- Dynamically populated by initVectorMapPins() -->
+                </g>
+
+                <!-- THE COMBI VAN (Current GPS Location with Pulsing Radar) -->
+                <g id="vanGpsMarker" transform="translate(350, 260)">
+                  <circle cx="0" cy="0" r="32" fill="url(#pulseGlow)">
+                    <animate attributeName="r" values="16;45;16" dur="2.4s" repeatCount="indefinite"/>
+                    <animate attributeName="opacity" values="0.9;0.1;0.9" dur="2.4s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle cx="0" cy="0" r="20" fill="#18181B" stroke="#FB923C" stroke-width="3"/>
+                  <text x="-10" y="6" font-size="16">🚐</text>
+                  <rect x="-55" y="-36" width="110" height="20" rx="6" fill="#18181B" stroke="#FB923C" stroke-width="1"/>
+                  <text x="-48" y="-22" fill="#FFFFFF" font-size="10" font-weight="800">Combi 02 • 36 km/h</text>
+                </g>
+              </svg>
+
+              <!-- Map Navigation Tools -->
+              <div class="map-nav-tools">
+                <button class="tool-btn-circle" id="btnZoomIn" title="Acercar">+</button>
+                <button class="tool-btn-circle" id="btnZoomOut" title="Alejar">−</button>
+                <button class="tool-btn-circle" id="btnCenterVan" title="Centrar en Combi">🎯</button>
+              </div>
+
+            </div>
+
+            <!-- Bottom Street Navigation Ticker -->
+            <div style="position: absolute; bottom: 12px; left: 14px; right: 80px; z-index: 100; display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.94); backdrop-filter: blur(8px); padding: 8px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); font-size: 11px; color: #FFFFFF;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 15px;">🚦</span>
+                <span><strong>Tránsito Jujuy:</strong> Pte. Gorriti despejado • Av. Dr. Balbín fluido (Tiempo est. a Los Perales: 3 min)</span>
+              </div>
+              <a href="camaras.html" class="badge-pill orange" style="text-decoration: none; font-size: 10px;">
+                📹 CCTV Cabina
+              </a>
+            </div>
+
+          </div>
+
+          <!-- RIGHT PANE: Compact Pet Passengers List (~25% of width) -->
+          <div class="stops-pane-column">
+            
+            <div style="padding: 10px 14px; border-bottom: 1px solid var(--border-color); background: #FAFAFA; display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <h2 style="font-size: 13px; font-weight: 800; color: #18181B; line-height: 1.1;">Mascotas a Bordo (8)</h2>
+                <span style="font-size: 10px; color: #71717A;">Orden secuencial de paradas</span>
+              </div>
+              <button id="btnResetStops" class="btn-driver-secondary" style="padding: 3px 6px; font-size: 9px;" title="Reiniciar datos">
+                🔄 Reset
+              </button>
+            </div>
+
+            <!-- Summary Filter Pill -->
+            <div style="background: #FFF7ED; border-bottom: 1px solid #FED7AA; padding: 6px 12px; display: flex; justify-content: space-between; align-items: center; font-size: 10px;">
+              <span style="color: #EA580C; font-weight: 700;">
+                🐕 6 en Asientos • 🛡️ 2 en Conducta
+              </span>
+              <span id="deliveredCounter" style="font-weight: 800; color: #059669;">0/8 Entregados</span>
+            </div>
+
+            <!-- Scrollable Compact List -->
+            <div class="stops-list-scroll" id="compactStopsContainer">
+              <!-- Dynamically populated by JS -->
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Persistent Tablet Bottom Navigation Bar -->
+      <nav class="tablet-navbar">
+        <a href="ruta.html" class="tablet-nav-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+          <span>Ruta & Mapa</span>
+        </a>
+
+        <a href="camaras.html" class="tablet-nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+          <span>Cámaras Cabina</span>
+          <span class="nav-badge">LIVE</span>
+        </a>
+
+        <a href="marco_legal.html" class="tablet-nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Marco Legal Tránsito</span>
+        </a>
+
+        <a href="scanner_qr.html" class="tablet-nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Escanear Carnet QR</span>
+        </a>
+
+        <a href="#" data-action="logout-driver" class="tablet-nav-item" style="color: #991B1B;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span>Bloquear Tablet</span>
+        </a>
+      </nav>
+
+    </div>
+  </div>
+
+  <!-- Delivery / Boarding Modal with DRAWABLE SIGNATURE PAD & AUTO-CONFIRMATION -->
+  <div id="deliveryModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); backdrop-filter: blur(5px); z-index: 1000; align-items: center; justify-content: center;">
+    <div style="background: white; border-radius: 24px; padding: 22px 26px; width: 92%; max-width: 500px; box-shadow: 0 20px 50px rgba(0,0,0,0.4);">
+      
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 28px;" id="modalPetEmoji">🐕</span>
+          <div>
+            <h3 style="font-size: 16px; font-weight: 800; color: #18181B;" id="modalPetTitle">Gestión de Traslado</h3>
+            <span style="font-size: 11px; color: #71717A;" id="modalPetSub">Check-in / Check-out Huellitas Express</span>
+          </div>
+        </div>
+        <button id="btnCloseModal" style="background: none; border: none; font-size: 20px; cursor: pointer; color: #71717A;">✕</button>
+      </div>
+
+      <!-- Mode Selector: Recibido (Abordaje) vs Dejado (Entrega) -->
+      <div class="logistics-mode-selector">
+        <button id="btnModeBoarding" class="logistics-mode-btn" onclick="selectLogisticsMode('recibido')">
+          <span>📥 Recibido (Abordaje Combi)</span>
+        </button>
+        <button id="btnModeDelivery" class="logistics-mode-btn active" onclick="selectLogisticsMode('dejado')">
+          <span>📤 Dejado (Entrega Domicilio)</span>
+        </button>
+      </div>
+
+      <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; font-size: 12px;">
+        <div style="margin-bottom: 4px;"><strong>Tutor:</strong> <span id="modalTutorName">Martín R.</span></div>
+        <div style="margin-bottom: 4px;"><strong>Dirección:</strong> <span id="modalAddress">Calle La Posta 450, B° Los Perales</span></div>
+        <div style="color: #EA580C; font-weight: 600;"><strong>Sujeción:</strong> <span id="modalSeatType">Asiento 01 • Cinturón Homologado</span></div>
+      </div>
+
+      <!-- Signature Pad with Auto-Confirmation -->
+      <div style="margin-bottom: 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <label style="font-size: 11px; font-weight: 700; color: #18181B;" id="lblSignatureAction">
+            ✍️ Firma Digital de Entrega Conforme:
+          </label>
+          <div style="display: flex; gap: 6px;">
+            <button id="btnAutoSignPad" type="button" class="btn-driver-secondary" style="padding: 2px 8px; font-size: 10px; background: #FFF7ED; color: #EA580C; border-color: #FED7AA;">
+              ✍️ Autenticar Firma Digital
+            </button>
+            <button id="btnClearSig" type="button" class="btn-driver-secondary" style="padding: 2px 8px; font-size: 10px;">
+              🗑️ Limpiar
+            </button>
+          </div>
+        </div>
+
+        <div style="position: relative;">
+          <canvas id="sigCanvas" width="440" height="120"></canvas>
+          <div id="sigPlaceholderText" style="position: absolute; inset: 0; pointer-events: none; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #94A3B8;">
+            [ Firme aquí con mouse/dedo. Al firmar se registrará automáticamente ]
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <button id="btnCancelDelivery" class="btn-driver-secondary" style="flex: 1; font-size: 12px;">Cancelar</button>
+        <button id="btnConfirmDeliveryAction" class="btn-driver-primary" style="flex: 1.5; font-size: 12px;">
+          ✅ Confirmar Operación
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="tablet_app.js"></script>
+  <script>
+    let activeModalStopId = null;
+    let currentOperationMode = 'dejado'; // 'recibido' o 'dejado'
+    let mapZoom = 1;
+    let mapPanX = 0;
+    let mapPanY = 0;
+    let isDraggingMap = false;
+    let startX = 0;
+    let startY = 0;
+
+    // Signature Canvas Logic
+    let sigCanvas, sigCtx;
+    let isDrawing = false;
+    let hasSigned = false;
+    let autoConfirmTimer = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      enforceDriverAuth();
+      initVectorMap();
+      renderCompactStops();
+      initSignaturePad();
+
+      document.getElementById('btnResetStops').addEventListener('click', resetDriverStops);
+
+      // Modal Events
+      document.getElementById('btnCloseModal').addEventListener('click', closeModal);
+      document.getElementById('btnCancelDelivery').addEventListener('click', closeModal);
+      document.getElementById('btnConfirmDeliveryAction').addEventListener('click', () => {
+        executeCurrentOperation();
+      });
+    });
+
+    function selectLogisticsMode(mode) {
+      currentOperationMode = mode;
+      const btnBoarding = document.getElementById('btnModeBoarding');
+      const btnDelivery = document.getElementById('btnModeDelivery');
+      const lblSig = document.getElementById('lblSignatureAction');
+      const btnConfirm = document.getElementById('btnConfirmDeliveryAction');
+
+      if (mode === 'recibido') {
+        btnBoarding.classList.add('active');
+        btnDelivery.classList.remove('active');
+        lblSig.textContent = '✍️ Firma Digital de Abordaje a Combi:';
+        btnConfirm.textContent = '📥 Confirmar Recibido / A Bordo';
+      } else {
+        btnDelivery.classList.add('active');
+        btnBoarding.classList.remove('active');
+        lblSig.textContent = '✍️ Firma Digital de Entrega en Domicilio:';
+        btnConfirm.textContent = '📤 Confirmar Dejado / Entregado';
+      }
+    }
+
+    // Auto-confirmation after signing
+    function triggerAutoConfirmation() {
+      if (autoConfirmTimer) clearTimeout(autoConfirmTimer);
+      
+      const btnConfirm = document.getElementById('btnConfirmDeliveryAction');
+      btnConfirm.style.background = '#10B981';
+      btnConfirm.textContent = '⏳ Registrando firma...';
+
+      autoConfirmTimer = setTimeout(() => {
+        executeCurrentOperation();
+      }, 550);
+    }
+
+    function executeCurrentOperation() {
+      if (!activeModalStopId) return;
+
+      const stops = getDriverStops();
+      const stop = stops.find(s => s.id === activeModalStopId);
+      const petName = stop ? stop.nombre : 'Mascota';
+
+      if (currentOperationMode === 'recibido') {
+        registerPetBoarding(activeModalStopId);
+        showSystemNotification(
+          `📥 Mascota Recibida a Bordo`,
+          `${petName} ha ingresado a la Combi 02 y fue asegurado en su casillero/asiento.`
+        );
+      } else {
+        registerPetDelivery(activeModalStopId);
+        showSystemNotification(
+          `✅ Entrega Concluida con Éxito`,
+          `${petName} fue entregado conforme a su tutor en su domicilio.`
+        );
+      }
+
+      closeModal();
+      renderCompactStops();
+      initVectorMapPins();
+    }
+
+    // Vector Map Logic (Panning, Zooming, Day/Night)
+    function initVectorMap() {
+      const wrap = document.getElementById('vectorMapCanvasWrap');
+      const svg = document.getElementById('vectorSvgMap');
+
+      initVectorMapPins();
+
+      // Pan & Drag
+      wrap.addEventListener('mousedown', (e) => {
+        isDraggingMap = true;
+        startX = e.clientX - mapPanX;
+        startY = e.clientY - mapPanY;
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isDraggingMap) return;
+        mapPanX = e.clientX - startX;
+        mapPanY = e.clientY - startY;
+        applyMapTransform();
+      });
+
+      window.addEventListener('mouseup', () => {
+        isDraggingMap = false;
+      });
+
+      // Touch events for tablet
+      wrap.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          isDraggingMap = true;
+          startX = e.touches[0].clientX - mapPanX;
+          startY = e.touches[0].clientY - mapPanY;
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchmove', (e) => {
+        if (!isDraggingMap || e.touches.length !== 1) return;
+        mapPanX = e.touches[0].clientX - startX;
+        mapPanY = e.touches[0].clientY - startY;
+        applyMapTransform();
+      }, { passive: true });
+
+      window.addEventListener('touchend', () => {
+        isDraggingMap = false;
+      });
+
+      // Zoom Buttons
+      document.getElementById('btnZoomIn').addEventListener('click', () => {
+        mapZoom = Math.min(mapZoom + 0.25, 2.2);
+        applyMapTransform();
+      });
+
+      document.getElementById('btnZoomOut').addEventListener('click', () => {
+        mapZoom = Math.max(mapZoom - 0.25, 0.75);
+        applyMapTransform();
+      });
+
+      document.getElementById('btnCenterVan').addEventListener('click', () => {
+        mapZoom = 1;
+        mapPanX = 0;
+        mapPanY = 0;
+        applyMapTransform();
+      });
+
+      // Day / Night Theme Toggle
+      let isDarkMap = true;
+      document.getElementById('btnToggleMapTheme').addEventListener('click', () => {
+        isDarkMap = !isDarkMap;
+        if (isDarkMap) {
+          svg.querySelector('rect').setAttribute('fill', '#0B132B');
+          document.getElementById('btnToggleMapTheme').textContent = '🌓 Tema Noche';
+        } else {
+          svg.querySelector('rect').setAttribute('fill', '#E2E8F0');
+          document.getElementById('btnToggleMapTheme').textContent = '☀️ Tema Día';
+        }
+      });
+    }
+
+    function applyMapTransform() {
+      const svg = document.getElementById('vectorSvgMap');
+      svg.style.transform = `translate(${mapPanX}px, ${mapPanY}px) scale(${mapZoom})`;
+    }
+
+    function initVectorMapPins() {
+      const group = document.getElementById('mapPinsGroup');
+      group.innerHTML = '';
+
+      const stops = getDriverStops();
+
+      stops.forEach((stop, idx) => {
+        const isDelivered = stop.status === 'entregado';
+        const isNext = stop.proximaParada;
+        const pinColor = isDelivered ? '#10B981' : (isNext ? '#EA580C' : '#F97316');
+
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.setAttribute('transform', `translate(${stop.mapX}, ${stop.mapY})`);
+        g.style.cursor = 'pointer';
+
+        g.innerHTML = `
+          <circle cx="0" cy="0" r="16" fill="${pinColor}" stroke="#FFFFFF" stroke-width="2.5" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.5))"/>
+          <text x="0" y="4.5" fill="#FFFFFF" font-size="11" font-weight="900" text-anchor="middle">${isDelivered ? '✓' : (idx + 1)}</text>
+          
+          <rect x="-40" y="-30" width="80" height="18" rx="5" fill="#18181B" opacity="0.9"/>
+          <text x="0" y="-18" fill="#FFFFFF" font-size="9" font-weight="700" text-anchor="middle">${stop.nombre} ${stop.emoji}</text>
+        `;
+
+        g.addEventListener('click', () => {
+          openDeliveryModal(stop.id);
+        });
+
+        group.appendChild(g);
+      });
+    }
+
+    // Render Compact Stops List
+    function renderCompactStops() {
+      const stops = getDriverStops();
+      const container = document.getElementById('compactStopsContainer');
+      container.innerHTML = '';
+
+      let deliveredCount = 0;
+      let nextFound = false;
+
+      stops.forEach((stop, index) => {
+        const isDelivered = stop.status === 'entregado';
+        const isAboard = stop.status === 'a_bordo';
+        const isNext = stop.proximaParada;
+
+        if (isDelivered) deliveredCount++;
+
+        if (isNext && !nextFound) {
+          nextFound = true;
+          document.getElementById('hudActivePetTitle').textContent = `Próxima Parada: ${stop.nombre} ${stop.emoji} (${stop.raza}) • ${stop.eta}`;
+          document.getElementById('hudActiveAddress').textContent = `${stop.direccion} • ${stop.tipoAsiento.split('•')[0]}`;
+        }
+
+        const card = document.createElement('div');
+        card.className = `pet-stop-card-compact ${isNext ? 'is-active' : ''} ${isDelivered ? 'is-delivered' : ''}`;
+
+        card.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="width: 20px; height: 20px; border-radius: 50%; background: ${isDelivered ? '#10B981' : (isNext ? '#EA580C' : '#3B82F6')}; color: white; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 10px;">
+                ${isDelivered ? '✓' : (index + 1)}
+              </span>
+              <strong style="font-size: 13px; color: #18181B;">${stop.nombre}</strong>
+              <span style="font-size: 14px;">${stop.emoji}</span>
+              <span style="font-size: 10px; color: #71717A;">(${stop.raza})</span>
+            </div>
+            
+            <span class="badge-pill ${isDelivered ? 'success' : (isNext ? 'orange' : 'blue')}" style="font-size: 9px; padding: 2px 6px;">
+              ${isDelivered ? 'Entregado' : (isAboard ? 'A Bordo' : 'Por Recibir')}
+            </span>
+          </div>
+
+          <div style="font-size: 10.5px; color: #475569; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            📍 ${stop.direccion}
+          </div>
+
+          <div style="background: ${stop.isBehaviorCage ? '#EFF6FF' : '#F8FAFC'}; border-left: 3px solid ${stop.isBehaviorCage ? '#3B82F6' : '#FB923C'}; padding: 4px 6px; font-size: 9.5px; line-height: 1.3; color: #64748B; margin-bottom: 6px; border-radius: 0 4px 4px 0;">
+            <strong style="color: ${stop.isBehaviorCage ? '#1D4ED8' : '#EA580C'};">${stop.tipoAsiento.split('•')[0]}</strong> • ${stop.alertaMedica}
+          </div>
+
+          <div style="display: flex; gap: 6px; justify-content: flex-end;">
+            <!-- Botón Avisar que envía mensaje al número del tutor -->
+            <button onclick="sendArrivalNotice('${stop.nombre}', '${stop.tutor}', '${stop.telefono}')" class="btn-driver-secondary" style="padding: 3px 8px; font-size: 10px;">
+              💬 Avisar
+            </button>
+            ${!isDelivered ? `
+              <button onclick="openDeliveryModal('${stop.id}')" class="btn-driver-primary" style="padding: 4px 10px; font-size: 10px;">
+                ✍️ Gestionar
+              </button>
+            ` : `
+              <span style="font-size: 10px; color: #059669; font-weight: 700;">
+                ✓ Entregado (${stop.horaEntrega})
+              </span>
+            `}
+          </div>
+        `;
+
+        card.addEventListener('click', (e) => {
+          if (e.target.tagName !== 'BUTTON') {
+            mapPanX = 500 - stop.mapX;
+            mapPanY = 350 - stop.mapY;
+            mapZoom = 1.25;
+            applyMapTransform();
+          }
+        });
+
+        container.appendChild(card);
+      });
+
+      document.getElementById('deliveredCounter').textContent = `${deliveredCount}/8 Entregados`;
+    }
+
+    // Interactive Signature Pad with Automatic Completion
+    function initSignaturePad() {
+      sigCanvas = document.getElementById('sigCanvas');
+      sigCtx = sigCanvas.getContext('2d');
+      sigCtx.strokeStyle = '#1E3A8A';
+      sigCtx.lineWidth = 2.5;
+      sigCtx.lineCap = 'round';
+      sigCtx.lineJoin = 'round';
+
+      function getPos(e) {
+        const rect = sigCanvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return {
+          x: (clientX - rect.left) * (sigCanvas.width / rect.width),
+          y: (clientY - rect.top) * (sigCanvas.height / rect.height)
+        };
+      }
+
+      function startDraw(e) {
+        isDrawing = true;
+        hasSigned = true;
+        document.getElementById('sigPlaceholderText').style.display = 'none';
+        const pos = getPos(e);
+        sigCtx.beginPath();
+        sigCtx.moveTo(pos.x, pos.y);
+      }
+
+      function draw(e) {
+        if (!isDrawing) return;
+        const pos = getPos(e);
+        sigCtx.lineTo(pos.x, pos.y);
+        sigCtx.stroke();
+      }
+
+      function stopDraw() {
+        if (isDrawing && hasSigned) {
+          isDrawing = false;
+          // Automáticamente pone que se entregó / recibió al firmar
+          triggerAutoConfirmation();
+        }
+        isDrawing = false;
+      }
+
+      sigCanvas.addEventListener('mousedown', startDraw);
+      sigCanvas.addEventListener('mousemove', draw);
+      window.addEventListener('mouseup', stopDraw);
+
+      sigCanvas.addEventListener('touchstart', (e) => { e.preventDefault(); startDraw(e); });
+      sigCanvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e); });
+      window.addEventListener('touchend', stopDraw);
+
+      // Clear Button
+      document.getElementById('btnClearSig').addEventListener('click', () => {
+        if (autoConfirmTimer) clearTimeout(autoConfirmTimer);
+        sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
+        document.getElementById('sigPlaceholderText').style.display = 'flex';
+        hasSigned = false;
+        const btnConfirm = document.getElementById('btnConfirmDeliveryAction');
+        btnConfirm.style.background = 'var(--primary-orange)';
+        btnConfirm.textContent = currentOperationMode === 'recibido' ? '📥 Confirmar Recibido' : '📤 Confirmar Dejado';
+      });
+
+      // Quick Digital Signature Button (Requested by user)
+      document.getElementById('btnAutoSignPad').addEventListener('click', drawQuickSignature);
+    }
+
+    function drawQuickSignature() {
+      sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
+      document.getElementById('sigPlaceholderText').style.display = 'none';
+      hasSigned = true;
+
+      sigCtx.beginPath();
+      sigCtx.strokeStyle = '#1D4ED8';
+      sigCtx.lineWidth = 2.5;
+
+      const points = [
+        { x: 50, y: 75 },
+        { x: 70, y: 35 },
+        { x: 85, y: 90 },
+        { x: 110, y: 55 },
+        { x: 135, y: 70 },
+        { x: 160, y: 45 },
+        { x: 190, y: 80 },
+        { x: 230, y: 40 },
+        { x: 270, y: 85 },
+        { x: 340, y: 65 },
+        { x: 380, y: 75 }
+      ];
+
+      sigCtx.moveTo(points[0].x, points[0].y);
+      for (let i = 1; i < points.length - 2; i++) {
+        const xc = (points[i].x + points[i + 1].x) / 2;
+        const yc = (points[i].y + points[i + 1].y) / 2;
+        sigCtx.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
+      }
+      sigCtx.stroke();
+
+      sigCtx.beginPath();
+      sigCtx.moveTo(60, 95);
+      sigCtx.quadraticCurveTo(200, 115, 390, 90);
+      sigCtx.stroke();
+
+      // Automáticamente confirma al poner la firma
+      triggerAutoConfirmation();
+    }
+
+    function openDeliveryModal(stopId) {
+      const stops = getDriverStops();
+      const stop = stops.find(s => s.id === stopId);
+      if (!stop) return;
+
+      activeModalStopId = stopId;
+      document.getElementById('modalPetEmoji').textContent = stop.emoji;
+      document.getElementById('modalPetTitle').textContent = `Traslado de ${stop.nombre} (${stop.raza})`;
+      document.getElementById('modalPetSub').textContent = `Destino: ${stop.barrio}`;
+      document.getElementById('modalTutorName').textContent = `${stop.tutor} • Tel: ${stop.telefono}`;
+      document.getElementById('modalAddress').textContent = stop.direccion;
+      document.getElementById('modalSeatType').textContent = stop.tipoAsiento;
+
+      // Select default mode based on pet current status
+      if (stop.status === 'esperando_retiro') {
+        selectLogisticsMode('recibido');
+      } else {
+        selectLogisticsMode('dejado');
+      }
+
+      // Reset canvas
+      if (sigCtx) {
+        sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
+        document.getElementById('sigPlaceholderText').style.display = 'flex';
+        hasSigned = false;
+        const btnConfirm = document.getElementById('btnConfirmDeliveryAction');
+        btnConfirm.style.background = 'var(--primary-orange)';
+      }
+
+      document.getElementById('deliveryModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      if (autoConfirmTimer) clearTimeout(autoConfirmTimer);
+      document.getElementById('deliveryModal').style.display = 'none';
+      activeModalStopId = null;
+    }
+  </script>
+</body>
+</html>

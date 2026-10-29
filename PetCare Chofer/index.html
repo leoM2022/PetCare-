@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PetCare Chofer | Acceso Seguro a Consola de Cabina</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tablet_styles.css">
+  <style>
+    .login-container-card {
+      width: 100%;
+      max-width: 480px;
+      background: #FFFFFF;
+      border-radius: 24px;
+      padding: 32px 36px;
+      box-shadow: 0 16px 36px -10px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.05);
+      border: 1px solid #E4E4E7;
+    }
+    .form-group {
+      margin-bottom: 18px;
+    }
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: #18181B;
+      margin-bottom: 6px;
+    }
+    .form-input {
+      width: 100%;
+      height: 48px;
+      padding: 0 16px;
+      border: 1.5px solid #E4E4E7;
+      border-radius: 12px;
+      font-size: 15px;
+      font-family: inherit;
+      color: #18181B;
+      transition: all 0.2s ease;
+      background: #FAFAFA;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: #FB923C;
+      background: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.2);
+    }
+    .quick-pin-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .quick-pin-btn {
+      flex: 1;
+      height: 44px;
+      background: #F4F4F5;
+      border: 1px solid #E4E4E7;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #18181B;
+      transition: all 0.15s ease;
+    }
+    .quick-pin-btn:hover {
+      background: #FFF7ED;
+      border-color: #FDBA74;
+      color: #EA580C;
+    }
+    .alert-banner {
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 12px;
+      line-height: 1.4;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .alert-banner.error {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      color: #DC2626;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Prototype Helper Bar -->
+  <div class="tablet-helper-bar">
+    <div class="tablet-helper-title">
+      <span style="font-size: 18px;">🚐</span>
+      <strong>PetCare Jujuy • Consola Tablet de Conductor (Cabina Combi 02)</strong>
+      <span class="tablet-badge-online">
+        <span class="tablet-badge-pulse"></span>
+        Terminal Vehicular Conectada
+      </span>
+    </div>
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <span style="font-size: 12px; opacity: 0.8;">San Salvador de Jujuy</span>
+      <button id="btnToggleFullscreen" class="btn-driver-secondary" style="padding: 6px 12px; font-size: 11px; background: #3F3F46; border-color: #52525B; color: white;">
+        📺 Pantalla Completa
+      </button>
+    </div>
+  </div>
+
+  <!-- Physical Tablet Mockup Frame -->
+  <div class="tablet-frame-wrapper">
+    <!-- Hardware Details -->
+    <div class="tablet-camera-notch" title="Cámara Frontal Tablet"></div>
+    <div class="tablet-speaker-slit"></div>
+
+    <!-- Screen Glass -->
+    <div class="tablet-screen">
+      
+      <!-- Status Bar -->
+      <div class="tablet-status-bar">
+        <div class="status-bar-left">
+          <span id="tabletClock">18:05:00</span>
+          <span style="font-size: 11px; color: #64748B;">• Jujuy (GMT-3)</span>
+        </div>
+        <div class="status-bar-center">
+          <span>📍 GPS Alta Precisión Activo • Combi 02</span>
+        </div>
+        <div class="status-bar-right">
+          <span style="font-size: 11px;">5G 📶</span>
+          <span style="font-size: 11px;">🔋 100%</span>
+        </div>
+      </div>
+
+      <!-- Main Login Content (Split / Center for ergonomic tablet viewing) -->
+      <div class="tablet-workspace" style="display: flex; align-items: center; justify-content: center; padding: 24px; background: linear-gradient(135deg, #FFF7ED 0%, #F4F4F5 100%);">
+        
+        <div style="display: flex; width: 100%; max-width: 960px; gap: 36px; align-items: center;">
+          
+          <!-- Left Presentation Column -->
+          <div style="flex: 1.1; padding-right: 16px;">
+            <div style="display: inline-flex; align-items: center; gap: 8px; background: #FFFFFF; border: 1px solid #FED7AA; padding: 6px 14px; border-radius: 9999px; font-size: 12px; font-weight: 700; color: #EA580C; margin-bottom: 16px; box-shadow: 0 2px 6px rgba(251,146,60,0.15);">
+              <span>🛡️ Sistema Huellitas Express • Modo Conducción</span>
+            </div>
+            
+            <h1 style="font-size: 28px; font-weight: 800; color: #18181B; line-height: 1.2; letter-spacing: -0.5px; margin-bottom: 12px;">
+              Consola Logística de Traslado de Mascotas
+            </h1>
+            
+            <p style="font-size: 14px; color: #52525B; line-height: 1.5; margin-bottom: 24px;">
+              Terminal montada en soporte vehicular para el chofer oficial de <strong>PetCare Jujuy</strong>. Permite gestionar en tiempo real la hoja de ruta, telemetría de mascotas en cabina, cámaras de confort y marco legal ante controles viales.
+            </p>
+
+            <!-- Quick Specs Badges -->
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+              <div style="background: #FFFFFF; padding: 12px 14px; border-radius: 14px; border: 1px solid #E4E4E7;">
+                <div style="font-size: 18px; margin-bottom: 4px;">🗺️</div>
+                <div style="font-size: 12px; font-weight: 800; color: #18181B;">Mapa San Salvador de Jujuy</div>
+                <div style="font-size: 11px; color: #71717A;">Ruta por Perales, Nieva y Viña</div>
+              </div>
+
+              <div style="background: #FFFFFF; padding: 12px 14px; border-radius: 14px; border: 1px solid #E4E4E7;">
+                <div style="font-size: 18px; margin-bottom: 4px;">📹</div>
+                <div style="font-size: 12px; font-weight: 800; color: #18181B;">Cámaras de Cabina In-Transit</div>
+                <div style="font-size: 11px; color: #71717A;">Asientos y jaulas de conducta</div>
+              </div>
+
+              <div style="background: #FFFFFF; padding: 12px 14px; border-radius: 14px; border: 1px solid #E4E4E7;">
+                <div style="font-size: 18px; margin-bottom: 4px;">⚖️</div>
+                <div style="font-size: 12px; font-weight: 800; color: #18181B;">Marco Legal Inmediato</div>
+                <div style="font-size: 11px; color: #71717A;">Habilitación municipal y seguro</div>
+              </div>
+
+              <div style="background: #FFFFFF; padding: 12px 14px; border-radius: 14px; border: 1px solid #E4E4E7;">
+                <div style="font-size: 18px; margin-bottom: 4px;">📷</div>
+                <div style="font-size: 12px; font-weight: 800; color: #18181B;">Escáner de Carnet QR</div>
+                <div style="font-size: 11px; color: #71717A;">Check-out con firma de tutor</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Login Form Card -->
+          <div style="flex: 0.9;">
+            <div class="login-container-card">
+              
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+                <div style="width: 44px; height: 44px; background: #FB923C; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: white;">
+                  🚐
+                </div>
+                <div>
+                  <h2 style="font-size: 18px; font-weight: 800; color: #18181B; line-height: 1.1;">Ingreso de Conductor</h2>
+                  <span style="font-size: 12px; color: #71717A;">Credenciales oficiales asignadas</span>
+                </div>
+              </div>
+
+              <!-- Error Alert -->
+              <div id="loginError" class="alert-banner error">
+                <span style="font-size: 16px;">⚠️</span>
+                <span id="loginErrorMsg">Credenciales inválidas.</span>
+              </div>
+
+              <!-- Login Form -->
+              <form id="driverLoginForm">
+                <div class="form-group">
+                  <label class="form-label" for="driverEmail">Correo Institucional / Legajo</label>
+                  <input type="email" id="driverEmail" class="form-input" value="chofer@petcare.com" placeholder="ej. chofer@petcare.com" required>
+                </div>
+
+                <div class="form-group">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <label class="form-label" for="driverPass" style="margin-bottom: 0;">Contraseña o PIN</label>
+                    <span style="font-size: 11px; color: #71717A;">PIN predeterminado: <strong>1234</strong></span>
+                  </div>
+                  <input type="password" id="driverPass" class="form-input" value="1234" placeholder="••••" required>
+                </div>
+
+                <button type="submit" class="btn-driver-primary" style="width: 100%; height: 50px; font-size: 15px; margin-top: 6px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  <span>Iniciar Turno y Abrir Hoja de Ruta</span>
+                </button>
+              </form>
+
+              <!-- Quick Demo Access Button -->
+              <div style="margin-top: 18px; padding-top: 16px; border-top: 1px solid #E4E4E7; text-align: center;">
+                <button id="btnQuickLogin" type="button" class="btn-driver-secondary" style="width: 100%; font-size: 12px; background: #FFF7ED; border-color: #FED7AA; color: #EA580C;">
+                  <span>⚡ Acceso Rápido: Héctor López (Chofer Huellitas 02)</span>
+                </button>
+                <div style="font-size: 11px; color: #A1A1AA; margin-top: 8px;">
+                  Esta pantalla bloquea el ingreso a cuentas sin rol Chofer
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script src="tablet_app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // If already logged in, redirect to route
+      const active = getActiveDriver();
+      if (active) {
+        window.location.href = 'ruta.html';
+        return;
+      }
+
+      const form = document.getElementById('driverLoginForm');
+      const errBox = document.getElementById('loginError');
+      const errMsg = document.getElementById('loginErrorMsg');
+      const btnQuick = document.getElementById('btnQuickLogin');
+
+      function showError(text) {
+        errMsg.textContent = text;
+        errBox.style.display = 'flex';
+      }
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        errBox.style.display = 'none';
+
+        const email = document.getElementById('driverEmail').value;
+        const pass = document.getElementById('driverPass').value;
+
+        const res = loginDriver(email, pass);
+        if (res.success) {
+          window.location.href = 'ruta.html';
+        } else {
+          showError(res.message);
+        }
+      });
+
+      btnQuick.addEventListener('click', () => {
+        const res = loginDriver('chofer@petcare.com', '1234');
+        if (res.success) {
+          window.location.href = 'ruta.html';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

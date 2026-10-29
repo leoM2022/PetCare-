@@ -1,0 +1,723 @@
+/* ==========================================================================
+   PetCare Jujuy - Huellitas Express
+   Tablet App Stylesheet • Driver Console (Cabina Combi 02)
+   Estética Corporativa PetCare Jujuy (Naranja Cálido & Ónix)
+   ========================================================================== */
+
+:root {
+  --primary-orange: #FB923C;
+  --primary-orange-light: #FDBA74;
+  --primary-orange-tint: #FFF7ED;
+  --primary-orange-dark: #EA580C;
+
+  --bg-slate: #F4F4F5;
+  --card-bg: #FFFFFF;
+  --text-dark: #18181B;
+  --text-muted: #71717A;
+  --text-light: #A1A1AA;
+  --border-color: #E4E4E7;
+
+  --status-green: #10B981;
+  --status-green-bg: #ECFDF5;
+  --status-green-text: #059669;
+
+  --status-amber: #F59E0B;
+  --status-amber-bg: #FFFBEB;
+  --status-amber-text: #B45309;
+
+  --status-red: #EF4444;
+  --status-red-bg: #FEF2F2;
+  --status-red-text: #DC2626;
+
+  --status-blue: #3B82F6;
+  --status-blue-bg: #EFF6FF;
+  --status-blue-text: #1D4ED8;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+  --shadow-elevated: 0 12px 30px -6px rgba(0, 0, 0, 0.12), 0 8px 12px -6px rgba(0, 0, 0, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #27272A;
+  color: var(--text-dark);
+  line-height: 1.45;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  user-select: none;
+}
+
+/* Prototype Bar Helper on Top */
+.tablet-helper-bar {
+  width: 100%;
+  max-width: 1120px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  color: #E4E4E7;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.tablet-helper-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tablet-badge-online {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(16, 185, 129, 0.2);
+  color: #34D399;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.tablet-badge-pulse {
+  width: 7px;
+  height: 7px;
+  background-color: #10B981;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #10B981;
+  animation: pulse-dot 1.5s infinite;
+}
+
+@keyframes pulse-dot {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+/* Realistic Tablet Mockup Frame (Landscape Tablet 1120x740) */
+.tablet-frame-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1120px;
+  height: 740px;
+  background: #18181B;
+  border-radius: 40px;
+  padding: 14px;
+  box-shadow: 0 30px 70px -10px rgba(0, 0, 0, 0.65), 0 0 0 2px #3F3F46, 0 0 0 4px #09090B;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+/* Fullscreen Mode when toggled */
+body.fullscreen-mode {
+  padding: 0;
+  background-color: var(--bg-slate);
+}
+body.fullscreen-mode .tablet-helper-bar {
+  display: none;
+}
+body.fullscreen-mode .tablet-frame-wrapper {
+  max-width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  border: none;
+}
+body.fullscreen-mode .tablet-screen {
+  border-radius: 0;
+}
+body.fullscreen-mode .tablet-camera-notch {
+  display: none;
+}
+
+/* Tablet Physical Details */
+.tablet-camera-notch {
+  position: absolute;
+  top: 50%;
+  left: 6px;
+  transform: translateY(-50%);
+  width: 7px;
+  height: 7px;
+  background: #09090B;
+  border-radius: 50%;
+  box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.3);
+  z-index: 100;
+}
+
+.tablet-speaker-slit {
+  position: absolute;
+  top: calc(50% - 30px);
+  left: 5px;
+  width: 3px;
+  height: 24px;
+  background: #27272A;
+  border-radius: 2px;
+  z-index: 100;
+}
+
+/* Inside Screen Glass */
+.tablet-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-slate);
+  border-radius: 28px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Tablet Top Status Bar */
+.tablet-status-bar {
+  height: 38px;
+  background: #FFFFFF;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dark);
+  z-index: 30;
+  flex-shrink: 0;
+}
+
+.status-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-bar-center {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: #475569;
+  background: #F1F5F9;
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+}
+
+.status-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Tablet Header Bar (Action & Driver ID) */
+.tablet-header-bar {
+  background: #FFFFFF;
+  border-bottom: 1px solid var(--border-color);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 20;
+  flex-shrink: 0;
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-icon {
+  width: 38px;
+  height: 38px;
+  background: var(--primary-orange);
+  color: #FFFFFF;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 4px 10px rgba(251, 146, 60, 0.35);
+}
+
+.brand-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-dark);
+  letter-spacing: -0.3px;
+  line-height: 1.1;
+}
+
+.brand-subtitle {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.driver-pill-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--primary-orange-tint);
+  border: 1px solid #FED7AA;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+}
+
+.driver-avatar-circle {
+  width: 28px;
+  height: 28px;
+  background: var(--primary-orange-dark);
+  color: #FFFFFF;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.driver-info-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.driver-name {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-dark);
+  line-height: 1.1;
+}
+
+.driver-role {
+  font-size: 10px;
+  color: var(--primary-orange-dark);
+  font-weight: 600;
+}
+
+/* Tablet Workspace (Main Body) */
+.tablet-workspace {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  background: var(--bg-slate);
+}
+
+/* Tablet Bottom Navigation Bar (Large Touch-Friendly Tabs) */
+.tablet-navbar {
+  height: 64px;
+  background: #FFFFFF;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 16px;
+  z-index: 30;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.03);
+  flex-shrink: 0;
+}
+
+.tablet-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  min-width: 110px;
+  position: relative;
+}
+
+.tablet-nav-item svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2.2;
+  transition: transform 0.2s ease;
+}
+
+.tablet-nav-item:hover {
+  background: #F4F4F5;
+  color: var(--text-dark);
+}
+
+.tablet-nav-item.active {
+  background: var(--primary-orange-tint);
+  color: var(--primary-orange-dark);
+  font-weight: 800;
+}
+
+.tablet-nav-item.active svg {
+  transform: translateY(-1px);
+  stroke: var(--primary-orange-dark);
+}
+
+.tablet-nav-item .nav-badge {
+  position: absolute;
+  top: 4px;
+  right: 28px;
+  background: var(--status-red);
+  color: #FFFFFF;
+  font-size: 9px;
+  font-weight: 800;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Cards & Components */
+.card-tablet {
+  background: #FFFFFF;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-card);
+  padding: 16px;
+  transition: box-shadow 0.2s ease;
+}
+
+.card-tablet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.card-title-lg {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Semantic Badges */
+.badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.badge-pill.success {
+  background: var(--status-green-bg);
+  color: var(--status-green-text);
+  border: 1px solid #A7F3D0;
+}
+
+.badge-pill.warning {
+  background: var(--status-amber-bg);
+  color: var(--status-amber-text);
+  border: 1px solid #FDE68A;
+}
+
+.badge-pill.danger {
+  background: var(--status-red-bg);
+  color: var(--status-red-text);
+  border: 1px solid #FECACA;
+}
+
+.badge-pill.orange {
+  background: var(--primary-orange-tint);
+  color: var(--primary-orange-dark);
+  border: 1px solid #FED7AA;
+}
+
+.badge-pill.blue {
+  background: var(--status-blue-bg);
+  color: var(--status-blue-text);
+  border: 1px solid #BFDBFE;
+}
+
+/* Buttons for Driver (Large Touch Surface) */
+.btn-driver-primary {
+  background: var(--primary-orange);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(251, 146, 60, 0.35);
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-driver-primary:hover {
+  background: var(--primary-orange-dark);
+  transform: translateY(-1px);
+}
+
+.btn-driver-primary:active {
+  transform: translateY(1px);
+}
+
+.btn-driver-secondary {
+  background: #FFFFFF;
+  color: var(--text-dark);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-driver-secondary:hover {
+  background: #F4F4F5;
+}
+
+.btn-driver-danger {
+  background: #FEF2F2;
+  color: #DC2626;
+  border: 1px solid #FECACA;
+  border-radius: var(--radius-md);
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.btn-driver-danger:hover {
+  background: #FEE2E2;
+}
+
+/* Full Map Container */
+#driverMap {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  z-index: 10;
+}
+
+/* Leaflet Custom Marker & Popups */
+.driver-van-marker {
+  background: #18181B;
+  border: 3px solid #FB923C;
+  color: white;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+  position: relative;
+}
+
+.driver-van-marker::after {
+  content: '';
+  position: absolute;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 2px solid #FB923C;
+  animation: radar-wave 2s infinite ease-out;
+}
+
+@keyframes radar-wave {
+  0% { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+.stop-marker-pin {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 13px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+  border: 2px solid white;
+}
+
+.stop-marker-pin.pending {
+  background: #EA580C;
+}
+
+.stop-marker-pin.delivered {
+  background: #10B981;
+}
+
+/* CCTV In-Transit Screen Stream */
+.cctv-screen-box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #0B0F17;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.cctv-scanlines {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.3)
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.cctv-hud-top {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 20;
+  color: #38BDF8;
+  font-family: monospace;
+  font-size: 12px;
+  text-shadow: 0 0 6px rgba(56, 189, 248, 0.6);
+}
+
+.cctv-rec-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(220, 38, 38, 0.25);
+  border: 1px solid rgba(220, 38, 38, 0.6);
+  color: #F87171;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+.cctv-rec-dot {
+  width: 8px;
+  height: 8px;
+  background: #EF4444;
+  border-radius: 50%;
+  animation: pulse-dot 1s infinite;
+}
+
+.cctv-hud-bottom {
+  position: absolute;
+  bottom: 14px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 20;
+  color: #94A3B8;
+  font-family: monospace;
+  font-size: 11px;
+}
+
+/* Laser Scanner Animation for QR */
+.scanner-viewfinder {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  border: 2px dashed #CBD5E1;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #09090B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scanner-laser-line {
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #FB923C, #EA580C, transparent);
+  box-shadow: 0 0 12px #FB923C, 0 0 20px #EA580C;
+  animation: scan-vertical 2.2s infinite ease-in-out;
+  z-index: 25;
+}
+
+@keyframes scan-vertical {
+  0% { top: 5%; opacity: 0.8; }
+  50% { top: 92%; opacity: 1; }
+  100% { top: 5%; opacity: 0.8; }
+}
+
+.scanner-corner {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-color: #FB923C;
+  border-style: solid;
+  border-width: 0;
+  z-index: 20;
+}
+.scanner-corner.top-left { top: 10px; left: 10px; border-top-width: 4px; border-left-width: 4px; border-top-left-radius: 8px; }
+.scanner-corner.top-right { top: 10px; right: 10px; border-top-width: 4px; border-right-width: 4px; border-top-right-radius: 8px; }
+.scanner-corner.bottom-left { bottom: 10px; left: 10px; border-bottom-width: 4px; border-left-width: 4px; border-bottom-left-radius: 8px; }
+.scanner-corner.bottom-right { bottom: 10px; right: 10px; border-bottom-width: 4px; border-right-width: 4px; border-bottom-right-radius: 8px; }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F4F4F5;
+}
+::-webkit-scrollbar-thumb {
+  background: #D4D4D8;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A1A1AA;
+}
