@@ -119,6 +119,21 @@
             </span>
           </div>
 
+          <!-- Cumple Peludo Highlight Row -->
+          <div style="background-color: #FFF7ED; border: 1.5px solid #FDBA74; border-radius: var(--radius-md); padding: 12px 16px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 26px;">🎂</span>
+              <div>
+                <div style="font-size: 11px; font-weight: 700; color: #EA580C; text-transform: uppercase;">Cumple Peludo</div>
+                <div style="font-size: 14px; font-weight: 800; color: #18181B;" id="petBirthdayText">24 de Diciembre</div>
+              </div>
+            </div>
+            <a href="#seccionCumples" style="font-size: 11px; font-weight: 700; background: #FFFFFF; color: #EA580C; border: 1px solid #FED7AA; padding: 5px 12px; border-radius: var(--radius-full); text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+              <span>🎉 Ver en Calendario</span>
+              <span>↓</span>
+            </a>
+          </div>
+
           <!-- Vet Contact -->
           <div style="background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 12px 16px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
             <div>
@@ -260,13 +275,136 @@
 
     </div>
 
+    <!-- ======================================================================
+         SECTION: Calendario Anual de Cumples Peludos
+         ====================================================================== -->
+    <section class="cumple-calendar-wrapper" id="seccionCumples">
+      
+      <!-- Calendar Header & Controls -->
+      <div class="cumple-calendar-header">
+        <div class="cumple-title-group">
+          <div class="cumple-cake-icon">🎂</div>
+          <div>
+            <h2 style="font-size: 18px; font-weight: 800; color: var(--text-dark); display: flex; align-items: center; gap: 8px;">
+              <span>Calendario de Cumples Peludos</span>
+              <span style="font-size: 11px; font-weight: 700; background: #FFF7ED; color: #EA580C; border: 1px solid #FED7AA; padding: 2px 8px; border-radius: var(--radius-full);">Anual 2026</span>
+            </h2>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
+              Descubre las fechas de cumpleaños de todos nuestros amigos de cuatro patas durante el año. ¡Festejos, premios especiales y mimos!
+            </p>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+          <!-- Species filter buttons -->
+          <div class="cumple-filters">
+            <button type="button" class="cumple-filter-btn active" data-filter="all">Todos (15)</button>
+            <button type="button" class="cumple-filter-btn" data-filter="Perro">🐕 Perros</button>
+            <button type="button" class="cumple-filter-btn" data-filter="Gato">🐱 Gatos</button>
+          </div>
+
+          <!-- Month Navigation -->
+          <div class="cumple-nav-controls">
+            <button type="button" class="btn-month-nav" id="btnPrevMonth" title="Mes Anterior">◀</button>
+            <div class="month-display-title" id="monthDisplayTitle">Octubre 2026</div>
+            <button type="button" class="btn-month-nav" id="btnNextMonth" title="Mes Siguiente">▶</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Month Selector Pills -->
+      <div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 12px;" id="monthPillsContainer"></div>
+
+      <!-- Days of Week Header -->
+      <div class="calendar-month-grid" id="calendarDaysHeader">
+        <div class="calendar-day-label">Lun</div>
+        <div class="calendar-day-label">Mar</div>
+        <div class="calendar-day-label">Mié</div>
+        <div class="calendar-day-label">Jue</div>
+        <div class="calendar-day-label">Vie</div>
+        <div class="calendar-day-label">Sáb</div>
+        <div class="calendar-day-label">Dom</div>
+      </div>
+
+      <!-- Dynamic Month Grid Cells -->
+      <div class="calendar-month-grid" id="calendarMonthGrid" style="margin-top: 6px;"></div>
+
+      <!-- Upcoming Birthdays Timeline Carousel -->
+      <div class="upcoming-cumples-section">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+          <div>
+            <h3 style="font-size: 15px; font-weight: 800; color: var(--text-dark); display: flex; align-items: center; gap: 8px;">
+              <span>🎈</span> Próximos Cumples Peludos
+            </h3>
+            <div style="font-size: 11px; color: var(--text-muted);">Mascotas que celebran su día en las próximas semanas:</div>
+          </div>
+          <span style="font-size: 11px; font-weight: 700; color: #EA580C; background: #FFF7ED; padding: 3px 10px; border-radius: var(--radius-full); border: 1px solid #FED7AA;">
+            🎉 ¡Torta & Galletas de Cortesía!
+          </span>
+        </div>
+        <div class="upcoming-cumples-grid" id="upcomingCumplesGrid"></div>
+      </div>
+
+    </section>
+
   </main>
+
+  <!-- Celebratory Birthday Modal Dialog -->
+  <div class="cumple-modal-backdrop" id="cumpleModal" style="display: none;">
+    <div class="cumple-modal-card">
+      <button type="button" id="btnModalClose" style="position: absolute; top: 12px; right: 14px; background: none; border: none; font-size: 20px; cursor: pointer; color: #94A3B8;">&times;</button>
+      
+      <div style="font-size: 48px; margin-bottom: 8px; animation: petBobbing 1s infinite alternate ease-in-out;" id="modalPetEmoji">🐕</div>
+      <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; background: #FFF7ED; color: #EA580C; border: 1px solid #FED7AA; padding: 3px 10px; border-radius: 9999px;">
+        🎂 ¡Festejo de Cumple Peludo! 🎈
+      </span>
+      
+      <h3 style="font-size: 22px; font-weight: 800; color: #18181B; margin-top: 10px;" id="modalPetName">Toby</h3>
+      <div style="font-size: 13px; color: #64748B;" id="modalPetBreed">Perro Golden Retriever • Cumple 3 años</div>
+
+      <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 14px; margin: 16px 0; text-align: left; font-size: 12px;">
+        <div style="margin-bottom: 6px;">📅 <strong>Fecha de Cumpleaños:</strong> <span id="modalPetDate" style="color: #EA580C; font-weight: 700;">24 de Diciembre</span></div>
+        <div style="margin-bottom: 6px;">👤 <strong>Tutor:</strong> <span id="modalPetOwner">Martín R. (Telecom Jujuy)</span></div>
+        <div style="border-top: 1px dashed #CBD5E1; padding-top: 8px; margin-top: 8px;">
+          🎁 <strong>Regalo & Menú Festivo PetCare:</strong>
+          <div style="color: #059669; font-weight: 600; margin-top: 2px;" id="modalPetGift">Torta festiva de calabaza e hígado + Recreación libre</div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px;">
+        <button type="button" id="btnSendBirthdayGreeting" class="btn-primary-orange" style="flex: 1; padding: 11px; font-size: 12px;">
+          <span>🎉 Saludar al Tutor</span>
+        </button>
+        <button type="button" id="btnModalDismiss" style="padding: 11px 16px; font-size: 12px; font-weight: 700; background: #F4F4F5; border: 1px solid #E4E4E7; border-radius: 12px; cursor: pointer;">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
 
   <script src="auth_db.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const allPets = getPets();
+      const allBirthdays = (typeof getPetBirthdays === 'function') ? getPetBirthdays() : [
+        { id: 'oreo', nombre: 'Oreo', especie: 'Gato', raza: 'Bicolor', dia: 15, mes: 0, fechaStr: '15 de Enero', emoji: '🐾', tutor: 'Sofía M.', edad: '2 años', regalo: 'Ratón interactivo y cojín térmico' },
+        { id: 'bruno', nombre: 'Bruno', especie: 'Perro', raza: 'Cachorro', dia: 2, mes: 1, fechaStr: '2 de Febrero', emoji: '🐶', tutor: 'Lucas G.', edad: '1 año', regalo: 'Mordillo y galletas de cordero' },
+        { id: 'kiara', nombre: 'Kiara', especie: 'Perro', raza: 'Labrador', dia: 18, mes: 2, fechaStr: '18 de Marzo', emoji: '🦮', tutor: 'Marina P.', edad: '3 años', regalo: 'Frisbee y snack festivo' },
+        { id: 'max', nombre: 'Max', especie: 'Perro', raza: 'Beagle', dia: 8, mes: 3, fechaStr: '8 de Abril', emoji: '🐶', tutor: 'Esteban F. (EJE SA)', edad: '4 años', regalo: 'Circuito de olfato con premios' },
+        { id: 'luna', nombre: 'Luna', especie: 'Gato', raza: 'Gato Siamés', dia: 22, mes: 4, fechaStr: '22 de Mayo', emoji: '🐱', tutor: 'Valeria C. (Banco Macro)', edad: '2 años', regalo: 'Golosinas de salmón y catnip' },
+        { id: 'simba', nombre: 'Simba', especie: 'Gato', raza: 'Gato Atigrado', dia: 14, mes: 5, fechaStr: '14 de Junio', emoji: '🐈‍⬛', tutor: 'Clara D.', edad: '3 años', regalo: 'Túnel crujiente y rascador' },
+        { id: 'milo', nombre: 'Milo', especie: 'Perro', raza: 'Caniche Toy', dia: 3, mes: 6, fechaStr: '3 de Julio', emoji: '🐩', tutor: 'Federico B.', edad: '5 años', regalo: 'Moño festivo y galletitas de vainilla' },
+        { id: 'lola', nombre: 'Lola', especie: 'Gato', raza: 'Gato Angora', dia: 19, mes: 7, fechaStr: '19 de Agosto', emoji: '🐱', tutor: 'Elena T.', edad: '2 años', regalo: 'Masajeador a vapor y puré de atún' },
+        { id: 'zeus', nombre: 'Zeus', especie: 'Perro', raza: 'Rottweiler', dia: 9, mes: 8, fechaStr: '9 de Septiembre', emoji: '🐕', tutor: 'Roberto S.', edad: '4 años', regalo: 'Pelota Kong y galletón de maní' },
+        { id: 'pipa', nombre: 'Pipa', especie: 'Perro', raza: 'Salchicha', dia: 14, mes: 9, fechaStr: '14 de Octubre', emoji: '🌭', tutor: 'Daniela V.', edad: '2 años', regalo: 'Rampa de descanso y snack blando' },
+        { id: 'boby', nombre: 'Boby', especie: 'Perro', raza: 'Border Collie', dia: 31, mes: 9, fechaStr: '31 de Octubre', emoji: '🐕', tutor: 'Hernán M.', edad: '3 años', regalo: 'Pelota LED y pastel de hígado' },
+        { id: 'rocco', nombre: 'Rocco', especie: 'Perro', raza: 'Bulldog Francés', dia: 12, mes: 10, fechaStr: '12 de Noviembre', emoji: '🐕‍🦺', tutor: 'Camila Benítez (Cannava)', edad: '3 años', regalo: 'Arnés acolchado y helado de caldo' },
+        { id: 'mia', nombre: 'Mia', especie: 'Gato', raza: 'Gato Persa', dia: 28, mes: 10, fechaStr: '28 de Noviembre', emoji: '🐈', tutor: 'Gonzalo S. (Telecom)', edad: '1 año', regalo: 'Plato ergonómico y fuente de agua' },
+        { id: 'thor', nombre: 'Thor', especie: 'Perro', raza: 'Pastor Alemán', dia: 5, mes: 11, fechaStr: '5 de Diciembre', emoji: '🐺', tutor: 'Ignacio R.', edad: '4 años', regalo: 'Cuerda trenzada y snack proteico' },
+        { id: 'toby', nombre: 'Toby', especie: 'Perro', raza: 'Golden Retriever', dia: 24, mes: 11, fechaStr: '24 de Diciembre', emoji: '🐕', tutor: 'Martín R. (Telecom)', edad: '3 años', regalo: 'Torta de calabaza y sesión de pelota' }
+      ];
 
+      // 1. Load Individual Pet in Health Cards
       function loadPetDetails(petId) {
         const p = allPets.find(item => item.id === petId) || allPets[0];
         if (!p) return;
@@ -280,6 +418,10 @@
         document.getElementById('petDietTitle').textContent = p.dietaTitle;
         document.getElementById('petDietDesc').textContent = p.dietaDesc;
 
+        if (document.getElementById('petBirthdayText')) {
+          document.getElementById('petBirthdayText').textContent = p.cumpleTexto || 'Fecha en Calendario';
+        }
+
         document.getElementById('carnetPetName').textContent = p.nombre;
         document.getElementById('carnetPetBreed').textContent = `${p.especie} ${p.raza} • ${p.peso}`;
         document.getElementById('carnetOwnerName').textContent = p.tutor;
@@ -287,7 +429,6 @@
         document.getElementById('carnetChipText').textContent = p.microchip;
         document.getElementById('carnetAuthDetails').innerHTML = `<strong>Persona Autorizada:</strong> ${p.autorizado}<br><strong>Modalidad Salida:</strong> ${p.modalidadSalida}.<br><strong>Casillero:</strong> ${p.casillero}`;
 
-        // Custom routines
         if (p.especie === 'Gato') {
           document.getElementById('petRoutine1').textContent = '🌿 10:30 hs: Sesión en Rascadores y Cojines de Sala Felina';
           document.getElementById('petRoutine2').textContent = '🥣 12:00 hs: Ración Royal Canin & Limpieza de Arena Sanitaria';
@@ -299,7 +440,6 @@
         }
       }
 
-      // Switch pet tabs
       document.querySelectorAll('.pet-tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           document.querySelectorAll('.pet-tab-btn').forEach(b => b.classList.remove('active'));
@@ -307,36 +447,286 @@
           loadPetDetails(btn.dataset.pet);
         });
       });
-
-      // Load initial pet
       loadPetDetails('toby');
 
-      // Toggle lunch button
+      // 2. Interactive Calendar Engine for "Cumples Peludos"
+      const monthNames = [
+        'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+      ];
+      
+      // Default to October 2026
+      let currentYear = 2026;
+      let currentMonth = 9; // 0 = Enero, ..., 9 = Octubre
+      let currentFilter = 'all';
+
+      const monthDisplayTitle = document.getElementById('monthDisplayTitle');
+      const calendarMonthGrid = document.getElementById('calendarMonthGrid');
+      const monthPillsContainer = document.getElementById('monthPillsContainer');
+      const upcomingCumplesGrid = document.getElementById('upcomingCumplesGrid');
+
+      // Render Month Quick Pills
+      function renderMonthPills() {
+        if (!monthPillsContainer) return;
+        monthPillsContainer.innerHTML = '';
+        monthNames.forEach((name, idx) => {
+          const pill = document.createElement('button');
+          pill.type = 'button';
+          pill.className = 'cumple-filter-btn' + (idx === currentMonth ? ' active' : '');
+          pill.textContent = name.substring(0, 3);
+          pill.title = name;
+          pill.addEventListener('click', () => {
+            currentMonth = idx;
+            renderCalendar();
+            renderMonthPills();
+          });
+          monthPillsContainer.appendChild(pill);
+        });
+      }
+
+      // Render Monthly Grid Cells
+      function renderCalendar() {
+        if (!calendarMonthGrid || !monthDisplayTitle) return;
+
+        monthDisplayTitle.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+        calendarMonthGrid.innerHTML = '';
+
+        // Total days in current month
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        
+        // Day of week of 1st day (0 = Domingo, 1 = Lunes, etc.)
+        let firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
+        // Convert to Monday = 0, ..., Sunday = 6
+        firstDayIndex = (firstDayIndex === 0) ? 6 : firstDayIndex - 1;
+
+        // Previous month filler days
+        const prevMonthDays = new Date(currentYear, currentMonth, 0).getDate();
+        for (let i = firstDayIndex - 1; i >= 0; i--) {
+          const cell = document.createElement('div');
+          cell.className = 'calendar-cell other-month';
+          cell.innerHTML = `<span class="calendar-cell-num">${prevMonthDays - i}</span>`;
+          calendarMonthGrid.appendChild(cell);
+        }
+
+        // Current Month Days
+        for (let day = 1; day <= daysInMonth; day++) {
+          const cell = document.createElement('div');
+          cell.className = 'calendar-cell';
+
+          // Check if today in 2026
+          if (currentYear === 2026 && currentMonth === 9 && day === 29) {
+            cell.classList.add('is-today');
+          }
+
+          // Search birthdays on this day
+          const birthdaysToday = allBirthdays.filter(b => {
+            const matchesDate = b.mes === currentMonth && b.dia === day;
+            const matchesSpecies = (currentFilter === 'all') || (b.especie === currentFilter);
+            return matchesDate && matchesSpecies;
+          });
+
+          if (birthdaysToday.length > 0) {
+            cell.classList.add('has-cumple');
+            let bTagsHtml = '';
+            birthdaysToday.forEach(pet => {
+              const tagClass = pet.especie === 'Gato' ? 'badge-gato' : 'badge-perro';
+              bTagsHtml += `
+                <div class="cumple-badge-tag ${tagClass}" title="¡Cumple de ${pet.nombre}!">
+                  <span>🎂</span>
+                  <span>${pet.emoji} ${pet.nombre}</span>
+                </div>
+              `;
+            });
+
+            cell.innerHTML = `
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span class="calendar-cell-num" style="color: #EA580C; font-weight: 800;">${day}</span>
+                <span style="font-size: 14px;">🎈</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 2px;">
+                ${bTagsHtml}
+              </div>
+            `;
+
+            // Open celebratory modal on click
+            cell.addEventListener('click', () => {
+              openBirthdayModal(birthdaysToday[0]);
+            });
+
+          } else {
+            cell.innerHTML = `<span class="calendar-cell-num">${day}</span>`;
+          }
+
+          calendarMonthGrid.appendChild(cell);
+        }
+
+        // Next month filler days to complete grid (multiples of 7)
+        const totalRendered = firstDayIndex + daysInMonth;
+        const remainingCells = (7 - (totalRendered % 7)) % 7;
+        for (let j = 1; j <= remainingCells; j++) {
+          const cell = document.createElement('div');
+          cell.className = 'calendar-cell other-month';
+          cell.innerHTML = `<span class="calendar-cell-num">${j}</span>`;
+          calendarMonthGrid.appendChild(cell);
+        }
+      }
+
+      // 3. Render Upcoming Birthdays Timeline
+      function renderUpcomingBirthdays() {
+        if (!upcomingCumplesGrid) return;
+        upcomingCumplesGrid.innerHTML = '';
+
+        // Reference date: 2026-10-29
+        const refDate = new Date(2026, 9, 29);
+
+        // Calculate days until birthday
+        const listWithDiff = allBirthdays.map(pet => {
+          let bDate = new Date(2026, pet.mes, pet.dia);
+          if (bDate < refDate) {
+            bDate = new Date(2027, pet.mes, pet.dia);
+          }
+          const diffDays = Math.round((bDate - refDate) / (1000 * 60 * 60 * 24));
+          return { ...pet, daysLeft: diffDays };
+        });
+
+        // Sort by closest
+        listWithDiff.sort((a, b) => a.daysLeft - b.daysLeft);
+
+        // Display next 6 birthdays
+        const nextSix = listWithDiff.slice(0, 6);
+        nextSix.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'upcoming-cumple-card';
+          
+          let badgeText = `En ${item.daysLeft} días`;
+          let badgeClass = 'normal';
+          if (item.daysLeft <= 3) {
+            badgeText = item.daysLeft === 0 ? '¡HOY! 🎉' : `¡En ${item.daysLeft} días! 🎂`;
+            badgeClass = 'soon';
+          }
+
+          card.innerHTML = `
+            <div class="upcoming-pet-avatar" style="background-color: ${item.especie === 'Gato' ? '#E0E7FF' : '#FED7AA'};">
+              ${item.emoji}
+            </div>
+            <div style="flex: 1; min-width: 0;">
+              <strong style="font-size: 13px; color: var(--text-dark); display: block;">${item.nombre}</strong>
+              <div style="font-size: 11px; color: var(--text-muted);">${item.fechaStr} • ${item.raza}</div>
+            </div>
+            <span class="cumple-days-badge ${badgeClass}">${badgeText}</span>
+          `;
+
+          card.addEventListener('click', () => {
+            openBirthdayModal(item);
+          });
+
+          upcomingCumplesGrid.appendChild(card);
+        });
+      }
+
+      // 4. Birthday Celebration Modal Handlers
+      const cumpleModal = document.getElementById('cumpleModal');
+      const btnModalClose = document.getElementById('btnModalClose');
+      const btnModalDismiss = document.getElementById('btnModalDismiss');
+      const btnSendGreeting = document.getElementById('btnSendBirthdayGreeting');
+
+      let selectedPetForGreeting = null;
+
+      function openBirthdayModal(pet) {
+        if (!cumpleModal) return;
+        selectedPetForGreeting = pet;
+
+        document.getElementById('modalPetEmoji').textContent = pet.emoji;
+        document.getElementById('modalPetName').textContent = `¡Cumple Peludo de ${pet.nombre}!`;
+        document.getElementById('modalPetBreed').textContent = `${pet.especie} ${pet.raza} • Cumple ${pet.edad}`;
+        document.getElementById('modalPetDate').textContent = pet.fechaStr;
+        document.getElementById('modalPetOwner').textContent = pet.tutor;
+        document.getElementById('modalPetGift').textContent = pet.regalo || 'Snack artesanal cumpleañero + Sesión de caricias VIP';
+
+        cumpleModal.style.display = 'flex';
+      }
+
+      function closeBirthdayModal() {
+        if (cumpleModal) cumpleModal.style.display = 'none';
+      }
+
+      if (btnModalClose) btnModalClose.addEventListener('click', closeBirthdayModal);
+      if (btnModalDismiss) btnModalDismiss.addEventListener('click', closeBirthdayModal);
+      if (cumpleModal) {
+        cumpleModal.addEventListener('click', (e) => {
+          if (e.target === cumpleModal) closeBirthdayModal();
+        });
+      }
+
+      if (btnSendGreeting) {
+        btnSendGreeting.addEventListener('click', () => {
+          if (selectedPetForGreeting) {
+            alert(`🎉 ¡Tarjeta de Cumple Peludo enviada a ${selectedPetForGreeting.tutor}!\n"¡Feliz cumple a ${selectedPetForGreeting.nombre}! En PetCare Jujuy celebramos su día con mucho amor y premios especiales." 🐾🎂`);
+            closeBirthdayModal();
+          }
+        });
+      }
+
+      // Month navigation buttons
+      document.getElementById('btnPrevMonth').addEventListener('click', () => {
+        currentMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
+        renderCalendar();
+        renderMonthPills();
+      });
+
+      document.getElementById('btnNextMonth').addEventListener('click', () => {
+        currentMonth = (currentMonth === 11) ? 0 : currentMonth + 1;
+        renderCalendar();
+        renderMonthPills();
+      });
+
+      // Species filters
+      document.querySelectorAll('.cumple-filter-btn[data-filter]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.cumple-filter-btn[data-filter]').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentFilter = btn.dataset.filter;
+          renderCalendar();
+        });
+      });
+
+      // Initialize calendar & upcoming birthdays
+      renderMonthPills();
+      renderCalendar();
+      renderUpcomingBirthdays();
+
+      // Lunch & Scan Handlers
       const lunchBtn = document.getElementById('btnToggleLunch');
       const lunchStatus = document.getElementById('lunchStatusTxt');
       let served = false;
-      lunchBtn.addEventListener('click', () => {
-        served = !served;
-        if (served) {
-          lunchBtn.textContent = 'Ración Registrada ✅';
-          lunchBtn.style.backgroundColor = '#10B981';
-          lunchStatus.textContent = 'Servido y Registrado ✅';
-          lunchStatus.style.color = '#10B981';
-          alert('Ración alimentaria servida y registrada en la bitácora sanitaria.');
-        } else {
-          lunchBtn.textContent = 'Marcar Ración Servida ✅';
-          lunchBtn.style.backgroundColor = 'var(--text-dark)';
-          lunchStatus.textContent = 'En Curso';
-          lunchStatus.style.color = 'var(--primary-orange-dark)';
-        }
-      });
+      if (lunchBtn && lunchStatus) {
+        lunchBtn.addEventListener('click', () => {
+          served = !served;
+          if (served) {
+            lunchBtn.textContent = 'Ración Registrada ✅';
+            lunchBtn.style.backgroundColor = '#10B981';
+            lunchStatus.textContent = 'Servido y Registrado ✅';
+            lunchStatus.style.color = '#10B981';
+            alert('Ración alimentaria servida y registrada en la bitácora sanitaria.');
+          } else {
+            lunchBtn.textContent = 'Marcar Ración Servida ✅';
+            lunchBtn.style.backgroundColor = 'var(--text-dark)';
+            lunchStatus.textContent = 'En Curso';
+            lunchStatus.style.color = 'var(--primary-orange-dark)';
+          }
+        });
+      }
 
-      // Simulate RFID / QR Scan
-      document.getElementById('btnScanCheckin').addEventListener('click', () => {
-        const activeTab = document.querySelector('.pet-tab-btn.active');
-        const p = allPets.find(item => item.id === activeTab.dataset.pet) || allPets[0];
-        alert(`✅ Carnet Amigo Escaneado con Éxito.\nIdentidad confirmada: ${p.nombre} (${p.microchip})\nTutor: ${p.tutor} (${p.empresa})\nAutorizado: ${p.autorizado}`);
-      });
+      const scanBtn = document.getElementById('btnScanCheckin');
+      if (scanBtn) {
+        scanBtn.addEventListener('click', () => {
+          const activeTab = document.querySelector('.pet-tab-btn.active');
+          const p = allPets.find(item => item.id === (activeTab ? activeTab.dataset.pet : 'toby')) || allPets[0];
+          alert(`✅ Carnet Amigo Escaneado con Éxito.\nIdentidad confirmada: ${p.nombre} (${p.microchip})\nTutor: ${p.tutor} (${p.empresa})\n🎂 Cumple Peludo: ${p.cumpleTexto}\nAutorizado: ${p.autorizado}`);
+        });
+      }
+
     });
   </script>
 </body>

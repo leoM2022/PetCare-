@@ -69,7 +69,11 @@ const INITIAL_PETS = [
     comportamiento: 'Muy sociable con perros medianos. Evitar juegos bruscos con cachorros pequeños. Excelente respuesta al llamado.',
     autorizado: 'Hermana: Laura R. (DNI 35.xxx.xxx)',
     avatarEmoji: '🐕',
-    avatarBg: '#FED7AA'
+    avatarBg: '#FED7AA',
+    cumpleDia: 24,
+    cumpleMes: 11,
+    cumpleTexto: '24 de Diciembre',
+    regaloEspecial: '🎂 Torta canina artesanal de hígado y calabaza + Sesión de juegos con pelota nueva'
   },
   {
     id: 'luna',
@@ -95,7 +99,11 @@ const INITIAL_PETS = [
     comportamiento: 'Dócil y curiosa. Prefiere alturas y rascadores suaves. Evitar ruidos bruscos de perros.',
     autorizado: 'Padre: Carlos C. (DNI 17.xxx.xxx)',
     avatarEmoji: '🐱',
-    avatarBg: '#E0E7FF'
+    avatarBg: '#E0E7FF',
+    cumpleDia: 22,
+    cumpleMes: 4,
+    cumpleTexto: '22 de Mayo',
+    regaloEspecial: '🐟 Snack gourmet de atún fresco y catnip + Masaje relajante en cojín térmico'
   },
   {
     id: 'max',
@@ -121,7 +129,11 @@ const INITIAL_PETS = [
     comportamiento: 'Enérgico y rastreador. No descuidar portones abiertos durante las sesiones de juego.',
     autorizado: 'Esposa: Andrea P. (DNI 37.xxx.xxx)',
     avatarEmoji: '🐶',
-    avatarBg: '#FCE7F3'
+    avatarBg: '#FCE7F3',
+    cumpleDia: 8,
+    cumpleMes: 3,
+    cumpleTexto: '8 de Abril',
+    regaloEspecial: '🦴 Hueso masticable dental hipoalergénico + Circuito de olfato con premios'
   },
   {
     id: 'mia',
@@ -147,8 +159,31 @@ const INITIAL_PETS = [
     comportamiento: 'Muy tranquila y de temperamento calmo. Le agrada dormir en cojines térmicos elevados.',
     autorizado: 'Hermano: Matías S. (DNI 39.xxx.xxx)',
     avatarEmoji: '🐈',
-    avatarBg: '#D1FAE5'
+    avatarBg: '#D1FAE5',
+    cumpleDia: 28,
+    cumpleMes: 10,
+    cumpleTexto: '28 de Noviembre',
+    regaloEspecial: '✨ Sesión de spa y cepillado sedoso de pelaje + Golosinas crujientes de salmón'
   }
+];
+
+// 3. Calendario Anual de Cumples Peludos (Fechas distribuidas en los 12 meses)
+const PET_BIRTHDAYS = [
+  { id: 'oreo', nombre: 'Oreo', especie: 'Gato', raza: 'Bicolor Blanco y Negro', dia: 15, mes: 0, fechaStr: '15 de Enero', emoji: '🐾', tutor: 'Sofía M.', edad: '2 años', regalo: 'Ratón interactivo con catnip y cojín térmico' },
+  { id: 'bruno', nombre: 'Bruno', especie: 'Perro', raza: 'Cachorro Mestizo', dia: 2, mes: 1, fechaStr: '2 de Febrero', emoji: '🐶', tutor: 'Lucas G.', edad: '1 año', regalo: 'Mordillo de goma flexible y snack de cordero' },
+  { id: 'kiara', nombre: 'Kiara', especie: 'Perro', raza: 'Labrador Canela', dia: 18, mes: 2, fechaStr: '18 de Marzo', emoji: '🦮', tutor: 'Marina P.', edad: '3 años', regalo: 'Frisbee flotante y ración festiva con trozos de pollo' },
+  { id: 'max', nombre: 'Max', especie: 'Perro', raza: 'Beagle', dia: 8, mes: 3, fechaStr: '8 de Abril', emoji: '🐶', tutor: 'Esteban F. (EJE SA)', edad: '4 años', regalo: 'Pista de obstáculos olfativos y bocaditos horneados' },
+  { id: 'luna', nombre: 'Luna', especie: 'Gato', raza: 'Gato Siamés', dia: 22, mes: 4, fechaStr: '22 de Mayo', emoji: '🐱', tutor: 'Valeria C. (Banco Macro)', edad: '2 años', regalo: 'Puntero láser recargable y golosinas liofilizadas de salmón' },
+  { id: 'simba', nombre: 'Simba', especie: 'Gato', raza: 'Gato Atigrado Naranja', dia: 14, mes: 5, fechaStr: '14 de Junio', emoji: '🐈‍⬛', tutor: 'Clara D.', edad: '3 años', regalo: 'Túnel de juegos crujiente y rascador de cartón corrugado' },
+  { id: 'milo', nombre: 'Milo', especie: 'Perro', raza: 'Caniche Toy', dia: 3, mes: 6, fechaStr: '3 de Julio', emoji: '🐩', tutor: 'Federico B.', edad: '5 años', regalo: 'Corte higiénico con moño festivo y galletitas de vainilla' },
+  { id: 'lola', nombre: 'Lola', especie: 'Gato', raza: 'Gato Angora', dia: 19, mes: 7, fechaStr: '19 de Agosto', emoji: '🐱', tutor: 'Elena T.', edad: '2 años', regalo: 'Cepillo masajeador a vapor y puré cremoso de atún' },
+  { id: 'zeus', nombre: 'Zeus', especie: 'Perro', raza: 'Rottweiler', dia: 9, mes: 8, fechaStr: '9 de Septiembre', emoji: '🐕', tutor: 'Roberto S.', edad: '4 años', regalo: 'Pelota de alta resistencia Kong y galletón con crema de maní' },
+  { id: 'pipa', nombre: 'Pipa', especie: 'Perro', raza: 'Salchicha / Dachshund', dia: 14, mes: 9, fechaStr: '14 de Octubre', emoji: '🌭', tutor: 'Daniela V.', edad: '2 años', regalo: 'Rampa de confort para descanso y snack masticable blando' },
+  { id: 'boby', nombre: 'Boby', especie: 'Perro', raza: 'Border Collie', dia: 31, mes: 9, fechaStr: '31 de Octubre', emoji: '🐕', tutor: 'Hernán M.', edad: '3 años', regalo: 'Pelota luminosa LED para patio y pastel de hígado casero' },
+  { id: 'rocco', nombre: 'Rocco', especie: 'Perro', raza: 'Bulldog Francés', dia: 12, mes: 10, fechaStr: '12 de Noviembre', emoji: '🐕‍🦺', tutor: 'Camila Benítez (Cannava)', edad: '3 años', regalo: 'Arnés acolchado de paseo y paleta helada de caldo de hueso' },
+  { id: 'mia', nombre: 'Mia', especie: 'Gato', raza: 'Gato Persa', dia: 28, mes: 10, fechaStr: '28 de Noviembre', emoji: '🐈', tutor: 'Gonzalo S. (Telecom)', edad: '1 año', regalo: 'Plato cerámico ergonómico y fuente de agua cristalina' },
+  { id: 'thor', nombre: 'Thor', especie: 'Perro', raza: 'Pastor Alemán', dia: 5, mes: 11, fechaStr: '5 de Diciembre', emoji: '🐺', tutor: 'Ignacio R.', edad: '4 años', regalo: 'Cuerda trenzada XL para tiro y snack proteico deshidratado' },
+  { id: 'toby', nombre: 'Toby', especie: 'Perro', raza: 'Golden Retriever', dia: 24, mes: 11, fechaStr: '24 de Diciembre', emoji: '🐕', tutor: 'Martín R. (Telecom)', edad: '3 años', regalo: 'Torta festiva de calabaza y día completo de juegos en patio' }
 ];
 
 // Initialize Database in localStorage
@@ -160,17 +195,20 @@ function initDatabases() {
   if (!localStorage.getItem(DB_PETS_KEY)) {
     localStorage.setItem(DB_PETS_KEY, JSON.stringify(INITIAL_PETS));
   } else {
-    // Check if pets DB has cats; if not, reseed
     try {
       const currentPets = JSON.parse(localStorage.getItem(DB_PETS_KEY));
-      const hasCats = currentPets.some(p => p.especie === 'Gato');
-      if (!hasCats) {
+      const hasCumple = currentPets && currentPets.length > 0 && currentPets[0].cumpleTexto;
+      if (!hasCumple) {
         localStorage.setItem(DB_PETS_KEY, JSON.stringify(INITIAL_PETS));
       }
     } catch(e) {
       localStorage.setItem(DB_PETS_KEY, JSON.stringify(INITIAL_PETS));
     }
   }
+}
+
+function getPetBirthdays() {
+  return PET_BIRTHDAYS;
 }
 
 // User Retrieval
